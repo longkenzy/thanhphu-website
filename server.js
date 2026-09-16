@@ -747,7 +747,12 @@ app.put('/api/articles/:id', async (req, res) => {
       if (categoryName !== undefined) article.categoryName = categoryName;
       if (author !== undefined) article.author = author.trim();
       if (date !== undefined) article.date = date.trim();
-      if (image !== undefined) article.image = image;
+      if (image !== undefined && image !== article.image) {
+        if (article.image && article.image.startsWith('http')) {
+          await destroyCloudinaryImage(article.image);
+        }
+        article.image = image;
+      }
       if (isFeatured !== undefined) article.isFeatured = Boolean(isFeatured);
       if (status !== undefined) article.status = status === 'draft' ? 'draft' : 'published';
       if (excerpt !== undefined) article.excerpt = excerpt.trim();
@@ -791,6 +796,10 @@ app.put('/api/articles/:id', async (req, res) => {
 
     const current = articles[index];
     const updatedSlug = newSlug ? slugifyVietnamese(newSlug) : current.slug;
+
+    if (image !== undefined && image !== current.image && current.image && current.image.startsWith('http')) {
+      await destroyCloudinaryImage(current.image);
+    }
 
     const updatedArticle = {
       ...current,
@@ -836,6 +845,11 @@ app.delete('/api/articles/:id', async (req, res) => {
         });
       }
 
+      // Xóa ảnh trên Cloudinary nếu có
+      if (deleted.image && deleted.image.startsWith('http')) {
+        await destroyCloudinaryImage(deleted.image);
+      }
+
       // Sync local file
       try {
         let localArticles = getArticles();
@@ -852,6 +866,18 @@ app.delete('/api/articles/:id', async (req, res) => {
     // Fallback JSON
     let articles = getArticles();
     const initialLen = articles.length;
+    const toDelete = articles.find(a => a.id === id || a.slug === id);
+    if (!toDelete) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy bài viết cần xóa!'
+      });
+    }
+
+    if (toDelete.image && toDelete.image.startsWith('http')) {
+      await destroyCloudinaryImage(toDelete.image);
+    }
+
     articles = articles.filter(a => a.id !== id && a.slug !== id);
 
     if (articles.length === initialLen) {
@@ -1860,8 +1886,16 @@ app.delete('/api/projects/:id', async (req, res) => {
     }
 
     if (deleted) {
-      // Destroy image on Cloudinary
+      // Destroy main image on Cloudinary
       await destroyCloudinaryImage(deleted.cloudinaryId || deleted.image);
+      // Destroy gallery images on Cloudinary
+      if (deleted.gallery && Array.isArray(deleted.gallery)) {
+        for (const imgUrl of deleted.gallery) {
+          if (imgUrl && imgUrl.startsWith('http')) {
+            await destroyCloudinaryImage(imgUrl);
+          }
+        }
+      }
     }
 
     // Sync JSON
