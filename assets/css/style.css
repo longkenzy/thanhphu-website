@@ -2041,15 +2041,63 @@ textarea.form-control {
   #page-content {
     padding-top: 0;
   }
+
+  /* Compact single-line Top Bar for tablet / mobile */
+  .top-bar {
+    padding: 5px 0;
+    font-size: 0.74rem;
+  }
   .top-bar-left {
     display: none;
   }
   .top-bar-inner {
-    justify-content: flex-end;
+    justify-content: center;
   }
+  .top-bar-right {
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    flex-wrap: nowrap;
+  }
+  .top-bar-item {
+    font-size: 0.72rem;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  /* Centered logo on Mobile navbar */
+  .navbar {
+    position: relative;
+    justify-content: center;
+    height: 66px;
+  }
+  .brand-logo {
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .brand-logo img {
+    height: 40px;
+    max-width: 210px;
+  }
+
+  /* Hide call button from mobile navbar */
+  .navbar > .nav-action {
+    display: none !important;
+  }
+
+  /* Position mobile hamburger button to the right */
   .mobile-toggle {
     display: block;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
   }
+
   .nav-menu {
     position: absolute;
     top: 100%;
@@ -2110,14 +2158,6 @@ textarea.form-control {
     border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   }
 
-  .nav-action {
-    margin-left: 0;
-    margin-top: 15px;
-    width: 100%;
-  }
-  .nav-action .btn {
-    width: 100%;
-  }
   .about-grid {
     grid-template-columns: 1fr;
   }
@@ -2145,9 +2185,32 @@ textarea.form-control {
   #page-content {
     padding-top: 0;
   }
+
+  /* Ultra compact top bar on smartphones */
+  .top-bar {
+    padding: 3px 0;
+    font-size: 0.68rem;
+  }
+  .top-bar-right {
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .top-bar-item {
+    font-size: 0.66rem;
+    gap: 3px;
+    white-space: nowrap;
+  }
+  .top-bar-item i {
+    font-size: 0.68rem;
+  }
+
   .brand-logo img {
-    height: 42px;
-    max-width: 220px;
+    height: 36px;
+    max-width: 190px;
+  }
+  .mobile-toggle {
+    right: 15px;
   }
   .section {
     padding: 55px 0;
@@ -2192,6 +2255,26 @@ textarea.form-control {
   }
   .page-banner-title {
     font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .top-bar {
+    font-size: 0.62rem;
+  }
+  .top-bar-right {
+    gap: 6px;
+  }
+  .top-bar-item {
+    font-size: 0.61rem;
+  }
+  .brand-logo img {
+    height: 32px;
+    max-width: 165px;
+  }
+  .mobile-toggle {
+    right: 10px;
+    font-size: 1.2rem;
   }
 }
 
