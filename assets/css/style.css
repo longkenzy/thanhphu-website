@@ -2483,11 +2483,11 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   CONTACT PAGE (2 COLUMNS: FORM/INFO & MAP SIDE-BY-SIDE)
+   CONTACT PAGE (2 EQUAL COLUMNS: INFO & MAP SIDE-BY-SIDE)
    ========================================================================== */
 .contact-main-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   gap: 32px;
   align-items: stretch;
 }
@@ -2500,12 +2500,12 @@ textarea.form-control {
   border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  min-height: 520px;
+  min-height: 480px;
 }
 
 .contact-map-frame {
   flex: 1;
-  min-height: 420px;
+  min-height: 400px;
   position: relative;
   width: 100%;
 }
@@ -2524,11 +2524,11 @@ textarea.form-control {
     gap: 28px;
   }
   .contact-map-wrapper {
-    min-height: 420px;
+    min-height: 400px;
   }
   .contact-map-frame {
-    min-height: 380px;
-    height: 380px;
+    min-height: 360px;
+    height: 360px;
   }
 }
 

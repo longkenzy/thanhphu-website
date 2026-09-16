@@ -21,7 +21,7 @@
   <div id="page-content">
 
 
-  <!-- Contact Section (2 Columns: Form/Info & Map side-by-side on the same row) -->
+  <!-- Contact Section (2 Columns: Contact Info Cards & Map side-by-side on the same row) -->
   <section class="section">
     <div class="container">
       <div style="max-width: 800px; margin: 0 auto 40px; text-align: center;">
@@ -32,115 +32,65 @@
         </p>
       </div>
 
-      <!-- Main 2-Column Row Layout -->
+      <!-- Main 2-Column Row Layout (Info Cards on Left, Interactive Map on Right) -->
       <div class="contact-main-grid">
         
-        <!-- Cột Trái: Form gửi yêu cầu tư vấn & Các thông tin liên lạc -->
-        <div style="display: flex; flex-direction: column; gap: 24px;">
+        <!-- Cột Trái: Danh sách thông tin liên lạc chính thức -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
           
-          <!-- Contact & Quote Request Form -->
-          <div style="background: #ffffff; padding: 30px; border: 1px solid var(--gray-border); border-radius: var(--radius-sm); border-top: 4px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; border-bottom: 1px solid var(--gray-border); padding-bottom: 14px;">
-              <div>
-                <h3 style="font-size: 1.25rem; color: var(--dark); margin-bottom: 2px;">
-                  <i class="fas fa-paper-plane" style="color: var(--primary); margin-right: 6px;"></i> Gửi Yêu Cầu Tư Vấn & Báo Giá
-                </h3>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">Phản hồi nhanh trong vòng 24h làm việc</span>
-              </div>
-              <span style="font-size: 0.75rem; font-weight: 700; background: var(--primary-soft); color: var(--primary); padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Miễn Phí 100%</span>
+          <!-- 1. Trụ sở chính -->
+          <div style="background: #ffffff; padding: 22px 24px; border: 1px solid var(--gray-border); border-left: 4px solid var(--primary); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border-radius: var(--radius-sm); flex-shrink: 0;">
+              <i class="fas fa-building"></i>
             </div>
-
-            <form class="contact-form" style="display: flex; flex-direction: column; gap: 14px;">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                <div>
-                  <label style="display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Họ và tên <span style="color: var(--primary);">*</span></label>
-                  <input type="text" name="name" required placeholder="Nguyễn Văn A" style="width: 100%; padding: 10px 12px; border: 1px solid var(--gray-border); border-radius: var(--radius-sm); font-size: 0.88rem; background: var(--body-bg);">
-                </div>
-                <div>
-                  <label style="display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Số điện thoại <span style="color: var(--primary);">*</span></label>
-                  <input type="tel" name="phone" required placeholder="0903 xxx xxx" style="width: 100%; padding: 10px 12px; border: 1px solid var(--gray-border); border-radius: var(--radius-sm); font-size: 0.88rem; background: var(--body-bg);">
-                </div>
-              </div>
-
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                <div>
-                  <label style="display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Email liên hệ</label>
-                  <input type="email" name="email" placeholder="example@email.com" style="width: 100%; padding: 10px 12px; border: 1px solid var(--gray-border); border-radius: var(--radius-sm); font-size: 0.88rem; background: var(--body-bg);">
-                </div>
-                <div>
-                  <label style="display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Hạng mục quan tâm</label>
-                  <select name="service" style="width: 100%; padding: 10px 12px; border: 1px solid var(--gray-border); border-radius: var(--radius-sm); font-size: 0.88rem; background: var(--body-bg); color: var(--text-main);">
-                    <option value="xay-lap-dan-dung">Xây dựng dân dụng & cao tầng</option>
-                    <option value="nha-xuong-cong-nghiep">Xây dựng nhà xưởng công nghiệp</option>
-                    <option value="ha-tang-giao-thong">Hạ tầng kỹ thuật & giao thông</option>
-                    <option value="ket-cau-thep">Kết cấu thép & Gia công cơ khí</option>
-                    <option value="nhom-kinh">Cửa nhựa uPVC & Nhôm kính</option>
-                    <option value="khac">Tổng thầu thi công trọn gói khác</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label style="display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Mô tả quy mô / Yêu cầu dự án</label>
-                <textarea name="message" rows="3" placeholder="Địa điểm công trình, diện tích sàn dự kiến, thời gian mong muốn khởi công..." style="width: 100%; padding: 10px 12px; border: 1px solid var(--gray-border); border-radius: var(--radius-sm); font-size: 0.88rem; background: var(--body-bg); resize: vertical;"></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 700; margin-top: 4px;">
-                <i class="fas fa-paper-plane"></i> GỬI YÊU CẦU TƯ VẤN NGAY
-              </button>
-            </form>
+            <div>
+              <strong style="display: block; font-size: 0.98rem; color: var(--dark); margin-bottom: 4px;">TRỤ SỞ CHÍNH</strong>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0 0 6px 0; line-height: 1.5;">22A Vũ Ngọc Phan, Phường 13, Quận Bình Thạnh, TP. Hồ Chí Minh</p>
+              <span style="font-size: 0.82rem; color: var(--gray-dark); display: inline-flex; align-items: center; gap: 6px;">
+                <i class="far fa-clock" style="color: var(--primary);"></i> Giờ làm việc: Thứ 2 – Thứ 7 (08:00 – 17:30)
+              </span>
+            </div>
           </div>
 
-          <!-- 4 Hộp thông tin liên hệ nhanh -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-            <!-- Trụ sở -->
-            <div style="background: #ffffff; padding: 16px; border: 1px solid var(--gray-border); border-left: 3px solid var(--primary); border-radius: var(--radius-sm); box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-start;">
-              <div style="width: 38px; height: 38px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.05rem; border-radius: var(--radius-sm); flex-shrink: 0;">
-                <i class="fas fa-building"></i>
-              </div>
-              <div>
-                <strong style="display: block; font-size: 0.88rem; color: var(--dark); margin-bottom: 2px;">TRỤ SỞ CHÍNH</strong>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.35;">22A Vũ Ngọc Phan, P. 13, Q. Bình Thạnh, TP. HCM</p>
-              </div>
+          <!-- 2. Điện thoại & Hotline 24/7 -->
+          <div style="background: #ffffff; padding: 22px 24px; border: 1px solid var(--gray-border); border-left: 4px solid var(--accent); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; background: var(--accent-soft); color: var(--dark); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border-radius: var(--radius-sm); flex-shrink: 0;">
+              <i class="fas fa-phone-alt"></i>
             </div>
-
-            <!-- Hotline -->
-            <div style="background: #ffffff; padding: 16px; border: 1px solid var(--gray-border); border-left: 3px solid var(--accent); border-radius: var(--radius-sm); box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-start;">
-              <div style="width: 38px; height: 38px; background: var(--accent-soft); color: var(--dark); display: flex; align-items: center; justify-content: center; font-size: 1.05rem; border-radius: var(--radius-sm); flex-shrink: 0;">
-                <i class="fas fa-phone-alt"></i>
-              </div>
-              <div>
-                <strong style="display: block; font-size: 0.88rem; color: var(--dark); margin-bottom: 2px;">HOTLINE 24/7</strong>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.35;">
-                  <a href="tel:0903123456" style="color: var(--primary); font-weight: 700;">0903 123 456</a><br>
-                  <a href="tel:02835532345">(028) 3553 2345</a>
-                </p>
-              </div>
+            <div>
+              <strong style="display: block; font-size: 0.98rem; color: var(--dark); margin-bottom: 4px;">ĐIỆN THOẠI & HOTLINE 24/7</strong>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+                Tổng đài: <a href="tel:02835532345" style="font-weight: 700; color: var(--dark);">(028) 3553 2345</a><br>
+                Hotline kỹ thuật & báo giá: <a href="tel:0903123456" style="color: var(--primary); font-weight: 700; font-size: 1rem;">0903 123 456</a>
+              </p>
             </div>
+          </div>
 
-            <!-- Email -->
-            <div style="background: #ffffff; padding: 16px; border: 1px solid var(--gray-border); border-left: 3px solid var(--dark); border-radius: var(--radius-sm); box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-start;">
-              <div style="width: 38px; height: 38px; background: rgba(22, 25, 30, 0.08); color: var(--dark); display: flex; align-items: center; justify-content: center; font-size: 1.05rem; border-radius: var(--radius-sm); flex-shrink: 0;">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <div>
-                <strong style="display: block; font-size: 0.88rem; color: var(--dark); margin-bottom: 2px;">HỘP THƯ ĐIỆN TỬ</strong>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.35;">
-                  <a href="mailto:thanhphuhcns@gmail.com">thanhphuhcns@gmail.com</a><br>
-                  <a href="mailto:info@thanhphuxd.com">info@thanhphuxd.com</a>
-                </p>
-              </div>
+          <!-- 3. Hộp thư điện tử -->
+          <div style="background: #ffffff; padding: 22px 24px; border: 1px solid var(--gray-border); border-left: 4px solid var(--dark); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; background: rgba(22, 25, 30, 0.08); color: var(--dark); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border-radius: var(--radius-sm); flex-shrink: 0;">
+              <i class="fas fa-envelope"></i>
             </div>
+            <div>
+              <strong style="display: block; font-size: 0.98rem; color: var(--dark); margin-bottom: 4px;">HỘP THƯ ĐIỆN TỬ</strong>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+                Tiếp nhận báo giá: <a href="mailto:thanhphuhcns@gmail.com" style="color: var(--primary); font-weight: 600;">thanhphuhcns@gmail.com</a><br>
+                Phòng quản lý dự án: <a href="mailto:info@thanhphuxd.com" style="color: var(--dark); font-weight: 600;">info@thanhphuxd.com</a>
+              </p>
+            </div>
+          </div>
 
-            <!-- Xưởng cơ khí -->
-            <div style="background: #ffffff; padding: 16px; border: 1px solid var(--gray-border); border-left: 3px solid var(--primary); border-radius: var(--radius-sm); box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-start;">
-              <div style="width: 38px; height: 38px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.05rem; border-radius: var(--radius-sm); flex-shrink: 0;">
-                <i class="fas fa-industry"></i>
-              </div>
-              <div>
-                <strong style="display: block; font-size: 0.88rem; color: var(--dark); margin-bottom: 2px;">XƯỞNG CƠ KHÍ</strong>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.35;">KCN Tân Tạo, Q. Bình Tân, TP. Hồ Chí Minh</p>
-              </div>
+          <!-- 4. Xưởng cơ khí & Gia công -->
+          <div style="background: #ffffff; padding: 22px 24px; border: 1px solid var(--gray-border); border-left: 4px solid var(--primary); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border-radius: var(--radius-sm); flex-shrink: 0;">
+              <i class="fas fa-industry"></i>
+            </div>
+            <div>
+              <strong style="display: block; font-size: 0.98rem; color: var(--dark); margin-bottom: 4px;">XƯỞNG CƠ KHÍ & GIA CÔNG KẾT CẤU THÉP</strong>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+                Địa chỉ: Khu Công Nghiệp Tân Tạo, Quận Bình Tân, TP. Hồ Chí Minh<br>
+                <span style="font-size: 0.82rem; color: var(--gray-dark);">Chuyên sản xuất kết cấu thép tiền chế, nhôm kính facade & cửa uPVC</span>
+              </p>
             </div>
           </div>
 
@@ -148,12 +98,12 @@
 
         <!-- Cột Phải: Bản đồ Google Maps tương tác trực tiếp (Cùng 1 hàng) -->
         <div class="contact-map-wrapper">
-          <div style="padding: 14px 20px; background: #f8f9fb; border-bottom: 1px solid var(--gray-border); display: flex; justify-content: space-between; align-items: center;">
+          <div style="padding: 16px 20px; background: #f8f9fb; border-bottom: 1px solid var(--gray-border); display: flex; justify-content: space-between; align-items: center;">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <i class="fas fa-map-marked-alt" style="color: var(--primary); font-size: 1.1rem;"></i>
-              <span style="font-weight: 700; font-size: 0.92rem; color: var(--dark);">Vị trí trụ sở trên bản đồ vệ tinh</span>
+              <i class="fas fa-map-marked-alt" style="color: var(--primary); font-size: 1.15rem;"></i>
+              <span style="font-weight: 700; font-size: 0.95rem; color: var(--dark);">Vị trí trụ sở trên bản đồ vệ tinh</span>
             </div>
-            <a href="https://maps.google.com/?q=22A+Vũ+Ngọc+Phan,+Phường+13,+Bình+Thạnh,+Hồ+Chí+Minh" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--primary); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+            <a href="https://maps.google.com/?q=22A+Vũ+Ngọc+Phan,+Phường+13,+Bình+Thạnh,+Hồ+Chí+Minh" target="_blank" rel="noopener noreferrer" style="font-size: 0.82rem; color: var(--primary); font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
               Chỉ đường Google Maps <i class="fas fa-external-link-alt"></i>
             </a>
           </div>
