@@ -1,0 +1,4744 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Quản Trị Hệ Thống | Công Ty Xây Lắp Thành Phú</title>
+  <meta name="description" content="Hệ thống quản trị nội dung website, bài viết và slide banner Công ty Cổ phần Đầu tư Xây lắp Thành Phú.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Montserrat for Modern Flat UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+
+  <style>
+    /* ==========================================================================
+       FLAT DESIGN DESIGN SYSTEM - THÀNH PHÚ CONSTRUCTION
+       ========================================================================== */
+    :root {
+      /* Brand Palette */
+      --primary: #ED1925;
+      --primary-hover: #D0101C;
+      --primary-light: #FEE2E2;
+      --primary-soft: rgba(237, 25, 37, 0.08);
+
+      --accent: #F59E0B;
+      --accent-light: #FEF3C7;
+
+      /* Dark Slate (Sidebar & Header Elements) */
+      --sidebar-bg: #0F172A;
+      --sidebar-border: #1E293B;
+      --sidebar-hover: #1E293B;
+      --sidebar-active: #ED1925;
+      --sidebar-text: #94A3B8;
+      --sidebar-text-bright: #F8FAFC;
+      --sidebar-width: 215px;
+
+      /* Flat Surfaces & Neutral Palette */
+      --bg-canvas: #F8FAFC;
+      --surface-card: #FFFFFF;
+      --border-color: #E2E8F0;
+      --border-subtle: #F1F5F9;
+
+      /* Typography Colors */
+      --text-heading: #0F172A;
+      --text-body: #334155;
+      --text-muted: #64748B;
+      --text-subtle: #94A3B8;
+
+      /* Flat Semantic Status Colors */
+      --success: #10B981;
+      --success-bg: #ECFDF5;
+      --success-border: #A7F3D0;
+
+      --warning: #F59E0B;
+      --warning-bg: #FFFBEB;
+      --warning-border: #FDE68A;
+
+      --danger: #EF4444;
+      --danger-bg: #FEF2F2;
+      --danger-border: #FECACA;
+
+      --info: #3B82F6;
+      --info-bg: #EFF6FF;
+      --info-border: #BFDBFE;
+
+      /* Geometry & Spacing - Strict 3px Flat Design */
+      --radius-xs: 3px;
+      --radius-sm: 3px;
+      --radius-md: 3px;
+      --radius-lg: 3px;
+      --radius-full: 3px;
+      --radius: 3px;
+
+      /* Flat Transitions & Elevation */
+      --transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --topbar-height: 68px;
+    }
+
+    /* Reset & Base Setup */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-body);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    /* ==========================================================================
+       1. FLAT SIDEBAR COMPONENT
+       ========================================================================== */
+    .admin-sidebar {
+      width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      border-right: 1px solid var(--sidebar-border);
+      transition: var(--transition);
+    }
+
+    .sidebar-header {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0B1120;
+    }
+
+    .sidebar-logo {
+      height: 36px;
+      max-width: 100%;
+      width: auto;
+      object-fit: contain;
+      background: #FFFFFF;
+      padding: 4px 12px;
+      border-radius: var(--radius-xs);
+      border-left: 3px solid var(--primary);
+      transition: var(--transition);
+      display: block;
+    }
+
+    .sidebar-logo:hover {
+      transform: scale(1.02);
+    }
+
+    /* Live Cloud Status Indicators in Sidebar */
+    .sidebar-status-box {
+      margin: 10px 10px 0;
+      padding: 7px 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-xs);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .status-indicator-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+    }
+
+    .status-dot-pulse {
+      width: 6px;
+      height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    }
+
+    /* Navigation Menu */
+    .sidebar-menu {
+      list-style: none;
+      padding: 10px 8px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .menu-heading {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      color: #64748B;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 8px 8px 4px;
+      margin-top: 4px;
+    }
+
+    .menu-item {
+      margin-bottom: 2px;
+    }
+
+    .menu-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      color: var(--sidebar-text);
+      font-size: 0.83rem;
+      font-weight: 500;
+      border-radius: var(--radius-xs);
+      transition: var(--transition);
+      cursor: pointer;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .menu-link i {
+      font-size: 0.9rem;
+      width: 18px;
+      text-align: center;
+      color: #64748B;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .menu-link:hover {
+      background: var(--sidebar-hover);
+      color: var(--sidebar-text-bright);
+    }
+
+    .menu-link:hover i {
+      color: var(--sidebar-text-bright);
+    }
+
+    .menu-item.active .menu-link {
+      background: var(--primary);
+      color: #FFFFFF;
+      font-weight: 600;
+      border-color: var(--primary);
+    }
+
+    .menu-item.active .menu-link i {
+      color: #FFFFFF;
+    }
+
+    .badge-count {
+      margin-left: auto;
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+    }
+
+    .menu-item.active .badge-count {
+      background: #FFFFFF;
+      color: var(--primary);
+    }
+
+    /* Sidebar Footer */
+    .sidebar-footer {
+      padding: 10px 12px;
+      border-top: 1px solid var(--sidebar-border);
+      background: #0B1120;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .admin-avatar-box {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-xs);
+      background: var(--primary);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+    }
+
+    .admin-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .admin-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-role {
+      font-size: 0.68rem;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ==========================================================================
+       2. TOP BAR & MAIN CONTENT WRAPPER
+       ========================================================================== */
+    .admin-main {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--bg-canvas);
+    }
+
+    .admin-topbar {
+      height: var(--topbar-height);
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sidebar-toggle-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-heading);
+      cursor: pointer;
+    }
+
+    .page-title-group h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.2;
+    }
+
+    .page-title-group p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    /* Admin Content Area */
+    .admin-container {
+      padding: 24px 28px;
+      flex: 1;
+    }
+
+    /* Tab View Visibility */
+    .admin-tab {
+      display: none;
+    }
+
+    .admin-tab.active {
+      display: block;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       3. FLAT BUTTONS & CONTROLS
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    .btn-lg {
+      padding: 11px 22px;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--text-heading);
+      border-color: var(--border-color);
+    }
+
+    .btn-outline:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      color: var(--text-heading);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #FFFFFF;
+      border-color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #FFFFFF;
+      border-color: var(--success);
+    }
+
+    /* Flat Form Controls */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+    }
+
+    .form-label .required {
+      color: var(--primary);
+      margin-left: 2px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      color: var(--text-heading);
+      background: #FFFFFF;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-soft);
+    }
+
+    /* Flat Cards */
+    .content-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .card-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+    }
+
+    .card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    /* ==========================================================================
+       4. DASHBOARD STAT WIDGETS
+       ========================================================================== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-widget {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+
+    .stat-widget:hover {
+      border-color: #CBD5E1;
+      transform: translateY(-2px);
+    }
+
+    .stat-data .stat-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .stat-data .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      line-height: 1;
+    }
+
+    .stat-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .stat-icon-box.red { background: var(--primary-light); color: var(--primary); }
+    .stat-icon-box.green { background: var(--success-bg); color: var(--success); }
+    .stat-icon-box.amber { background: var(--warning-bg); color: var(--warning); }
+    .stat-icon-box.blue { background: var(--info-bg); color: var(--info); }
+
+    /* Shortcut Grid */
+    .shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .shortcut-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .shortcut-card:hover {
+      border-color: var(--primary);
+      background: #FFF5F5;
+      transform: translateY(-1px);
+    }
+
+    .shortcut-card i {
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+
+    .shortcut-card .title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .shortcut-card .subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Category Bar Progress */
+    .cat-bar-item {
+      margin-bottom: 14px;
+    }
+
+    .cat-bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text-heading);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #F1F5F9;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.4s ease;
+    }
+
+    /* ==========================================================================
+       5. FLAT TABLES & DATA ROWS
+       ========================================================================== */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th {
+      background: #F8FAFC;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-body);
+      vertical-align: middle;
+      background: #FFFFFF;
+    }
+
+    .admin-table tbody tr {
+      transition: var(--transition);
+    }
+
+    .admin-table tbody tr:hover td {
+      background: #F8FAFC;
+    }
+
+    /* Pill Badges */
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .pill-badge.cat {
+      background: #F1F5F9;
+      color: var(--text-body);
+      border-color: var(--border-color);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .status-badge.published {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+
+    .status-badge.published:hover {
+      background: #D1FAE5;
+    }
+
+    .status-badge.draft {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+    }
+
+    .status-badge.draft:hover {
+      background: #FEF3C7;
+    }
+
+    .badge-provider {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-provider.cloudinary {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    .badge-provider.local {
+      background: #F1F5F9;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+
+    /* Action Buttons in Table */
+    .table-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.85rem;
+    }
+
+    .action-btn:hover {
+      background: #F1F5F9;
+      color: var(--text-heading);
+      border-color: #CBD5E1;
+    }
+
+    .action-btn.edit-btn:hover {
+      background: var(--info-bg);
+      color: var(--info);
+      border-color: var(--info-border);
+    }
+
+    .action-btn.star-btn.active {
+      color: var(--accent);
+      background: var(--accent-light);
+      border-color: var(--warning-border);
+    }
+
+    .action-btn.delete-btn:hover {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: var(--danger-border);
+    }
+
+    /* Table Media Preview Thumbnail */
+    .table-thumb-preview {
+      width: 70px;
+      height: 48px;
+      border-radius: 3px;
+      object-fit: cover;
+      border: 1px solid var(--border-color);
+      display: block;
+      background: #E2E8F0;
+    }
+
+    /* Slide Speed Control Box in Header */
+    .slide-speed-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F8FAFC;
+      padding: 4px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+    }
+
+    .speed-icon-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    .speed-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      padding: 2px 6px;
+    }
+
+    .speed-input {
+      width: 40px;
+      border: none;
+      outline: none;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-heading);
+      background: transparent;
+    }
+
+    .speed-unit {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .btn-xs {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      border-radius: 3px;
+    }
+
+    /* Slide Stepper Connected Group in Table */
+    .order-stepper-group {
+      display: inline-flex;
+      align-items: stretch;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    .btn-step {
+      width: 26px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #F8FAFC;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      font-size: 0.7rem;
+      transition: var(--transition);
+      color: #64748B;
+    }
+
+    .btn-step:hover {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .order-input {
+      width: 38px;
+      height: 30px;
+      text-align: center;
+      padding: 0;
+      font-weight: 700;
+      border: none;
+      border-left: 1px solid #E2E8F0;
+      border-right: 1px solid #E2E8F0;
+      border-radius: 0;
+      font-size: 0.85rem;
+      color: var(--text-heading);
+      background: #FFFFFF;
+      outline: none;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    .order-input::-webkit-outer-spin-button,
+    .order-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+
+    /* Slide 16:9 Thumbnail Container */
+    .slide-thumb-container {
+      position: relative;
+      width: 140px;
+      height: 78px;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #0F172A;
+      display: block;
+    }
+
+    .slide-thumb-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .slide-thumb-container:hover .slide-thumb-preview {
+      transform: scale(1.05);
+    }
+
+    .slide-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      color: #FFFFFF;
+      font-size: 0.85rem;
+    }
+
+    .slide-thumb-container:hover .slide-thumb-overlay {
+      opacity: 1;
+    }
+
+    .slide-title-text {
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin-bottom: 3px;
+      color: var(--text-heading);
+      line-height: 1.3;
+    }
+
+    .slide-subtitle-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .text-unnamed {
+      color: #94A3B8;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ==========================================================================
+       6. FLAT EDITOR & DRAG-DROP MEDIA
+       ========================================================================== */
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 2.3fr 1fr;
+      gap: 24px;
+    }
+
+    /* Formatting Toolbar */
+    .rich-toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 8px 12px;
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-bottom: none;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    }
+
+    .tool-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-xs);
+      border: 1px solid transparent;
+      background: none;
+      color: var(--text-body);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .tool-btn:hover {
+      background: #E2E8F0;
+      color: var(--text-heading);
+    }
+
+    .tool-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-color);
+      margin: 0 4px;
+    }
+
+    .content-editable-box {
+      min-height: 380px;
+      max-height: 600px;
+      overflow-y: auto;
+      padding: 16px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      background: #FFFFFF;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .content-editable-box:focus {
+      border-color: var(--primary);
+    }
+
+    /* Image Dropzone */
+    .image-dropzone {
+      border: 2px dashed #CBD5E1;
+      border-radius: var(--radius-sm);
+      padding: 24px 16px;
+      text-align: center;
+      background: #F8FAFC;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .image-dropzone:hover {
+      border-color: var(--primary);
+      background: #FFF5F5;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .preset-item {
+      height: 60px;
+      border-radius: var(--radius-xs);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: #E2E8F0;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .preset-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preset-item:hover {
+      border-color: var(--primary);
+      transform: scale(1.03);
+    }
+
+    .preset-item.active {
+      border-color: var(--primary);
+    }
+
+    .preset-item.active::after {
+      content: '✓';
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      background: var(--primary);
+      color: #FFF;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    /* Empty state */
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .empty-state > i,
+    .empty-state .empty-icon {
+      font-size: 2.8rem;
+      color: #CBD5E1;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .empty-state h3 {
+      font-size: 1.05rem;
+      color: var(--text-heading);
+      margin-bottom: 4px;
+    }
+
+    .empty-state p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .empty-state .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .empty-state .btn i {
+      font-size: 0.82rem !important;
+      color: inherit !important;
+      margin-bottom: 0 !important;
+      line-height: 1;
+    }
+
+    /* ==========================================================================
+       7. FLAT MODAL SYSTEM & TOASTS
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      width: 100%;
+      max-width: 620px;
+      max-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.96);
+      transition: var(--transition);
+      overflow: hidden;
+      margin: auto;
+    }
+
+    .modal-box form {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-box.modal-lg {
+      max-width: 880px;
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .modal-header h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--primary);
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: #CBD5E1 transparent;
+    }
+
+    .modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+      background: #F1F5F9;
+      border-radius: 3px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background-color: #CBD5E1;
+      border-radius: 3px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+      background-color: #94A3B8;
+    }
+
+    .modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      background: #F8FAFC;
+      flex-shrink: 0;
+    }
+
+    /* Flat Toast Notification */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      min-width: 280px;
+      max-width: 400px;
+      border-left: 4px solid var(--primary);
+      animation: toastIn 0.2s ease-out;
+      transition: var(--transition);
+    }
+
+    .toast.success { border-left-color: var(--success); }
+    .toast.success i { color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.info { border-left-color: var(--info); }
+    .toast.info i { color: var(--info); }
+
+    @keyframes toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .stats-grid, .shortcuts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .editor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        transform: translateX(-100%);
+      }
+      .admin-sidebar.open {
+        transform: translateX(0);
+      }
+      .admin-main {
+        margin-left: 0;
+      }
+      .sidebar-toggle-btn {
+        display: block;
+      }
+      .stats-grid, .shortcuts-grid {
+        grid-template-columns: 1fr;
+      }
+      .admin-topbar, .admin-container {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+
+    /* Admin Login Overlay */
+    .admin-login-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, #1E293B 0%, #0F172A 100%);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .admin-login-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      max-width: 440px;
+      padding: 36px 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      animation: loginCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes loginCardIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .login-logo-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      padding: 12px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .login-logo-box img {
+      height: 42px;
+      width: auto;
+      display: block;
+    }
+
+    .login-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin: 0 0 6px 0;
+      letter-spacing: 0.3px;
+    }
+
+    .login-subtitle {
+      font-size: 0.82rem;
+      color: #64748B;
+      margin: 0;
+    }
+
+    .login-alert {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 500;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .login-alert.error {
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FEE2E2;
+    }
+
+    .login-alert.success {
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #D1FAE5;
+    }
+
+    .login-footer {
+      margin-top: 24px;
+      text-align: center;
+      padding-top: 18px;
+      border-top: 1px solid #F1F5F9;
+    }
+
+    .back-to-web-link {
+      font-size: 0.82rem;
+      color: #64748B;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .back-to-web-link:hover {
+      color: var(--primary);
+    }
+
+    .btn-logout {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.05rem;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       ADMIN LOGIN SCREEN (BẮT BUỘC ĐĂNG NHẬP /ADMIN)
+       ========================================================================== -->
+  <div id="adminLoginScreen" class="admin-login-overlay">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo-box">
+          <img src="assets/images/logo.png" alt="Logo Thành Phú">
+        </div>
+        <h2 class="login-title">HỆ THỐNG QUẢN TRỊ CMS</h2>
+        <p class="login-subtitle">Công ty Cổ phần Đầu tư Xây lắp Thành Phú</p>
+      </div>
+
+      <div id="loginAlertBox" class="login-alert" style="display: none;"></div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" autocomplete="off">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" for="loginUsername" style="font-weight: 600; font-size: 0.86rem; color: #1E293B;">
+            <i class="fas fa-user" style="color: var(--primary); margin-right: 6px;"></i> Tên đăng nhập
+          </label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="Nhập tên đăng nhập (VD: admin)" required autofocus style="border-radius: 3px; font-size: 0.92rem; padding: 11px 14px;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label class="form-label" for="loginPassword" style="font-weight: 600; font-size: 0.86rem; color: #1E293B; margin-bottom: 0;">
+              <i class="fas fa-lock" style="color: var(--primary); margin-right: 6px;"></i> Mật khẩu
+            </label>
+            <span style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer;" onclick="togglePasswordVisibility()">
+              <i class="fas fa-eye" id="togglePassIcon"></i> Hiện mật khẩu
+            </span>
+          </div>
+          <div style="position: relative;">
+            <input type="password" id="loginPassword" class="form-control" placeholder="Nhập mật khẩu (VD: admin)" required style="border-radius: 3px; font-size: 0.92rem; padding: 11px 14px; padding-right: 40px;">
+            <i class="fas fa-key" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94A3B8; font-size: 0.85rem;"></i>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; font-size: 0.82rem;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-body); user-select: none;">
+            <input type="checkbox" id="loginRememberMe" checked style="accent-color: var(--primary); width: 16px; height: 16px;">
+            <span>Ghi nhớ đăng nhập</span>
+          </label>
+          <span style="color: var(--text-muted); font-size: 0.78rem;">Mặc định: <strong>admin</strong> / <strong>admin</strong></span>
+        </div>
+
+        <button type="submit" id="btnLoginSubmit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.92rem; font-weight: 700; border-radius: 3px; display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: 0.5px;">
+          <i class="fas fa-right-to-bracket"></i> ĐĂNG NHẬP HỆ THỐNG
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a href="index.html" class="back-to-web-link">
+          <i class="fas fa-arrow-left"></i> Quay lại trang chủ website
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SIDEBAR NAVIGATION
+       ========================================================================== -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <a href="index.html" target="_blank" title="Xem Trang Chủ" style="display:flex; align-items:center; justify-content:center; width:100%;">
+        <img src="assets/images/logo.png" alt="Logo Thành Phú" class="sidebar-logo">
+      </a>
+    </div>
+
+    <!-- Live Cloud Services Status -->
+    <div class="sidebar-status-box">
+      <div class="status-indicator-item">
+        <span><i class="fas fa-database" style="color:#10B981; margin-right:5px;"></i> MongoDB</span>
+        <span class="status-dot-pulse" title="Đã kết nối"></span>
+      </div>
+      <div class="status-indicator-item">
+        <span><i class="fas fa-cloud-upload-alt" style="color:#38BDF8; margin-right:5px;"></i> Cloudinary</span>
+        <span class="status-dot-pulse" title="Sẵn sàng"></span>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <ul class="sidebar-menu">
+      <div class="menu-heading">TỔNG QUAN</div>
+      <li class="menu-item active" data-tab="dashboard">
+        <a class="menu-link" onclick="switchTab('dashboard')">
+          <i class="fas fa-chart-pie"></i>
+          <span>Tổng quan</span>
+        </a>
+      </li>
+
+      <div class="menu-heading">NỘI DUNG</div>
+      <li class="menu-item" data-tab="projects">
+        <a class="menu-link" onclick="switchTab('projects')">
+          <i class="fas fa-building"></i>
+          <span>Dự án</span>
+          <span class="badge-count" id="sidebarProjectCount">0</span>
+        </a>
+      </li>
+      <li class="menu-item" data-tab="project-editor">
+        <a class="menu-link" onclick="openNewProjectEditor()">
+          <i class="fas fa-trowel-bricks"></i>
+          <span>Viết bài dự án</span>
+        </a>
+      </li>
+      <li class="menu-item" data-tab="articles">
+        <a class="menu-link" onclick="switchTab('articles')">
+          <i class="fas fa-newspaper"></i>
+          <span>Bài viết</span>
+          <span class="badge-count" id="sidebarArticleCount">0</span>
+        </a>
+      </li>
+      <li class="menu-item" data-tab="editor">
+        <a class="menu-link" onclick="openNewPostEditor()">
+          <i class="fas fa-pen-to-square"></i>
+          <span>Viết tin tức</span>
+        </a>
+      </li>
+      <li class="menu-item" data-tab="slides">
+        <a class="menu-link" onclick="switchTab('slides')">
+          <i class="fas fa-images"></i>
+          <span>Slide</span>
+          <span class="badge-count" id="sidebarSlideCount">0</span>
+        </a>
+      </li>
+
+      <div class="menu-heading">TRUY CẬP</div>
+      <li class="menu-item">
+        <a href="du-an.html" target="_blank" class="menu-link">
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <span>Dự án web</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="tin-tuc.html" target="_blank" class="menu-link">
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <span>Tin tức</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="index.html" target="_blank" class="menu-link">
+          <i class="fas fa-globe"></i>
+          <span>Trang chủ</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Sidebar User Footer -->
+    <div class="sidebar-footer" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="admin-avatar-box">TP</div>
+        <div class="admin-info">
+          <div class="admin-name" id="sidebarAdminName">Admin</div>
+          <div class="admin-role">
+            <span class="status-dot-pulse" style="width:5px; height:5px;"></span> Online
+          </div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="adminLogout()" title="Đăng xuất khỏi hệ thống">
+        <i class="fas fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       MAIN VIEW CONTAINER
+       ========================================================================== -->
+  <main class="admin-main">
+    <!-- Top Bar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Đóng/Mở Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="page-title-group">
+          <h1 id="currentSectionTitle">Bảng Tổng Quan</h1>
+          <p id="currentSectionDesc">Hệ thống quản lý nội dung và hiệu suất website Công ty Xây lắp Thành Phú</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-status-chip">
+          <span class="status-dot-pulse"></span>
+          <span>Cloud Live: Mongo & Cloudinary</span>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openNewPostEditor()">
+          <i class="fas fa-plus"></i> Đăng Bài Mới
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="adminLogout()" title="Đăng xuất khỏi hệ thống" style="border-color: #CBD5E1; color: var(--text-muted);">
+          <i class="fas fa-right-from-bracket"></i> Đăng xuất
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Body Container -->
+    <div class="admin-container">
+
+      <!-- ========================================== -->
+      <!-- TAB 1: BẢNG TỔNG QUAN (DASHBOARD) -->
+      <!-- ========================================== -->
+      <section class="admin-tab active" id="tab-dashboard">
+        <!-- 4 Primary Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-widget">
+            <div class="stat-data">
+              <div class="stat-title">Tổng Số Bài Viết</div>
+              <div class="stat-number" id="statTotalArticles">0</div>
+            </div>
+            <div class="stat-icon-box red">
+              <i class="fas fa-file-lines"></i>
+            </div>
+          </div>
+
+          <div class="stat-widget">
+            <div class="stat-data">
+              <div class="stat-title">Đã Xuất Bản</div>
+              <div class="stat-number" id="statPublishedArticles" style="color:var(--success);">0</div>
+            </div>
+            <div class="stat-icon-box green">
+              <i class="fas fa-circle-check"></i>
+            </div>
+          </div>
+
+          <div class="stat-widget">
+            <div class="stat-data">
+              <div class="stat-title">Bản Nháp</div>
+              <div class="stat-number" id="statDraftArticles" style="color:var(--warning);">0</div>
+            </div>
+            <div class="stat-icon-box amber">
+              <i class="fas fa-clock"></i>
+            </div>
+          </div>
+
+          <div class="stat-widget">
+            <div class="stat-data">
+              <div class="stat-title">Tổng Lượt Xem</div>
+              <div class="stat-number" id="statTotalViews" style="color:var(--info);">0</div>
+            </div>
+            <div class="stat-icon-box blue">
+              <i class="fas fa-eye"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Shortcut Cards -->
+        <div class="shortcuts-grid">
+          <div class="shortcut-card" onclick="openNewPostEditor()">
+            <i class="fas fa-pen-to-square"></i>
+            <div>
+              <div class="title">Đăng Bài Mới</div>
+              <div class="subtitle">Thêm tin tức, sự kiện mới</div>
+            </div>
+          </div>
+          <div class="shortcut-card" onclick="switchTab('slides')">
+            <i class="fas fa-images"></i>
+            <div>
+              <div class="title">Quản Lý Slide</div>
+              <div class="subtitle">Tải ảnh & chỉnh tốc độ banner</div>
+            </div>
+          </div>
+          <div class="shortcut-card" onclick="switchTab('articles')">
+            <i class="fas fa-list-check"></i>
+            <div>
+              <div class="title">Quản Lý Danh Sách</div>
+              <div class="subtitle">Sửa, xóa, bật/tắt tiêu điểm</div>
+            </div>
+          </div>
+          <div class="shortcut-card" onclick="window.open('index.html', '_blank')">
+            <i class="fas fa-arrow-up-right-from-square"></i>
+            <div>
+              <div class="title">Xem Website</div>
+              <div class="subtitle">Mở trang chủ trực tuyến</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Split: Recent Articles & Category Breakdown -->
+        <div class="editor-grid">
+          <!-- Recent Articles Table -->
+          <div class="content-card">
+            <div class="card-header">
+              <h2 class="card-title"><i class="fas fa-clock-rotate-left" style="color:var(--primary);"></i> Bài Viết Mới Nhất Trên MongoDB</h2>
+              <button class="btn btn-outline btn-sm" onclick="switchTab('articles')">Xem tất cả <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Bài viết</th>
+                    <th>Chuyên mục</th>
+                    <th>Trạng thái</th>
+                    <th style="text-align: right;">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardRecentTbody">
+                  <tr>
+                    <td colspan="4" style="text-align:center; padding:30px;">
+                      <i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu từ MongoDB Atlas...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Category Breakdown Bar Chart -->
+          <div class="content-card">
+            <div class="card-header">
+              <h2 class="card-title"><i class="fas fa-chart-simple" style="color:var(--primary);"></i> Cơ Cấu Chuyên Mục</h2>
+            </div>
+            <div class="card-body" id="dashboardCategoryBars">
+              <p style="color:var(--text-muted); font-size:0.85rem;"><i class="fas fa-spinner fa-spin"></i> Đang tính toán...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB: QUẢN LÝ DỰ ÁN (PROJECTS LIST) -->
+      <!-- ========================================== -->
+      <section class="admin-tab" id="tab-projects">
+        <div class="content-card">
+          <!-- Filter & Action Bar -->
+          <div class="card-header" style="flex-wrap: wrap; gap: 14px;">
+            <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:300px;">
+              <div style="position:relative; flex:1;">
+                <i class="fas fa-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:0.85rem;"></i>
+                <input type="text" id="projectSearchInput" class="form-control" placeholder="Tìm kiếm theo tên dự án, địa điểm, chủ đầu tư..." style="padding-left:34px;" oninput="debounceProjectSearch()">
+              </div>
+              <select id="projectCategoryFilter" class="form-control" style="width:180px;" onchange="filterProjects()">
+                <option value="all">Tất cả chuyên mục</option>
+                <option value="xay-lap">Thi công xây lắp</option>
+                <option value="noi-that">Trang trí nội thất</option>
+                <option value="nhom-kinh">Cấu kiện nhôm kính</option>
+                <option value="ha-tang">Hạ tầng kỹ thuật</option>
+              </select>
+              <select id="projectStatusFilter" class="form-control" style="width:150px;" onchange="filterProjects()">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="Đã Bàn Giao">Đã Bàn Giao</option>
+                <option value="Đang Thi Công">Đang Thi Công</option>
+              </select>
+              <select id="projectSortSelect" class="form-control" style="width:150px;" onchange="filterProjects()">
+                <option value="order">Thứ tự mặc định</option>
+                <option value="newest">Mới nhất trước</option>
+                <option value="oldest">Cũ nhất trước</option>
+                <option value="views">Lượt xem nhiều</option>
+              </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button class="btn btn-primary btn-sm" onclick="openNewProjectEditor()">
+                <i class="fas fa-plus"></i> Viết bài dự án mới
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Table -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">STT</th>
+                  <th>Dự Án & Công Trình</th>
+                  <th style="width: 220px;">Chuyên Mục</th>
+                  <th style="width: 150px; text-align: center; white-space: nowrap;">Tiến Độ</th>
+                  <th style="width: 160px; text-align: center; white-space: nowrap;">Hiển Thị Web</th>
+                  <th style="width: 130px; text-align: right; white-space: nowrap;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="projectsEmptyState" class="empty-state" style="display: none;">
+            <i class="fas fa-building"></i>
+            <h3>Không tìm thấy dự án nào</h3>
+            <p>Vui lòng thử điều chỉnh từ khóa tìm kiếm hoặc bấm "Viết bài dự án mới" để tạo hồ sơ công trình.</p>
+            <button type="button" class="btn btn-primary btn-sm" onclick="openNewProjectEditor()">
+              <i class="fas fa-plus"></i> Viết Bài Dự Án Mới
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB: SOẠN THẢO BÀI VIẾT DỰ ÁN (PROJECT EDITOR) -->
+      <!-- ========================================== -->
+      <section class="admin-tab" id="tab-project-editor">
+        <div class="content-card">
+          <div class="card-header">
+            <h2 class="card-title" id="projectEditorTitle">
+              <i class="fas fa-building" style="color:var(--primary);"></i> Soạn Thảo Bài Viết Dự Án Mới
+            </h2>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="switchTab('projects')">
+                <i class="fas fa-xmark"></i> Hủy
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="openProjectPreviewModal()">
+                <i class="fas fa-eye"></i> Xem trước
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="saveProjectForm()">
+                <i class="fas fa-floppy-disk"></i> Lưu & Xuất bản
+              </button>
+            </div>
+          </div>
+
+          <form id="projectForm" style="padding: 24px;" onsubmit="event.preventDefault(); saveProjectForm();">
+            <input type="hidden" id="editingProjectId" value="">
+            <input type="hidden" id="formProjectImageUrl" value="assets/images/project-1.svg">
+
+            <div class="editor-grid">
+              <!-- Left Column: Title, Slug, Overview, Scope, Highlights, Rich Content -->
+              <div>
+                <div class="form-group">
+                  <label class="form-label" for="formProjectTitle">Tên công trình / Tiêu đề bài viết dự án <span class="required">*</span></label>
+                  <input type="text" id="formProjectTitle" class="form-control" placeholder="VD: Tòa Nhà Văn Phòng & Thương Mại SaiGon Horizon..." required style="font-size:1.05rem; font-weight:600;" oninput="handleProjectTitleInput(this.value)">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formProjectSlug">Đường dẫn thân thiện (SEO Slug)</label>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:500;">/du-an/</span>
+                    <input type="text" id="formProjectSlug" class="form-control" placeholder="slug-tu-dong-theo-ten-du-an" style="font-family:monospace; font-size:0.85rem;">
+                  </div>
+                  <div id="formProjectSlugPreview" style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+                    URL: /du-an/...
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formProjectOverview">Tổng quan dự án (Overview) <span class="required">*</span></label>
+                  <textarea id="formProjectOverview" class="form-control" rows="3" placeholder="Giới thiệu vị trí, quy mô và vai trò tổng thầu xây lắp của Thành Phú tại công trình..." style="resize:vertical; line-height:1.5;"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formProjectScope">
+                    Hạng mục & Phạm vi thi công (Scope)
+                    <span style="font-size:0.76rem; color:var(--text-muted); font-weight:normal; margin-left:6px;">(Mỗi dòng là 1 gạch đầu dòng)</span>
+                  </label>
+                  <textarea id="formProjectScope" class="form-control" rows="4" placeholder="Thi công cọc khoan nhồi D1200 - D1500 sâu 58m và tường vây Barrette.&#10;Xây dựng 2 tầng hầm sâu 8.5m với biện pháp Semi-Topdown.&#10;Thi công kết cấu khung bê tông cốt thép 21 tầng nổi." style="font-family:inherit; font-size:0.86rem; line-height:1.6; resize:vertical;"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formProjectHighlights">
+                    Điểm nhấn kỹ thuật & Tiêu chuẩn đạt được (Highlights)
+                    <span style="font-size:0.76rem; color:var(--text-muted); font-weight:normal; margin-left:6px;">(Mỗi dòng là 1 điểm nhấn)</span>
+                  </label>
+                  <textarea id="formProjectHighlights" class="form-control" rows="3" placeholder="Đạt 1,200,000 giờ làm việc an toàn không tai nạn lao động.&#10;Bàn giao vượt tiến độ cam kết 25 ngày.&#10;Ứng dụng mô hình BIM 3D trong quản lý xung đột kết cấu MEP." style="font-family:inherit; font-size:0.86rem; line-height:1.6; resize:vertical;"></textarea>
+                </div>
+
+                <!-- Rich Text Content Editor for In-depth Article -->
+                <div class="form-group">
+                  <label class="form-label">Nội dung bài viết giới thiệu chi tiết công trình</label>
+                  
+                  <!-- Formatting Toolbar -->
+                  <div class="rich-toolbar">
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('bold')" title="In đậm (Ctrl+B)"><i class="fas fa-bold"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('italic')" title="In nghiêng (Ctrl+I)"><i class="fas fa-italic"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('underline')" title="Gạch chân (Ctrl+U)"><i class="fas fa-underline"></i></button>
+                    <div class="tool-divider"></div>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('formatBlock', '<h3>')" title="Tiêu đề H3"><strong>H3</strong></button>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('formatBlock', '<p>')" title="Đoạn văn bình thường">¶</button>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('formatBlock', '<blockquote>')" title="Khung trích dẫn"><i class="fas fa-quote-left"></i></button>
+                    <div class="tool-divider"></div>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('insertUnorderedList')" title="Danh sách chấm tròn"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('insertOrderedList')" title="Danh sách đánh số"><i class="fas fa-list-ol"></i></button>
+                    <div class="tool-divider"></div>
+                    <button type="button" class="tool-btn" onclick="insertProjectLinkPrompt()" title="Chèn liên kết"><i class="fas fa-link"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatProjectDoc('removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+                  </div>
+
+                  <div id="formProjectContent" class="content-editable-box" contenteditable="true" oninput="updateProjectContentStats()">
+                    <p>Nhập bài viết chi tiết, giải pháp thi công, công nghệ ứng dụng hoặc hình ảnh công trường tại đây...</p>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.78rem; color:var(--text-muted);">
+                    <span id="projectContentWordCount">0 từ</span>
+                    <span id="projectContentReadTime">Khoảng 1 phút đọc</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Specs, Category, Badge, Status, Image -->
+              <div>
+                <!-- Category Select -->
+                <div class="form-group">
+                  <label class="form-label" for="formProjectCategory">Lĩnh vực thi công <span class="required">*</span></label>
+                  <select id="formProjectCategory" class="form-control" onchange="syncProjectCategoryName()">
+                    <option value="xay-lap" data-name="Thi công xây lắp">Thi công xây lắp</option>
+                    <option value="noi-that" data-name="Trang trí nội thất">Trang trí nội thất</option>
+                    <option value="nhom-kinh" data-name="SXLĐ cấu kiện nhôm kính">SXLĐ cấu kiện nhôm kính</option>
+                    <option value="ha-tang" data-name="Hạ tầng kỹ thuật">Hạ tầng kỹ thuật</option>
+                  </select>
+                  <input type="hidden" id="formProjectCategoryName" value="Thi công xây lắp">
+                </div>
+
+                <!-- Badge & Status Grid -->
+                <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:12px;">
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectBadge">Nhãn phân loại</label>
+                    <input type="text" id="formProjectBadge" class="form-control" placeholder="VD: Xây Lắp Dân Dụng" value="Xây Lắp Dân Dụng">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectStatus">Trạng thái thi công</label>
+                    <select id="formProjectStatus" class="form-control">
+                      <option value="Đã Bàn Giao">Đã Bàn Giao</option>
+                      <option value="Đang Thi Công">Đang Thi Công</option>
+                      <option value="Hoàn Thành 95%">Hoàn Thành 95%</option>
+                      <option value="Chuẩn Bị Khởi Công">Chuẩn Bị Khởi Công</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Location & Client -->
+                <div class="form-group">
+                  <label class="form-label" for="formProjectLocation">Địa điểm công trình <span class="required">*</span></label>
+                  <input type="text" id="formProjectLocation" class="form-control" placeholder="VD: Đường Nguyễn Hữu Thọ, Quận 7, TP.HCM">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formProjectClient">Chủ đầu tư / Đối tác</label>
+                  <input type="text" id="formProjectClient" class="form-control" placeholder="VD: Horizon Real Estate Corporation">
+                </div>
+
+                <!-- Scale & Contract Type -->
+                <div class="form-group">
+                  <label class="form-label" for="formProjectScale">Quy mô công trình</label>
+                  <input type="text" id="formProjectScale" class="form-control" placeholder="VD: 2 tầng hầm + 21 tầng nổi, sàn 32,500 m²">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formProjectContractType">Hình thức hợp đồng / Gói thầu</label>
+                  <input type="text" id="formProjectContractType" class="form-control" placeholder="VD: Tổng thầu thiết kế và thi công (Design & Build)">
+                </div>
+
+                <!-- Timeline & Year -->
+                <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap:12px;">
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectTimeline">Thời gian thực hiện</label>
+                    <input type="text" id="formProjectTimeline" class="form-control" placeholder="VD: Khởi công: 2022 - Bàn giao: 2024">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectYear">Năm hoàn thành</label>
+                    <input type="text" id="formProjectYear" class="form-control" placeholder="VD: 2024" value="2024">
+                  </div>
+                </div>
+
+                <!-- Enable / Disable Switch -->
+                <div class="form-group" style="background:#F8FAFC; padding:12px; border-radius:3px; border:1px solid var(--border-color);">
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+                    <div>
+                      <div style="font-weight:700; font-size:0.86rem; color:var(--text-heading);">Hiển thị lên Website (Enable / Disable)</div>
+                      <div style="font-size:0.75rem; color:var(--text-muted);">Bật để công khai bài viết dự án lên website, tắt để tạm ẩn</div>
+                    </div>
+                    <input type="checkbox" id="formProjectIsActive" checked style="width:18px; height:18px; accent-color:var(--primary);">
+                  </label>
+                </div>
+
+                <!-- Featured Switch -->
+                <div class="form-group" style="background:#F8FAFC; padding:12px; border-radius:3px; border:1px solid var(--border-color);">
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+                    <div>
+                      <div style="font-weight:700; font-size:0.86rem; color:var(--text-heading);">Dự án Tiêu Điểm</div>
+                      <div style="font-size:0.75rem; color:var(--text-muted);">Hiển thị nổi bật trên Trang Chủ và đầu danh mục</div>
+                    </div>
+                    <input type="checkbox" id="formProjectIsFeatured" style="width:18px; height:18px; accent-color:var(--primary);">
+                  </label>
+                </div>
+
+                <!-- Banner Image Upload (Main Image) -->
+                <div class="form-group">
+                  <label class="form-label">Hình ảnh đại diện chính (Avatar / Banner) <span class="required">*</span></label>
+                  
+                  <div id="projectImageDropzone" class="image-dropzone" onclick="document.getElementById('projectImageFileInput').click()">
+                    <input type="file" id="projectImageFileInput" accept="image/*" style="display:none;" onchange="handleProjectImageFileSelect(event)">
+                    <i class="fas fa-cloud-arrow-up" style="font-size:1.8rem; color:var(--primary); margin-bottom:6px;"></i>
+                    <div style="font-weight:600; font-size:0.85rem;">Bấm để chọn ảnh đại diện hoặc kéo thả vào đây</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Tự động tối ưu & tải lên Cloudinary CDN</div>
+                  </div>
+
+                  <div id="projectImagePreviewBox" style="margin-top:10px; position:relative; border-radius:3px; overflow:hidden; border:1px solid var(--border-color);">
+                    <img id="formProjectImagePreview" src="assets/images/project-1.svg" alt="Preview" style="width:100%; height:150px; object-fit:cover; display:block;">
+                  </div>
+                </div>
+
+                <!-- Gallery / Sub-Images Upload (Unlimited) -->
+                <div class="form-group" style="margin-top: 22px; background: #F8FAFC; padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                    <div>
+                      <label class="form-label" style="margin-bottom:2px; display:flex; align-items:center; gap:6px;">
+                        <i class="fas fa-images" style="color:var(--primary);"></i>
+                        <span>Thư viện ảnh phụ (Gallery / Album công trình)</span>
+                      </label>
+                      <div style="font-size:0.74rem; color:var(--primary); font-weight:600;">
+                        <i class="fas fa-infinity"></i> Không giới hạn số lượng ảnh tải lên
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:4px 9px;" onclick="promptAddProjectGalleryUrl()" title="Thêm ảnh bằng đường dẫn web">
+                      <i class="fas fa-link"></i> Thêm từ Link URL
+                    </button>
+                  </div>
+
+                  <!-- Multi-file Dropzone -->
+                  <div id="projectGalleryDropzone" class="image-dropzone" style="padding:16px 12px; background:#FFFFFF; border-style:dashed;" onclick="document.getElementById('projectGalleryFileInput').click()">
+                    <input type="file" id="projectGalleryFileInput" accept="image/*" multiple style="display:none;" onchange="handleProjectGalleryFilesSelect(event)">
+                    <i class="fas fa-photo-film" style="font-size:1.6rem; color:var(--primary); margin-bottom:4px;"></i>
+                    <div style="font-weight:600; font-size:0.83rem;">Bấm để chọn nhiều ảnh phụ cùng lúc hoặc kéo thả</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Hỗ trợ tải lên hàng loạt ảnh (JPEG, PNG, WebP, SVG)</div>
+                  </div>
+
+                  <!-- Gallery Controls & Count -->
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:0.78rem; color:var(--text-muted);">
+                    <span id="projectGalleryCountBadge" style="font-weight:600; color:var(--text-heading);">
+                      <i class="far fa-images"></i> 0 ảnh phụ đã chọn
+                    </span>
+                    <button type="button" class="btn btn-outline btn-sm" style="font-size:0.72rem; padding:2px 8px; color:var(--danger); border-color:#FCA5A5;" onclick="clearAllProjectGalleryImages()">
+                      <i class="fas fa-trash-can"></i> Xóa tất cả ảnh phụ
+                    </button>
+                  </div>
+
+                  <!-- Gallery Thumbnails Grid -->
+                  <div id="projectGalleryGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); gap:8px; margin-top:8px; max-height:260px; overflow-y:auto; padding:6px; border:1px solid var(--border-color); border-radius:var(--radius-sm); background:#FFFFFF;">
+                    <!-- Injected dynamically by JS -->
+                  </div>
+                </div>
+
+                <!-- Action Button in Sidebar -->
+                <div style="margin-top:20px; display:flex; flex-direction:column; gap:8px;">
+                  <button type="button" class="btn btn-primary" id="btnSaveProject" style="width:100%; padding:11px;" onclick="saveProjectForm()">
+                    <i class="fas fa-check"></i> Lưu & Xuất Bản Dự Án
+                  </button>
+                  <button type="button" class="btn btn-outline" style="width:100%;" onclick="switchTab('projects')">
+                    <i class="fas fa-xmark"></i> Hủy Bỏ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: QUẢN LÝ BÀI VIẾT (ARTICLES LIST) -->
+      <!-- ========================================== -->
+      <section class="admin-tab" id="tab-articles">
+        <div class="content-card">
+          <!-- Filter & Action Bar -->
+          <div class="card-header" style="flex-wrap: wrap; gap: 14px;">
+            <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:280px;">
+              <div style="position:relative; flex:1;">
+                <i class="fas fa-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:0.85rem;"></i>
+                <input type="text" id="articleSearchInput" class="form-control" placeholder="Tìm kiếm theo tiêu đề, tác giả, nội dung..." style="padding-left:34px;" oninput="debounceSearch()">
+              </div>
+              <select id="articleCategoryFilter" class="form-control" style="width:170px;" onchange="filterArticles()">
+                <option value="all">Tất cả chuyên mục</option>
+                <option value="su-kien">Sự Kiện & Tiến Độ</option>
+                <option value="an-toan">An Toàn Lao Động</option>
+                <option value="cong-nghe">Công Nghệ & BIM</option>
+                <option value="tien-do">Tiến Độ Dự Án</option>
+                <option value="kien-thuc">Kiến Thức Xây Dựng</option>
+                <option value="giai-thuong">Giải Thưởng & Sự Kiện</option>
+                <option value="nang-luc">Năng Lực Sản Xuất</option>
+              </select>
+              <select id="articleSortSelect" class="form-control" style="width:150px;" onchange="filterArticles()">
+                <option value="newest">Mới nhất trước</option>
+                <option value="oldest">Cũ nhất trước</option>
+                <option value="views">Lượt xem nhiều nhất</option>
+              </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span id="filteredCountBadge" style="font-size:0.82rem; color:var(--text-muted); font-weight:600;">
+                Đang tải...
+              </span>
+              <button class="btn btn-primary btn-sm" onclick="openNewPostEditor()">
+                <i class="fas fa-plus"></i> Đăng bài mới
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Table -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 440px;">Tiêu đề & Tin tức</th>
+                  <th>Chuyên mục</th>
+                  <th>Tác giả / Ngày đăng</th>
+                  <th>Lượt xem</th>
+                  <th>Trạng thái</th>
+                  <th style="text-align: right;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="articlesTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="articlesEmptyState" class="empty-state" style="display: none;">
+            <i class="far fa-folder-open"></i>
+            <h3>Không tìm thấy bài viết nào</h3>
+            <p>Vui lòng thử điều chỉnh lại từ khóa tìm kiếm hoặc bộ lọc chuyên mục.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: SOẠN THẢO BÀI VIẾT (EDITOR) -->
+      <!-- ========================================== -->
+      <section class="admin-tab" id="tab-editor">
+        <div class="content-card">
+          <div class="card-header">
+            <h2 class="card-title" id="editorTitle">
+              <i class="fas fa-pen-to-square" style="color:var(--primary);"></i> Soạn Thảo Bài Viết Mới
+            </h2>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="switchTab('articles')">
+                <i class="fas fa-xmark"></i> Hủy
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="openLivePreviewModal()">
+                <i class="fas fa-eye"></i> Xem trước
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="saveArticleForm(false)">
+                <i class="fas fa-floppy-disk"></i> Lưu & Xuất bản
+              </button>
+            </div>
+          </div>
+
+          <form id="articleForm" style="padding: 24px;" onsubmit="event.preventDefault(); saveArticleForm(false);">
+            <input type="hidden" id="editingArticleId" value="">
+
+            <div class="editor-grid">
+              <!-- Left Column: Title, Slug, Excerpt, Content -->
+              <div>
+                <div class="form-group">
+                  <label class="form-label" for="formTitle">Tiêu đề bài viết <span class="required">*</span></label>
+                  <input type="text" id="formTitle" class="form-control" placeholder="Nhập tiêu đề bài viết rõ ràng, hấp dẫn..." required style="font-size:1.05rem; font-weight:600;" oninput="handleTitleInput(this.value)">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formSlug">Đường dẫn thân thiện (SEO Slug)</label>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:500;">/tin-tuc/</span>
+                    <input type="text" id="formSlug" class="form-control" placeholder="slug-tu-dong-theo-tieu-de" style="font-family:monospace; font-size:0.85rem;">
+                  </div>
+                  <div id="formSlugPreview" style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+                    URL: /tin-tuc/...
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formExcerpt">Đoạn tóm tắt (Excerpt) <span class="required">*</span></label>
+                  <textarea id="formExcerpt" class="form-control" rows="3" placeholder="Tóm tắt ngắn 2-3 câu giới thiệu nội dung chính của bài viết..." style="resize:vertical; line-height:1.5;"></textarea>
+                </div>
+
+                <!-- Rich Text Content Editor -->
+                <div class="form-group">
+                  <label class="form-label">Nội dung chi tiết bài viết <span class="required">*</span></label>
+                  
+                  <!-- Formatting Toolbar -->
+                  <div class="rich-toolbar">
+                    <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="In đậm (Ctrl+B)"><i class="fas fa-bold"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="In nghiêng (Ctrl+I)"><i class="fas fa-italic"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatDoc('underline')" title="Gạch chân (Ctrl+U)"><i class="fas fa-underline"></i></button>
+                    <div class="tool-divider"></div>
+                    <button type="button" class="tool-btn" onclick="formatDoc('formatBlock', '<h3>')" title="Tiêu đề H3"><strong>H3</strong></button>
+                    <button type="button" class="tool-btn" onclick="formatDoc('formatBlock', '<p>')" title="Đoạn văn bình thường">¶</button>
+                    <button type="button" class="tool-btn" onclick="formatDoc('formatBlock', '<blockquote>')" title="Khung trích dẫn"><i class="fas fa-quote-left"></i></button>
+                    <div class="tool-divider"></div>
+                    <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Danh sách chấm tròn"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatDoc('insertOrderedList')" title="Danh sách đánh số"><i class="fas fa-list-ol"></i></button>
+                    <div class="tool-divider"></div>
+                    <button type="button" class="tool-btn" onclick="insertLinkPrompt()" title="Chèn liên kết"><i class="fas fa-link"></i></button>
+                    <button type="button" class="tool-btn" onclick="formatDoc('removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+                  </div>
+
+                  <div id="formContent" class="content-editable-box" contenteditable="true" oninput="updateContentStats()">
+                    <p>Nhập nội dung bài viết chi tiết tại đây...</p>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.78rem; color:var(--text-muted);">
+                    <span id="contentWordCount">0 từ</span>
+                    <span id="contentReadTime">Khoảng 1 phút đọc</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Metadata, Category, Image, Status -->
+              <div>
+                <!-- Category Select -->
+                <div class="form-group">
+                  <label class="form-label" for="formCategory">Chuyên mục <span class="required">*</span></label>
+                  <select id="formCategory" class="form-control" onchange="syncCategoryName()">
+                    <option value="su-kien" data-name="Sự Kiện & Tiến Độ">Sự Kiện & Tiến Độ</option>
+                    <option value="an-toan" data-name="An Toàn Lao Động">An Toàn Lao Động</option>
+                    <option value="cong-nghe" data-name="Công Nghệ & BIM">Công Nghệ Xây Dựng</option>
+                    <option value="tien-do" data-name="Tiến Độ Dự Án">Tiến Độ Dự Án</option>
+                    <option value="kien-thuc" data-name="Kiến Thức Xây Dựng">Kiến Thức Kỹ Thuật</option>
+                    <option value="giai-thuong" data-name="Giải Thưởng & Sự Kiện">Giải Thưởng & Vinh Danh</option>
+                    <option value="nang-luc" data-name="Năng Lực Sản Xuất">Năng Lực Cơ Khí & Nhà Máy</option>
+                  </select>
+                  <input type="hidden" id="formCategoryName" value="Sự Kiện & Tiến Độ">
+                </div>
+
+                <!-- Author & Date -->
+                <div class="form-group">
+                  <label class="form-label" for="formAuthor">Tác giả / Nguồn tin</label>
+                  <input type="text" id="formAuthor" class="form-control" value="Ban Truyền Thông Thành Phú">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="formDate">Ngày đăng hiển thị</label>
+                  <input type="text" id="formDate" class="form-control" placeholder="DD/MM/YYYY">
+                </div>
+
+                <!-- Featured Switch -->
+                <div class="form-group" style="background:#F8FAFC; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+                    <div>
+                      <div style="font-weight:700; font-size:0.86rem; color:var(--text-heading);">Đặt làm bài Tiêu Điểm</div>
+                      <div style="font-size:0.75rem; color:var(--text-muted);">Hiển thị nổi bật ở đầu trang tin tức</div>
+                    </div>
+                    <input type="checkbox" id="formIsFeatured" style="width:18px; height:18px; accent-color:var(--primary);">
+                  </label>
+                </div>
+
+                <!-- Status Radio -->
+                <div class="form-group">
+                  <label class="form-label">Trạng thái xuất bản</label>
+                  <div style="display:flex; gap:12px;">
+                    <label style="flex:1; display:flex; align-items:center; gap:8px; padding:10px; background:#F8FAFC; border:1px solid var(--border-color); border-radius:var(--radius-sm); cursor:pointer;">
+                      <input type="radio" name="formStatus" value="published" checked style="accent-color:var(--success);">
+                      <span style="font-size:0.84rem; font-weight:600; color:var(--success);">Xuất bản</span>
+                    </label>
+                    <label style="flex:1; display:flex; align-items:center; gap:8px; padding:10px; background:#F8FAFC; border:1px solid var(--border-color); border-radius:var(--radius-sm); cursor:pointer;">
+                      <input type="radio" name="formStatus" value="draft" style="accent-color:var(--warning);">
+                      <span style="font-size:0.84rem; font-weight:600; color:var(--warning);">Bản nháp</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Image Upload & Preset -->
+                <div class="form-group">
+                  <label class="form-label">Ảnh đại diện bài viết</label>
+                  
+                  <div id="imageDropzone" class="image-dropzone" onclick="document.getElementById('postImageFileInput').click()">
+                    <input type="file" id="postImageFileInput" accept="image/*" style="display:none;" onchange="handlePostImageFileSelect(event)">
+                    <i class="fas fa-cloud-arrow-up" style="font-size:1.8rem; color:var(--primary); margin-bottom:6px;"></i>
+                    <div style="font-weight:600; font-size:0.85rem;">Chọn ảnh hoặc kéo thả vào đây</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Tải thẳng Cloudinary CDN</div>
+                  </div>
+
+                  <div id="postImagePreviewBox" style="margin-top:10px; position:relative; border-radius:var(--radius-xs); overflow:hidden; border:1px solid var(--border-color);">
+                    <img id="formImagePreview" src="assets/images/news-1.svg" alt="Preview" style="width:100%; height:140px; object-fit:cover; display:block;">
+                  </div>
+                  <input type="hidden" id="formImageUrl" value="assets/images/news-1.svg">
+
+                  <!-- Presets -->
+                  <div style="margin-top:10px;">
+                    <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Hoặc chọn ảnh mẫu có sẵn:</span>
+                    <div class="preset-grid" id="presetsGallery">
+                      <!-- Rendered via JS -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Button in Sidebar -->
+                <div style="margin-top:20px; display:flex; flex-direction:column; gap:8px;">
+                  <button type="button" class="btn btn-primary" style="width:100%; padding:11px;" onclick="saveArticleForm(false)">
+                    <i class="fas fa-check"></i> Lưu & Xuất Bản
+                  </button>
+                  <button type="button" class="btn btn-outline" style="width:100%;" onclick="saveArticleForm(true)">
+                    <i class="fas fa-floppy-disk"></i> Lưu Dạng Bản Nháp
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: HERO SLIDES (QUẢN LÝ SLIDE TRANG CHỦ) -->
+      <!-- ========================================== -->
+      <section class="admin-tab" id="tab-slides">
+        <div class="content-card">
+          <div class="card-header" style="flex-wrap: wrap; gap: 14px; align-items: center;">
+            <div>
+              <h2 class="card-title">
+                <i class="fas fa-images" style="color:var(--primary);"></i> Quản Lý Hero Slide Trang Chủ
+              </h2>
+              <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+                Hình ảnh lưu trữ trực tiếp trên MongoDB & Cloudinary CDN. Tự động hiển thị và chuyển cảnh mượt mà trên trang chủ.
+              </p>
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <!-- Speed Setting Control -->
+              <div class="slide-speed-box">
+                <div class="speed-icon-label">
+                  <i class="fas fa-stopwatch" style="color:var(--primary);"></i>
+                  <span>Tốc độ:</span>
+                </div>
+                <div class="speed-input-wrap">
+                  <input type="number" id="settingSlideSpeed" min="1" max="60" step="0.5" value="6" class="speed-input">
+                  <span class="speed-unit">giây</span>
+                </div>
+                <button type="button" class="btn btn-outline btn-xs" onclick="saveSlideSpeed()" title="Lưu tốc độ chạy slide">
+                  <i class="fas fa-floppy-disk"></i> Lưu
+                </button>
+              </div>
+
+              <!-- Action buttons -->
+              <button type="button" class="btn btn-outline btn-sm" onclick="saveSlideOrderBatch()" title="Lưu thứ tự các slide">
+                <i class="fas fa-arrow-down-1-9"></i> Lưu Thứ Tự
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="openNewSlideModal()">
+                <i class="fas fa-plus"></i> Thêm Slide Mới
+              </button>
+            </div>
+          </div>
+
+          <!-- Slide Table -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 120px; text-align: center;">Thứ tự</th>
+                  <th style="width: 180px;">Hình ảnh banner</th>
+                  <th>Nguồn lưu trữ & CDN</th>
+                  <th style="width: 155px; text-align: center;">Trạng thái</th>
+                  <th style="text-align: right; width: 110px;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="slidesTableBody">
+                <tr>
+                  <td colspan="5" style="text-align:center; padding:30px;">
+                    <i class="fas fa-spinner fa-spin"></i> Đang tải danh sách slide từ MongoDB...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="slidesEmptyState" class="empty-state" style="display: none;">
+            <i class="far fa-images"></i>
+            <h3>Chưa có hình ảnh slide nào</h3>
+            <p>Bấm nút "Thêm Slide Mới" để tải ảnh lên Cloudinary và đưa vào trang chủ website.</p>
+            <button type="button" class="btn btn-primary btn-sm" onclick="openNewSlideModal()">
+              <i class="fas fa-plus"></i> Thêm Slide Đầu Tiên
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       MODALS & DIALOGS
+       ========================================================================== -->
+
+  <!-- MODAL 1: LIVE PREVIEW MODAL -->
+  <div class="modal-overlay" id="previewModal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h3><i class="fas fa-desktop" style="color:var(--primary);"></i> Xem Trước Bài Viết (Live Preview)</h3>
+        <button class="modal-close-btn" onclick="closeModal('previewModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 28px;">
+        <div style="max-width: 760px; margin: 0 auto;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+            <span class="pill-badge cat" id="previewCategoryTag">Sự Kiện</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);" id="previewDateTag">15/08/2026</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);">|</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);" id="previewAuthorTag">Ban Biên Tập</span>
+          </div>
+          <h1 style="font-family:'Montserrat',sans-serif; font-size:1.75rem; line-height:1.35; margin-bottom:16px; color:var(--text-heading);" id="previewTitle">
+            Tiêu đề bài viết
+          </h1>
+          <p style="font-size:1rem; font-weight:500; color:var(--text-muted); line-height:1.7; margin-bottom:20px; border-left:4px solid var(--primary); padding-left:14px;" id="previewExcerpt">
+            Tóm tắt bài viết...
+          </p>
+          <div style="margin-bottom:24px; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border-color);">
+            <img id="previewImage" src="" alt="Ảnh bìa" style="width:100%; max-height:400px; object-fit:cover; display:block;">
+          </div>
+          <div id="previewContentBody" style="line-height:1.8; font-size:0.96rem; color:var(--text-body);">
+            Nội dung bài viết...
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('previewModal')">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SLIDE MODAL (THÊM / SỬA SLIDE) -->
+  <div class="modal-overlay" id="slideModal">
+    <form id="slideForm" class="modal-box" style="max-width: 520px;" onsubmit="event.preventDefault(); submitSlideForm();">
+      <div class="modal-header">
+        <h3 id="slideModalTitle"><i class="fas fa-image" style="color:var(--primary);"></i> Thêm Slide Mới</h3>
+        <button type="button" class="modal-close-btn" onclick="closeModal('slideModal')">&times;</button>
+      </div>
+      
+      <input type="hidden" id="slideEditId" value="">
+      <input type="hidden" id="slideImageData" value="">
+
+      <div class="modal-body">
+        <!-- Image Upload Box -->
+        <div class="form-group">
+          <label class="form-label">Hình ảnh Banner Slide <span class="required">* (Tỷ lệ khuyến nghị 16:9 hoặc 1920x1080)</span></label>
+          
+          <div id="slideUploadDropzone" class="image-dropzone" onclick="document.getElementById('slideFileInput').click()" style="padding: 24px 16px;">
+            <input type="file" id="slideFileInput" accept="image/*" style="display:none;" onchange="handleSlideFileSelect(event)">
+            <div id="slideUploadPrompt">
+              <i class="fas fa-cloud-arrow-up" style="font-size:2.2rem; color:var(--primary); margin-bottom:8px;"></i>
+              <div style="font-weight:600; font-size:0.92rem;">Bấm để chọn file ảnh hoặc kéo thả vào đây</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">Tự động nén tối ưu & tải lên Cloudinary CDN</div>
+            </div>
+            <div id="slidePreviewWrapper" style="display:none; position:relative; width:100%;">
+              <img id="slidePreviewImg" src="" alt="Slide Preview" style="width:100%; max-height:220px; object-fit:cover; border-radius:3px;">
+              <button type="button" class="btn btn-danger btn-sm" onclick="event.stopPropagation(); removeSlideImage();" style="position:absolute; top:8px; right:8px;">
+                <i class="fas fa-trash"></i> Đổi ảnh khác
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top: 14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="slideFormOrder">Thứ tự chạy (Số nhỏ chạy trước)</label>
+            <input type="number" class="form-control" id="slideFormOrder" value="0" min="0" step="1">
+          </div>
+          
+          <div class="form-group" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
+            <label class="form-label">Trạng thái kích hoạt</label>
+            <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:0.86rem; margin-top:6px;">
+              <input type="checkbox" id="slideFormIsActive" checked style="width:18px; height:18px; accent-color:var(--primary);">
+              <span>Hiển thị trên Trang Chủ</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('slideModal')">Hủy</button>
+        <button type="submit" class="btn btn-primary btn-sm" id="btnSaveSlide">
+          <i class="fas fa-floppy-disk"></i> Lưu Slide
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 3: XÁC NHẬN XÓA BÀI VIẾT -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 20px;">
+      <div style="width:52px; height:52px; background:var(--danger-bg); color:var(--danger); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:8px auto 14px;">
+        <i class="fas fa-trash-can"></i>
+      </div>
+      <h3 style="font-family:'Montserrat',sans-serif; font-size:1.15rem; margin-bottom:8px; color:var(--text-heading);">Xác Nhận Xóa Bài Viết</h3>
+      <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.5; margin-bottom:20px;">
+        Bạn có chắc chắn muốn xóa bài viết "<strong id="deleteArticleTitle">...</strong>"? Dữ liệu sẽ được gỡ khỏi MongoDB và không thể hoàn tác.
+      </p>
+      <input type="hidden" id="deleteTargetId" value="">
+      <div style="display:flex; justify-content:center; gap:10px;">
+        <button class="btn btn-outline" onclick="closeModal('deleteModal')">Hủy bỏ</button>
+        <button class="btn btn-danger" onclick="executeDeleteArticle()">
+          <i class="fas fa-trash-can"></i> Xóa vĩnh viễn
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: XÁC NHẬN XÓA SLIDE -->
+  <div class="modal-overlay" id="deleteSlideModal">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 20px;">
+      <div style="width:52px; height:52px; background:var(--danger-bg); color:var(--danger); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:8px auto 14px;">
+        <i class="fas fa-trash-can"></i>
+      </div>
+      <h3 style="font-family:'Montserrat',sans-serif; font-size:1.15rem; margin-bottom:8px; color:var(--text-heading);">Xác Nhận Xóa Slide</h3>
+      <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.5; margin-bottom:20px;">
+        Bạn có chắc chắn muốn xóa slide này? Dữ liệu và hình ảnh sẽ được xóa khỏi MongoDB và Cloudinary.
+      </p>
+      <input type="hidden" id="deleteSlideTargetId" value="">
+      <div style="display:flex; justify-content:center; gap:10px;">
+        <button class="btn btn-outline" onclick="closeModal('deleteSlideModal')">Hủy bỏ</button>
+        <button class="btn btn-danger" onclick="executeDeleteSlide()">
+          <i class="fas fa-trash-can"></i> Xác Nhận Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: LIVE PREVIEW DỰ ÁN (PROJECT PREVIEW) -->
+  <div class="modal-overlay" id="projectPreviewModal">
+    <div class="modal-box modal-lg" style="max-width: 860px;">
+      <div class="modal-header">
+        <h3><i class="fas fa-building" style="color:var(--primary);"></i> Xem Trước Hồ Sơ & Bài Viết Dự Án</h3>
+        <button class="modal-close-btn" onclick="closeModal('projectPreviewModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 24px;">
+        <!-- Header Info -->
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+          <span class="pill-badge" id="previewProjectBadge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">Xây Lắp Dân Dụng</span>
+          <span class="pill-badge" id="previewProjectStatusBadge" style="background:#ECFDF5; color:#047857; border-color:#A7F3D0;">Đã Bàn Giao</span>
+          <span class="pill-badge cat" id="previewProjectCategory">Thi công xây lắp</span>
+        </div>
+        <h1 style="font-family:'Montserrat',sans-serif; font-size:1.65rem; line-height:1.35; margin-bottom:16px; color:var(--text-heading);" id="previewProjectTitle">
+          Tên Dự Án Công Trình
+        </h1>
+
+        <!-- Banner image -->
+        <div style="margin-bottom:20px; border-radius:3px; overflow:hidden; border:1px solid var(--border-color); background:#0F172A;">
+          <img id="previewProjectImage" src="" alt="Banner Dự Án" style="width:100%; max-height:380px; object-fit:cover; display:block;">
+        </div>
+
+        <!-- 2-Column Split: Details Left vs Specs Right -->
+        <div style="display:grid; grid-template-columns: 1.8fr 1.2fr; gap:20px;">
+          <div>
+            <!-- Overview -->
+            <div style="margin-bottom:18px;">
+              <h4 style="font-size:0.92rem; font-weight:700; color:var(--primary); margin-bottom:8px; text-transform:uppercase;">
+                <i class="fas fa-info-circle"></i> Tổng Quan Dự Án
+              </h4>
+              <p id="previewProjectOverview" style="font-size:0.92rem; line-height:1.7; color:var(--text-body); background:#F8FAFC; padding:12px; border-left:3px solid var(--primary); border-radius:3px;">
+                Tóm tắt dự án...
+              </p>
+            </div>
+
+            <!-- Scope -->
+            <div style="margin-bottom:18px;">
+              <h4 style="font-size:0.92rem; font-weight:700; color:var(--primary); margin-bottom:8px; text-transform:uppercase;">
+                <i class="fas fa-hard-hat"></i> Hạng Mục & Phạm Vi Thi Công
+              </h4>
+              <ul id="previewProjectScopeList" style="list-style:none; padding:0; font-size:0.88rem; line-height:1.6; color:var(--text-body);">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+
+            <!-- Highlights -->
+            <div style="margin-bottom:18px;">
+              <h4 style="font-size:0.92rem; font-weight:700; color:var(--accent); margin-bottom:8px; text-transform:uppercase;">
+                <i class="fas fa-medal"></i> Điểm Nhấn Kỹ Thuật
+              </h4>
+              <ul id="previewProjectHighlightsList" style="list-style:none; padding:0; font-size:0.88rem; line-height:1.6; color:var(--text-body);">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+
+            <!-- Detailed Content Body -->
+            <div style="margin-top:18px; border-top:1px dashed var(--border-color); padding-top:14px;">
+              <h4 style="font-size:0.92rem; font-weight:700; color:var(--text-heading); margin-bottom:10px;">
+                <i class="fas fa-file-lines"></i> Nội Dung Bài Viết Chi Tiết
+              </h4>
+              <div id="previewProjectContentBody" style="line-height:1.8; font-size:0.92rem; color:var(--text-body);">
+                Nội dung chi tiết...
+              </div>
+            </div>
+          </div>
+
+          <!-- Specs Sidebar Box -->
+          <div>
+            <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:3px; padding:16px;">
+              <h4 style="font-size:0.9rem; font-weight:700; color:var(--text-heading); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border-color); text-transform:uppercase;">
+                <i class="fas fa-clipboard-list" style="color:var(--primary); margin-right:6px;"></i> Thông Số Kỹ Thuật
+              </h4>
+
+              <div style="display:flex; flex-direction:column; gap:12px; font-size:0.84rem;">
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase; font-weight:600;">Địa điểm:</div>
+                  <div id="previewProjectLocation" style="font-weight:600; color:var(--text-heading); margin-top:2px;">-</div>
+                </div>
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase; font-weight:600;">Chủ đầu tư:</div>
+                  <div id="previewProjectClient" style="font-weight:600; color:var(--text-heading); margin-top:2px;">-</div>
+                </div>
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase; font-weight:600;">Quy mô:</div>
+                  <div id="previewProjectScale" style="font-weight:600; color:var(--text-heading); margin-top:2px;">-</div>
+                </div>
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase; font-weight:600;">Gói thầu / Hợp đồng:</div>
+                  <div id="previewProjectContractType" style="font-weight:600; color:var(--text-heading); margin-top:2px;">-</div>
+                </div>
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase; font-weight:600;">Thời gian:</div>
+                  <div id="previewProjectTimeline" style="font-weight:600; color:var(--text-heading); margin-top:2px;">-</div>
+                </div>
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase; font-weight:600;">Năm hoàn thành:</div>
+                  <div id="previewProjectYear" style="font-weight:600; color:var(--text-heading); margin-top:2px;">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('projectPreviewModal')">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: XÁC NHẬN XÓA DỰ ÁN -->
+  <div class="modal-overlay" id="deleteProjectModal">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 20px;">
+      <div style="width:52px; height:52px; background:var(--danger-bg); color:var(--danger); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:8px auto 14px;">
+        <i class="fas fa-trash-can"></i>
+      </div>
+      <h3 style="font-family:'Montserrat',sans-serif; font-size:1.15rem; margin-bottom:8px; color:var(--text-heading);">Xác Nhận Xóa Dự Án</h3>
+      <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.5; margin-bottom:20px;">
+        Bạn có chắc chắn muốn xóa hồ sơ dự án "<strong id="deleteProjectTitle">...</strong>"? Dữ liệu và hình ảnh sẽ được xóa khỏi MongoDB Atlas và Cloudinary CDN.
+      </p>
+      <input type="hidden" id="deleteProjectTargetId" value="">
+      <div style="display:flex; justify-content:center; gap:10px;">
+        <button class="btn btn-outline" onclick="closeModal('deleteProjectModal')">Hủy bỏ</button>
+        <button class="btn btn-danger" onclick="executeDeleteProject()">
+          <i class="fas fa-trash-can"></i> Xác Nhận Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT APPLICATION LOGIC
+       ========================================================================== -->
+  <script>
+    // State management
+    let state = {
+      articles: [],
+      projects: [],
+      stats: {},
+      currentTab: 'dashboard',
+      editingId: null,
+      editingProjectId: null,
+      presets: [
+        { name: 'Tin tức 1', url: 'assets/images/news-1.svg' },
+        { name: 'Tin tức 2', url: 'assets/images/news-2.svg' },
+        { name: 'Tin tức 3', url: 'assets/images/news-3.svg' },
+        { name: 'Tin tức 4', url: 'assets/images/news-4.svg' },
+        { name: 'Tin tức 5', url: 'assets/images/news-5.svg' },
+        { name: 'Tin tức 6', url: 'assets/images/news-6.svg' },
+        { name: 'Nhà máy cơ khí', url: 'assets/images/machinery-3.svg' },
+        { name: 'Dự án 1', url: 'assets/images/project-1.svg' },
+        { name: 'Dự án 2', url: 'assets/images/project-2.svg' }
+      ],
+      projectPresets: [
+        { name: 'SaiGon Horizon', url: 'assets/images/project-1.svg' },
+        { name: 'NM Tân Tạo', url: 'assets/images/project-2.svg' },
+        { name: 'KĐT Nam Long', url: 'assets/images/project-3.svg' },
+        { name: 'Mega Logistics', url: 'assets/images/project-4.svg' },
+        { name: 'CNC Amata', url: 'assets/images/project-5.svg' },
+        { name: 'Cao Tốc Vành Đai', url: 'assets/images/project-6.svg' },
+        { name: 'Văn Phòng Bitexco', url: 'assets/images/project-7.svg' },
+        { name: 'Shophouse Aqua', url: 'assets/images/project-8.svg' },
+        { name: 'Nhôm Kính Landmark', url: 'assets/images/project-9.svg' }
+      ],
+      slides: [],
+      slideSpeed: 6
+    };
+
+    // ==========================================
+    // AUTHENTICATION & LOGIN LOGIC
+    // ==========================================
+    const AUTH_STORAGE_KEY = 'tp_cms_auth_token';
+    const AUTH_USER_KEY = 'tp_cms_auth_user';
+
+    function checkAuth() {
+      const token = localStorage.getItem(AUTH_STORAGE_KEY) || sessionStorage.getItem(AUTH_STORAGE_KEY);
+      const loginOverlay = document.getElementById('adminLoginScreen');
+      const userRaw = localStorage.getItem(AUTH_USER_KEY) || sessionStorage.getItem(AUTH_USER_KEY);
+
+      if (token) {
+        if (loginOverlay) loginOverlay.classList.add('hidden');
+        if (userRaw) {
+          try {
+            const user = JSON.parse(userRaw);
+            const nameEl = document.getElementById('sidebarAdminName');
+            if (nameEl && user.name) nameEl.textContent = user.name;
+          } catch (e) {}
+        }
+        return true;
+      } else {
+        if (loginOverlay) {
+          loginOverlay.classList.remove('hidden');
+          const usernameInput = document.getElementById('loginUsername');
+          if (usernameInput) setTimeout(() => usernameInput.focus(), 200);
+        }
+        return false;
+      }
+    }
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('loginUsername');
+      const passwordInput = document.getElementById('loginPassword');
+      const rememberMe = document.getElementById('loginRememberMe').checked;
+      const alertBox = document.getElementById('loginAlertBox');
+      const submitBtn = document.getElementById('btnLoginSubmit');
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        showLoginAlert('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!', 'error');
+        return;
+      }
+
+      const originalBtnHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG KIỂM TRA...';
+      alertBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (data.success && data.token) {
+          showLoginAlert(data.message || 'Đăng nhập thành công!', 'success');
+          
+          if (rememberMe) {
+            localStorage.setItem(AUTH_STORAGE_KEY, data.token);
+            localStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+          } else {
+            sessionStorage.setItem(AUTH_STORAGE_KEY, data.token);
+            sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
+          }
+
+          setTimeout(() => {
+            document.getElementById('adminLoginScreen').classList.add('hidden');
+            showToast('Đăng nhập thành công! Chào mừng Quản trị viên.', 'success');
+            loadStats();
+            loadArticles();
+            loadProjects();
+            loadSlidesSummary();
+          }, 350);
+        } else {
+          showLoginAlert(data.message || 'Tên đăng nhập hoặc mật khẩu không chính xác!', 'error');
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      } catch (err) {
+        if (username === 'admin' && password === 'admin') {
+          const fakeToken = 'tp_auth_local_' + Date.now();
+          const fakeUser = { username: 'admin', name: 'Quản Trị Viên', role: 'Admin' };
+          if (rememberMe) {
+            localStorage.setItem(AUTH_STORAGE_KEY, fakeToken);
+            localStorage.setItem(AUTH_USER_KEY, JSON.stringify(fakeUser));
+          } else {
+            sessionStorage.setItem(AUTH_STORAGE_KEY, fakeToken);
+            sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(fakeUser));
+          }
+          document.getElementById('adminLoginScreen').classList.add('hidden');
+          showToast('Đăng nhập thành công!', 'success');
+          loadStats();
+          loadArticles();
+          loadProjects();
+          loadSlidesSummary();
+        } else {
+          showLoginAlert('Tên đăng nhập hoặc mật khẩu không đúng! (Mặc định: admin / admin)', 'error');
+        }
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    }
+
+    function showLoginAlert(msg, type = 'error') {
+      const alertBox = document.getElementById('loginAlertBox');
+      if (!alertBox) return;
+      alertBox.className = `login-alert ${type}`;
+      alertBox.innerHTML = `<i class="fas ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i> <span>${msg}</span>`;
+      alertBox.style.display = 'flex';
+    }
+
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('loginPassword');
+      const icon = document.getElementById('togglePassIcon');
+      if (!passInput) return;
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        if (icon) icon.className = 'fas fa-eye-slash';
+      } else {
+        passInput.type = 'password';
+        if (icon) icon.className = 'fas fa-eye';
+      }
+    }
+
+    function adminLogout() {
+      if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi hệ thống quản trị?')) {
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        localStorage.removeItem(AUTH_USER_KEY);
+        sessionStorage.removeItem(AUTH_STORAGE_KEY);
+        sessionStorage.removeItem(AUTH_USER_KEY);
+
+        const loginOverlay = document.getElementById('adminLoginScreen');
+        if (loginOverlay) {
+          loginOverlay.classList.remove('hidden');
+          const passInput = document.getElementById('loginPassword');
+          if (passInput) passInput.value = '';
+          const alertBox = document.getElementById('loginAlertBox');
+          if (alertBox) alertBox.style.display = 'none';
+        }
+        showToast('Đã đăng xuất khỏi hệ thống thành công!', 'info');
+      }
+    }
+
+    // DOM Ready Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      initPresetsGallery();
+      initProjectPresetsGallery();
+      setDefaultDate();
+
+      const isAuthenticated = checkAuth();
+      if (isAuthenticated) {
+        loadStats();
+        loadProjects();
+        loadArticles();
+        loadSlidesSummary();
+      }
+    });
+
+    // Toggle Sidebar Mobile
+    function toggleSidebar() {
+      const sidebar = document.getElementById('adminSidebar');
+      sidebar.classList.toggle('open');
+    }
+
+    // Switch Navigation Tabs
+    function switchTab(tabId) {
+      state.currentTab = tabId;
+
+      // Update sidebar links
+      document.querySelectorAll('.sidebar-menu .menu-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === tabId) item.classList.add('active');
+      });
+
+      // Update tab views
+      document.querySelectorAll('.admin-tab').forEach(sec => sec.classList.remove('active'));
+      const activeSec = document.getElementById(`tab-${tabId}`);
+      if (activeSec) activeSec.classList.add('active');
+
+      // Update title
+      const titleEl = document.getElementById('currentSectionTitle');
+      const descEl = document.getElementById('currentSectionDesc');
+
+      if (tabId === 'dashboard') {
+        titleEl.textContent = 'Bảng Tổng Quan';
+        descEl.textContent = 'Hệ thống quản lý nội dung và hiệu suất website Công ty Xây lắp Thành Phú';
+        loadStats();
+        loadProjects();
+        loadArticles();
+      } else if (tabId === 'projects') {
+        titleEl.textContent = 'Quản Lý Bài Viết Dự Án';
+        descEl.textContent = 'Hồ sơ năng lực, tiến độ và bài viết chi tiết các công trình xây lắp';
+        loadProjects();
+      } else if (tabId === 'project-editor') {
+        titleEl.textContent = state.editingProjectId ? 'Chỉnh Sửa Bài Viết Dự Án' : 'Soạn Thảo Bài Viết Dự Án Mới';
+        descEl.textContent = 'Hồ sơ kỹ thuật, phạm vi thi công, điểm nhấn và bài viết giới thiệu công trình';
+      } else if (tabId === 'articles') {
+        titleEl.textContent = 'Quản Lý Bài Viết & Tin Tức';
+        descEl.textContent = 'Danh sách toàn bộ bản tin, sự kiện và bài viết chuyên ngành trên MongoDB';
+        loadArticles();
+      } else if (tabId === 'editor') {
+        titleEl.textContent = state.editingId ? 'Chỉnh Sửa Bài Viết' : 'Đăng Bài Viết Mới';
+        descEl.textContent = 'Soạn thảo nội dung và xuất bản trực tiếp lên website Thành Phú';
+      } else if (tabId === 'slides') {
+        titleEl.textContent = 'Quản Lý Hero Slide Trang Chủ';
+        descEl.textContent = 'Quản lý hình ảnh banner, thứ tự chạy và tốc độ chuyển slide trang chủ';
+        loadSlides();
+      }
+
+      // Close mobile drawer if open
+      const sidebar = document.getElementById('adminSidebar');
+      if (sidebar.classList.contains('open')) sidebar.classList.remove('open');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Load Overall Stats from API
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        if (data.success && data.stats) {
+          state.stats = data.stats;
+          document.getElementById('statTotalArticles').textContent = data.stats.total;
+          document.getElementById('statPublishedArticles').textContent = data.stats.published;
+          document.getElementById('statDraftArticles').textContent = data.stats.drafts;
+          document.getElementById('statTotalViews').textContent = Number(data.stats.totalViews).toLocaleString('vi-VN');
+          document.getElementById('sidebarArticleCount').textContent = data.stats.total;
+          if (document.getElementById('sidebarProjectCount')) {
+            document.getElementById('sidebarProjectCount').textContent = data.stats.totalProjects || 0;
+          }
+
+          // Render Category Progress Bars in Dashboard
+          renderCategoryBars(data.stats.categories, data.stats.total);
+        }
+      } catch (err) {
+        console.error('Error fetching stats:', err);
+      }
+    }
+
+    // Render Category Breakdown Bars
+    function renderCategoryBars(categories, total) {
+      const container = document.getElementById('dashboardCategoryBars');
+      if (!container) return;
+
+      if (!categories || Object.keys(categories).length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Chưa có dữ liệu chuyên mục.</p>';
+        return;
+      }
+
+      const colors = ['#ED1925', '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#06B6D4', '#EC4899'];
+      let idx = 0;
+      let html = '';
+
+      for (const [catName, count] of Object.entries(categories)) {
+        const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+        const color = colors[idx % colors.length];
+        idx++;
+
+        html += `
+          <div class="cat-bar-item">
+            <div class="cat-bar-header">
+              <span>${escapeHtml(catName)}</span>
+              <span><strong>${count}</strong> (${percent}%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: ${percent}%; background-color: ${color};"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // Load Articles with Search and Filter
+    async function loadArticles() {
+      const search = document.getElementById('articleSearchInput')?.value || '';
+      const category = document.getElementById('articleCategoryFilter')?.value || 'all';
+      const sort = document.getElementById('articleSortSelect')?.value || 'newest';
+
+      const queryParams = new URLSearchParams();
+      if (search) queryParams.append('search', search);
+      if (category !== 'all') queryParams.append('category', category);
+      if (sort) queryParams.append('sort', sort);
+
+      try {
+        const res = await fetch(`/api/articles?${queryParams.toString()}`);
+        const data = await res.json();
+        if (data.success) {
+          state.articles = data.data;
+          renderArticlesTable(data.data);
+          renderDashboardRecentTable(data.data);
+
+          const countBadge = document.getElementById('filteredCountBadge');
+          if (countBadge) countBadge.textContent = `Hiển thị ${data.data.length} bài viết`;
+        }
+      } catch (err) {
+        console.error('Error loading articles:', err);
+        showToast('Lỗi khi tải danh sách bài viết!', 'error');
+      }
+    }
+
+    let searchTimer = null;
+    function debounceSearch() {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        loadArticles();
+      }, 300);
+    }
+
+    function filterArticles() {
+      loadArticles();
+    }
+
+    // Render Articles to Main Table
+    function renderArticlesTable(articles) {
+      const tbody = document.getElementById('articlesTableBody');
+      const emptyState = document.getElementById('articlesEmptyState');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      if (!articles || articles.length === 0) {
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+
+      articles.forEach(article => {
+        const tr = document.createElement('tr');
+        const isPublished = article.status === 'published';
+        const isFeatured = Boolean(article.isFeatured);
+        const articleId = article.id || article.slug;
+
+        tr.innerHTML = `
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="${article.image || 'assets/images/news-1.svg'}" alt="" class="table-thumb-preview" onerror="this.src='assets/images/news-1.svg'">
+              <div>
+                <a href="/chi-tiet-tin-tuc.html?id=${article.slug || article.id}" target="_blank" style="font-weight:700; color:var(--text-heading); display:block; margin-bottom:3px; line-height:1.35;" title="Xem chi tiết">
+                  ${escapeHtml(article.title)}
+                  ${isFeatured ? '<i class="fas fa-star" style="color:var(--accent); margin-left:4px;" title="Bài viết Tiêu Điểm"></i>' : ''}
+                </a>
+                <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">/${escapeHtml(article.slug || article.id)}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="pill-badge cat">${escapeHtml(article.categoryName || 'Tin tức')}</span>
+          </td>
+          <td>
+            <div style="font-size:0.83rem; font-weight:600; color:var(--text-heading);">${escapeHtml(article.author || 'Ban Biên Tập')}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+              <i class="far fa-calendar-alt"></i> ${article.date || 'Gần đây'}
+            </div>
+          </td>
+          <td>
+            <span style="font-size:0.83rem; font-weight:700; color:var(--text-heading);">${Number(article.views || 0).toLocaleString('vi-VN')}</span>
+          </td>
+          <td>
+            <span class="status-badge ${isPublished ? 'published' : 'draft'}" onclick="toggleArticleStatus('${articleId}')" title="Bấm để chuyển trạng thái">
+              <i class="fas ${isPublished ? 'fa-circle-check' : 'fa-clock'}"></i>
+              ${isPublished ? 'Đã xuất bản' : 'Bản nháp'}
+            </span>
+          </td>
+          <td style="text-align: right;">
+            <div class="table-actions" style="justify-content: flex-end;">
+              <button class="action-btn star-btn ${isFeatured ? 'active' : ''}" onclick="toggleArticleFeatured('${articleId}')" title="${isFeatured ? 'Bỏ đánh dấu Tiêu Điểm' : 'Đánh dấu Tiêu Điểm'}">
+                <i class="fas fa-star"></i>
+              </button>
+              <button class="action-btn edit-btn" onclick="openEditPostEditor('${articleId}')" title="Chỉnh sửa bài viết">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="action-btn delete-btn" onclick="openDeleteModal('${articleId}', '${escapeHtml(article.title).replace(/'/g, "\\'")}')" title="Xóa bài viết">
+                <i class="fas fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render Recent Articles in Dashboard Tab
+    function renderDashboardRecentTable(articles) {
+      const tbody = document.getElementById('dashboardRecentTbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      const recents = (articles || []).slice(0, 5);
+
+      if (recents.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted);">Chưa có bài viết nào trên hệ thống.</td></tr>';
+        return;
+      }
+
+      recents.forEach(article => {
+        const tr = document.createElement('tr');
+        const isPublished = article.status === 'published';
+        const articleId = article.id || article.slug;
+
+        tr.innerHTML = `
+          <td>
+            <div style="font-weight:600; color:var(--text-heading); font-size:0.86rem; line-height:1.35; margin-bottom:2px;">
+              ${escapeHtml(article.title)}
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-muted);"><i class="far fa-calendar-alt"></i> ${article.date || 'Gần đây'}</span>
+          </td>
+          <td><span class="pill-badge cat">${escapeHtml(article.categoryName || 'Tin tức')}</span></td>
+          <td>
+            <span class="status-badge ${isPublished ? 'published' : 'draft'}" onclick="toggleArticleStatus('${articleId}')">
+              ${isPublished ? 'Đã xuất bản' : 'Bản nháp'}
+            </span>
+          </td>
+          <td style="text-align: right;">
+            <button class="action-btn edit-btn" onclick="openEditPostEditor('${articleId}')" title="Chỉnh sửa">
+              <i class="fas fa-pen"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Presets Gallery Generator
+    function initPresetsGallery() {
+      const container = document.getElementById('presetsGallery');
+      if (!container) return;
+
+      container.innerHTML = '';
+      state.presets.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'preset-item';
+        div.onclick = () => selectPreset(p.url, div);
+        div.innerHTML = `<img src="${p.url}" alt="${p.name}" title="${p.name}">`;
+        container.appendChild(div);
+      });
+    }
+
+    function selectPreset(url, el) {
+      document.querySelectorAll('#presetsGallery .preset-item').forEach(item => item.classList.remove('active'));
+      if (el) el.classList.add('active');
+      setImagePreview(url);
+    }
+
+    function setImagePreview(url) {
+      const preview = document.getElementById('formImagePreview');
+      const inputUrl = document.getElementById('formImageUrl');
+      if (preview) preview.src = url;
+      if (inputUrl) inputUrl.value = url;
+    }
+
+    // Handle Article Image Upload (Base64 -> Cloudinary)
+    function handlePostImageFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64 = event.target.result;
+        setImagePreview(base64);
+        showToast('Đã nạp ảnh bài viết! Ảnh sẽ tự động tải lên Cloudinary khi lưu.', 'info');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Auto Slug Generator on Title Input
+    function handleTitleInput(title) {
+      const slugInput = document.getElementById('formSlug');
+      const preview = document.getElementById('formSlugPreview');
+      const generated = slugifyVietnamese(title);
+
+      if (!state.editingId || !slugInput.dataset.manualEdited) {
+        slugInput.value = generated;
+        if (preview) preview.textContent = `/tin-tuc/${generated}`;
+      }
+    }
+
+    function syncCategoryName() {
+      const sel = document.getElementById('formCategory');
+      const opt = sel.options[sel.selectedIndex];
+      const nameInput = document.getElementById('formCategoryName');
+      if (opt && nameInput) {
+        nameInput.value = opt.getAttribute('data-name') || opt.text;
+      }
+    }
+
+    function setDefaultDate() {
+      const dateEl = document.getElementById('formDate');
+      if (dateEl && !dateEl.value) {
+        const d = new Date();
+        const str = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+        dateEl.value = str;
+      }
+    }
+
+    // Rich Text Formatting
+    function formatDoc(cmd, val = null) {
+      document.execCommand(cmd, false, val);
+      document.getElementById('formContent').focus();
+      updateContentStats();
+    }
+
+    function insertLinkPrompt() {
+      const url = prompt('Nhập đường dẫn liên kết (URL):', 'https://');
+      if (url && url !== 'https://') {
+        formatDoc('createLink', url);
+      }
+    }
+
+    function updateContentStats() {
+      const contentEl = document.getElementById('formContent');
+      const text = contentEl.innerText || '';
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const readTime = Math.max(1, Math.ceil(words / 200));
+
+      document.getElementById('contentWordCount').textContent = `${words} từ`;
+      document.getElementById('contentReadTime').textContent = `Khoảng ${readTime} phút đọc`;
+    }
+
+    // Open Form for New Post
+    function openNewPostEditor() {
+      state.editingId = null;
+      document.getElementById('editorTitle').innerHTML = '<i class="fas fa-plus-circle" style="color:var(--primary);"></i> Đăng Bài Viết Mới';
+      document.getElementById('editingArticleId').value = '';
+      document.getElementById('formTitle').value = '';
+      document.getElementById('formSlug').value = '';
+      document.getElementById('formSlugPreview').textContent = '/tin-tuc/...';
+      document.getElementById('formExcerpt').value = '';
+      document.getElementById('formContent').innerHTML = '<p>Nhập nội dung bài viết chi tiết tại đây...</p>';
+      document.getElementById('formCategory').value = 'su-kien';
+      syncCategoryName();
+      document.getElementById('formAuthor').value = 'Ban Truyền Thông Thành Phú';
+      setDefaultDate();
+      document.querySelector('input[name="formStatus"][value="published"]').checked = true;
+      document.getElementById('formIsFeatured').checked = false;
+      
+      setImagePreview('assets/images/news-1.svg');
+      updateContentStats();
+      switchTab('editor');
+    }
+
+    // Open Form for Editing Existing Post
+    async function openEditPostEditor(id) {
+      try {
+        const res = await fetch(`/api/articles/${id}`);
+        const data = await res.json();
+        if (!data.success || !data.data) {
+          showToast('Không tìm thấy dữ liệu bài viết để sửa!', 'error');
+          return;
+        }
+
+        const article = data.data;
+        state.editingId = article.id;
+
+        document.getElementById('editorTitle').innerHTML = '<i class="fas fa-pen-to-square" style="color:var(--primary);"></i> Chỉnh Sửa Bài Viết';
+        document.getElementById('editingArticleId').value = article.id;
+        document.getElementById('formTitle').value = article.title;
+        document.getElementById('formSlug').value = article.slug;
+        document.getElementById('formSlugPreview').textContent = `/tin-tuc/${article.slug}`;
+        document.getElementById('formExcerpt').value = article.excerpt || '';
+        document.getElementById('formContent').innerHTML = article.content || '<p></p>';
+        
+        const catSelect = document.getElementById('formCategory');
+        catSelect.value = article.category || 'su-kien';
+        syncCategoryName();
+
+        document.getElementById('formAuthor').value = article.author || 'Ban Truyền Thông Thành Phú';
+        document.getElementById('formDate').value = article.date || '';
+
+        const statusRadio = document.querySelector(`input[name="formStatus"][value="${article.status}"]`);
+        if (statusRadio) statusRadio.checked = true;
+
+        document.getElementById('formIsFeatured').checked = Boolean(article.isFeatured);
+        setImagePreview(article.image || 'assets/images/news-1.svg');
+
+        updateContentStats();
+        switchTab('editor');
+      } catch (err) {
+        console.error(err);
+        showToast('Lỗi khi tải dữ liệu bài viết!', 'error');
+      }
+    }
+
+    // Save Article Form (Create or Update)
+    async function saveArticleForm(forceDraft = false) {
+      const title = document.getElementById('formTitle').value.trim();
+      const excerpt = document.getElementById('formExcerpt').value.trim();
+      const content = document.getElementById('formContent').innerHTML.trim();
+
+      if (!title) {
+        showToast('Vui lòng nhập tiêu đề bài viết!', 'error');
+        document.getElementById('formTitle').focus();
+        return;
+      }
+
+      if (!excerpt) {
+        showToast('Vui lòng nhập đoạn tóm tắt ngắn cho bài viết!', 'error');
+        document.getElementById('formExcerpt').focus();
+        return;
+      }
+
+      if (!content || content === '<p></p>') {
+        showToast('Vui lòng nhập nội dung chi tiết bài viết!', 'error');
+        document.getElementById('formContent').focus();
+        return;
+      }
+
+      const editingId = document.getElementById('editingArticleId').value;
+      const slug = document.getElementById('formSlug').value.trim();
+      const category = document.getElementById('formCategory').value;
+      const categoryName = document.getElementById('formCategoryName').value;
+      const author = document.getElementById('formAuthor').value.trim();
+      const date = document.getElementById('formDate').value.trim();
+      let image = document.getElementById('formImageUrl').value;
+      const isFeatured = document.getElementById('formIsFeatured').checked;
+      let status = document.querySelector('input[name="formStatus"]:checked')?.value || 'published';
+      if (forceDraft) status = 'draft';
+
+      // If image is base64, upload to Cloudinary first
+      if (image && image.startsWith('data:image')) {
+        showToast('Đang tải ảnh bài viết lên Cloudinary...', 'info');
+        try {
+          const upRes = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: image, filename: slug || 'article' })
+          });
+          const upData = await upRes.json();
+          if (upData.success && upData.url) {
+            image = upData.url;
+          }
+        } catch (e) {
+          console.warn('Fallback upload image error:', e);
+        }
+      }
+
+      const payload = {
+        title,
+        slug,
+        category,
+        categoryName,
+        author,
+        date,
+        image,
+        isFeatured,
+        status,
+        excerpt,
+        content
+      };
+
+      try {
+        let res;
+        if (editingId) {
+          res = await fetch(`/api/articles/${editingId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/articles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Lưu bài viết thành công lên MongoDB!', 'success');
+          loadStats();
+          loadArticles();
+          switchTab('articles');
+        } else {
+          showToast(data.message || 'Có lỗi xảy ra!', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Lỗi máy chủ khi lưu bài viết!', 'error');
+      }
+    }
+
+    // Toggle Published <-> Draft status
+    async function toggleArticleStatus(id) {
+      try {
+        const res = await fetch(`/api/articles/${id}/toggle-status`, { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message, 'success');
+          loadStats();
+          loadArticles();
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Không thể chuyển đổi trạng thái!', 'error');
+      }
+    }
+
+    // Toggle Featured status
+    async function toggleArticleFeatured(id) {
+      try {
+        const res = await fetch(`/api/articles/${id}/toggle-featured`, { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message, 'success');
+          loadArticles();
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Không thể đổi trạng thái tiêu điểm!', 'error');
+      }
+    }
+
+    // Open Delete Confirmation Modal
+    function openDeleteModal(id, title) {
+      document.getElementById('deleteTargetId').value = id;
+      document.getElementById('deleteArticleTitle').textContent = title;
+      openModal('deleteModal');
+    }
+
+    // Execute Delete Article
+    async function executeDeleteArticle() {
+      const id = document.getElementById('deleteTargetId').value;
+      if (!id) return;
+
+      try {
+        const res = await fetch(`/api/articles/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Đã xóa bài viết thành công khỏi MongoDB!', 'success');
+          closeModal('deleteModal');
+          loadStats();
+          loadArticles();
+        } else {
+          showToast(data.message || 'Lỗi khi xóa bài viết!', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Lỗi máy chủ khi xóa bài viết!', 'error');
+      }
+    }
+
+    // Reset Seed Data
+    async function confirmResetSeed() {
+      if (confirm('Khôi phục toàn bộ danh sách về 7 bài viết mẫu ban đầu của Thành Phú trên MongoDB Atlas?')) {
+        try {
+          const res = await fetch('/api/articles/reset-seed', { method: 'POST' });
+          const data = await res.json();
+          if (data.success) {
+            showToast('Đã khôi phục dữ liệu bài viết mẫu thành công!', 'success');
+            loadStats();
+            loadArticles();
+            if (state.currentTab === 'editor') openNewPostEditor();
+          }
+        } catch (err) {
+          showToast('Lỗi khi khôi phục dữ liệu!', 'error');
+        }
+      }
+    }
+
+    // Open Live Preview Modal
+    function openLivePreviewModal() {
+      const title = document.getElementById('formTitle').value || 'Tiêu đề bài viết';
+      const excerpt = document.getElementById('formExcerpt').value || 'Đoạn tóm tắt bài viết...';
+      const content = document.getElementById('formContent').innerHTML || '<p>Nội dung...</p>';
+      const categoryName = document.getElementById('formCategoryName').value || 'Sự Kiện';
+      const author = document.getElementById('formAuthor').value || 'Ban Truyền Thông';
+      const date = document.getElementById('formDate').value || 'Hôm nay';
+      const image = document.getElementById('formImageUrl').value || 'assets/images/news-1.svg';
+
+      document.getElementById('previewTitle').textContent = title;
+      document.getElementById('previewExcerpt').textContent = excerpt;
+      document.getElementById('previewCategoryTag').textContent = categoryName;
+      document.getElementById('previewAuthorTag').textContent = author;
+      document.getElementById('previewDateTag').textContent = date;
+      document.getElementById('previewImage').src = image;
+      document.getElementById('previewContentBody').innerHTML = content;
+
+      openModal('previewModal');
+    }
+
+    // ==========================================
+    // PROJECTS & CASE STUDIES MANAGEMENT LOGIC
+    // ==========================================
+    function initProjectPresetsGallery() {
+      const container = document.getElementById('projectPresetsGallery');
+      if (!container) return;
+
+      container.innerHTML = '';
+      state.projectPresets.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'preset-item';
+        div.onclick = () => selectProjectPreset(p.url, div);
+        div.innerHTML = `<img src="${p.url}" alt="${p.name}" title="${p.name}">`;
+        container.appendChild(div);
+      });
+    }
+
+    function selectProjectPreset(url, el) {
+      document.querySelectorAll('#projectPresetsGallery .preset-item').forEach(item => item.classList.remove('active'));
+      if (el) el.classList.add('active');
+      setProjectImagePreview(url);
+    }
+
+    function setProjectImagePreview(url) {
+      const preview = document.getElementById('formProjectImagePreview');
+      const inputUrl = document.getElementById('formProjectImageUrl');
+      if (preview) preview.src = url;
+      if (inputUrl) inputUrl.value = url;
+    }
+
+    function handleProjectImageFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('Vui lòng chọn file hình ảnh hợp lệ (PNG, JPG, WEBP)!', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64 = event.target.result;
+        setProjectImagePreview(base64);
+        showToast('Đã nạp ảnh dự án! Ảnh sẽ được tự động tải lên Cloudinary khi lưu.', 'info');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleProjectTitleInput(title) {
+      const slugInput = document.getElementById('formProjectSlug');
+      const preview = document.getElementById('formProjectSlugPreview');
+      const generated = slugifyVietnamese(title);
+
+      if (!state.editingProjectId || !slugInput.dataset.manualEdited) {
+        slugInput.value = generated;
+        if (preview) preview.textContent = `/du-an/${generated}`;
+      }
+    }
+
+    function syncProjectCategoryName() {
+      const sel = document.getElementById('formProjectCategory');
+      const opt = sel.options[sel.selectedIndex];
+      const nameInput = document.getElementById('formProjectCategoryName');
+      if (opt && nameInput) {
+        nameInput.value = opt.getAttribute('data-name') || opt.text;
+      }
+    }
+
+    function formatProjectDoc(cmd, val = null) {
+      document.execCommand(cmd, false, val);
+      document.getElementById('formProjectContent').focus();
+      updateProjectContentStats();
+    }
+
+    function insertProjectLinkPrompt() {
+      const url = prompt('Nhập đường dẫn liên kết (URL):', 'https://');
+      if (url && url !== 'https://') {
+        formatProjectDoc('createLink', url);
+      }
+    }
+
+    function updateProjectContentStats() {
+      const contentEl = document.getElementById('formProjectContent');
+      const text = contentEl.innerText || '';
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const readTime = Math.max(1, Math.ceil(words / 200));
+
+      const wordEl = document.getElementById('projectContentWordCount');
+      const readEl = document.getElementById('projectContentReadTime');
+      if (wordEl) wordEl.textContent = `${words} từ`;
+      if (readEl) readEl.textContent = `Khoảng ${readTime} phút đọc`;
+    }
+
+    async function loadProjects() {
+      const search = document.getElementById('projectSearchInput')?.value || '';
+      const category = document.getElementById('projectCategoryFilter')?.value || 'all';
+      const status = document.getElementById('projectStatusFilter')?.value || 'all';
+      const sort = document.getElementById('projectSortSelect')?.value || 'order';
+
+      const queryParams = new URLSearchParams();
+      queryParams.append('all', 'true');
+      if (search) queryParams.append('search', search);
+      if (category !== 'all') queryParams.append('category', category);
+      if (status !== 'all') queryParams.append('status', status);
+      if (sort) queryParams.append('sort', sort);
+
+      try {
+        const res = await fetch(`/api/projects?${queryParams.toString()}`);
+        const data = await res.json();
+        if (data.success) {
+          state.projects = data.data || [];
+          if (document.getElementById('sidebarProjectCount')) {
+            document.getElementById('sidebarProjectCount').textContent = state.projects.length;
+          }
+          renderProjectsTable(state.projects);
+
+          const countBadge = document.getElementById('filteredProjectsCountBadge');
+          if (countBadge) countBadge.textContent = `Hiển thị ${state.projects.length} dự án`;
+        }
+      } catch (err) {
+        console.error('Error loading projects:', err);
+        showToast('Lỗi khi tải danh sách dự án!', 'error');
+      }
+    }
+
+    let projectSearchTimer = null;
+    function debounceProjectSearch() {
+      clearTimeout(projectSearchTimer);
+      projectSearchTimer = setTimeout(() => {
+        loadProjects();
+      }, 300);
+    }
+
+    function filterProjects() {
+      loadProjects();
+    }
+
+    function renderProjectsTable(projects) {
+      const tbody = document.getElementById('projectsTableBody');
+      const emptyState = document.getElementById('projectsEmptyState');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      if (!projects || projects.length === 0) {
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+
+      projects.forEach((project, index) => {
+        const tr = document.createElement('tr');
+        const projId = project.id || project.slug || project._id;
+        const isFeatured = Boolean(project.isFeatured);
+        const isCompleted = project.status === 'Đã Bàn Giao';
+        const isActive = project.isActive !== false;
+        const activeClass = isActive ? 'published' : 'draft';
+        const activeText = isActive ? 'Đang hiển thị' : 'Tạm ẩn';
+        const activeIcon = isActive ? 'fa-circle-check' : 'fa-eye-slash';
+
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">
+            ${index + 1}
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <a href="chi-tiet-du-an.html?id=${projId}" target="_blank" class="slide-thumb-container" style="width:105px; height:68px;" title="Xem chi tiết công trình">
+                <img src="${project.image || 'assets/images/project-1.svg'}" alt="" class="slide-thumb-preview" onerror="this.src='assets/images/project-1.svg'">
+                <div class="slide-thumb-overlay"><i class="fas fa-arrow-up-right-from-square"></i></div>
+              </a>
+              <div>
+                <a href="chi-tiet-du-an.html?id=${projId}" target="_blank" style="font-weight:700; color:var(--text-heading); display:block; margin-bottom:3px; line-height:1.35;" title="Xem trang dự án">
+                  ${escapeHtml(project.title)}
+                  ${isFeatured ? '<i class="fas fa-star" style="color:var(--accent); margin-left:4px;" title="Dự án Tiêu Điểm"></i>' : ''}
+                </a>
+                <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">/du-an/${escapeHtml(project.slug || projId)}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+              <span class="pill-badge cat">${escapeHtml(project.categoryName || 'Xây lắp')}</span>
+              <span class="pill-badge" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A; font-size:0.7rem;">${escapeHtml(project.badge || 'Dân dụng')}</span>
+            </div>
+          </td>
+          <td style="text-align: center; white-space: nowrap;">
+            <span class="status-badge ${isCompleted ? 'published' : 'draft'}" style="font-size:0.75rem;">
+              <i class="fas ${isCompleted ? 'fa-circle-check' : 'fa-clock'}"></i>
+              ${escapeHtml(project.status || 'Đã Bàn Giao')}
+            </span>
+          </td>
+          <td style="text-align: center; white-space: nowrap;">
+            <button type="button" class="status-badge ${activeClass}" style="border:none; cursor:pointer; font-family:inherit; transition:all 0.15s ease;" onclick="toggleProjectActive('${projId}', ${isActive})" title="${isActive ? 'Bấm để tạm ẩn (Disable) khỏi website' : 'Bấm để bật hiển thị (Enable) lên website'}">
+              <i class="fas ${activeIcon}"></i>
+              ${activeText}
+            </button>
+          </td>
+          <td style="text-align: right; white-space: nowrap;">
+            <div class="table-actions" style="justify-content: flex-end;">
+              <button class="action-btn star-btn ${isFeatured ? 'active' : ''}" onclick="toggleProjectFeatured('${projId}')" title="${isFeatured ? 'Bỏ đánh dấu Tiêu Điểm' : 'Đánh dấu Tiêu Điểm'}">
+                <i class="fas fa-star"></i>
+              </button>
+              <button class="action-btn edit-btn" onclick="openEditProjectEditor('${projId}')" title="Chỉnh sửa bài viết dự án">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="action-btn delete-btn" onclick="openDeleteProjectModal('${projId}', '${escapeHtml(project.title).replace(/'/g, "\\'")}')" title="Xóa dự án">
+                <i class="fas fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    let currentProjectGallery = [];
+
+    function setProjectImagePreview(url) {
+      const preview = document.getElementById('formProjectImagePreview');
+      const inputUrl = document.getElementById('formProjectImageUrl');
+      if (preview) preview.src = url || 'assets/images/project-1.svg';
+      if (inputUrl) inputUrl.value = url || 'assets/images/project-1.svg';
+    }
+
+    function handleProjectImageFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64 = event.target.result;
+        setProjectImagePreview(base64);
+        showToast('Đã nạp ảnh đại diện! Ảnh sẽ tự động tải lên Cloudinary khi lưu.', 'info');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ==========================================
+    // UNLIMITED GALLERY SUB-IMAGES HANDLERS
+    // ==========================================
+    function handleProjectGalleryFilesSelect(e) {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      let loadedCount = 0;
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          currentProjectGallery.push(event.target.result);
+          loadedCount++;
+          if (loadedCount === files.length) {
+            renderProjectGalleryGrid();
+            showToast(`Đã thêm ${files.length} ảnh phụ vào thư viện!`, 'success');
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Reset file input so user can pick more images
+      e.target.value = '';
+    }
+
+    function renderProjectGalleryGrid() {
+      const grid = document.getElementById('projectGalleryGrid');
+      const badge = document.getElementById('projectGalleryCountBadge');
+      if (!grid) return;
+
+      if (badge) {
+        badge.innerHTML = `<i class="far fa-images"></i> ${currentProjectGallery.length} ảnh phụ đã chọn`;
+      }
+
+      if (!currentProjectGallery || currentProjectGallery.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 22px 10px; color: var(--text-muted); font-size: 0.8rem;">
+            <i class="far fa-images" style="font-size: 1.6rem; color: #CBD5E1; display: block; margin-bottom: 6px;"></i>
+            Chưa có ảnh phụ nào. Bấm nút phía trên để tải lên không giới hạn ảnh công trình.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = currentProjectGallery.map((imgUrl, idx) => `
+        <div class="gallery-item-card" style="position:relative; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border-color); aspect-ratio:4/3; background:#F1F5F9; group;">
+          <img src="${imgUrl}" alt="Ảnh ${idx + 1}" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='assets/images/project-1.svg'">
+          <span style="position:absolute; top:3px; left:3px; background:rgba(0,0,0,0.65); color:#fff; font-size:0.65rem; font-weight:700; padding:1px 5px; border-radius:2px;">#${idx + 1}</span>
+          
+          <div style="position:absolute; inset:0; background:rgba(15,23,42,0.7); display:flex; align-items:center; justify-content:center; gap:5px; opacity:0; transition:opacity 0.2s;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0">
+            <button type="button" class="btn btn-primary btn-sm" style="padding:4px 6px; font-size:0.7rem;" onclick="setProjectGalleryAsMainImage(${idx})" title="Đặt làm ảnh đại diện chính">
+              <i class="fas fa-star"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" style="padding:4px 6px; font-size:0.7rem;" onclick="removeProjectGalleryImage(${idx})" title="Xóa ảnh này">
+              <i class="fas fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function promptAddProjectGalleryUrl() {
+      const urlInput = prompt('Nhập URL hình ảnh phụ (có thể nhập nhiều URL cách nhau bằng dấu phẩy):', 'https://');
+      if (!urlInput || urlInput === 'https://') return;
+
+      const urls = urlInput.split(',').map(u => u.trim()).filter(Boolean);
+      if (urls.length > 0) {
+        currentProjectGallery.push(...urls);
+        renderProjectGalleryGrid();
+        showToast(`Đã thêm ${urls.length} ảnh phụ từ đường dẫn URL!`, 'success');
+      }
+    }
+
+    function removeProjectGalleryImage(index) {
+      if (index >= 0 && index < currentProjectGallery.length) {
+        currentProjectGallery.splice(index, 1);
+        renderProjectGalleryGrid();
+        showToast('Đã xóa 1 ảnh phụ khỏi thư viện!', 'info');
+      }
+    }
+
+    function setProjectGalleryAsMainImage(index) {
+      if (index >= 0 && index < currentProjectGallery.length) {
+        const targetImg = currentProjectGallery[index];
+        setProjectImagePreview(targetImg);
+        showToast('Đã đặt ảnh này làm ảnh đại diện chính của công trình!', 'success');
+      }
+    }
+
+    function clearAllProjectGalleryImages() {
+      if (!currentProjectGallery.length) return;
+      if (confirm(`Bạn có chắc chắn muốn xóa toàn bộ ${currentProjectGallery.length} ảnh phụ của dự án này?`)) {
+        currentProjectGallery = [];
+        renderProjectGalleryGrid();
+        showToast('Đã xóa sạch thư viện ảnh phụ!', 'info');
+      }
+    }
+
+    // Auto Slug Generator on Project Title Input
+    function handleProjectTitleInput(title) {
+      const slugInput = document.getElementById('formProjectSlug');
+      const preview = document.getElementById('formProjectSlugPreview');
+      const generated = slugifyVietnamese(title);
+
+      if (!state.editingProjectId || !slugInput.dataset.manualEdited) {
+        slugInput.value = generated;
+        if (preview) preview.textContent = `/du-an/${generated}`;
+      }
+    }
+
+    function syncProjectCategoryName() {
+      const sel = document.getElementById('formProjectCategory');
+      const opt = sel.options[sel.selectedIndex];
+      const nameInput = document.getElementById('formProjectCategoryName');
+      if (opt && nameInput) {
+        nameInput.value = opt.getAttribute('data-name') || opt.text;
+      }
+    }
+
+    function updateProjectContentStats() {
+      const contentEl = document.getElementById('formProjectContent');
+      const text = contentEl.innerText || '';
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const readTime = Math.max(1, Math.ceil(words / 200));
+
+      document.getElementById('projectContentWordCount').textContent = `${words} từ`;
+      document.getElementById('projectContentReadTime').textContent = `Khoảng ${readTime} phút đọc`;
+    }
+
+    function formatProjectDoc(cmd, val = null) {
+      document.execCommand(cmd, false, val);
+      document.getElementById('formProjectContent').focus();
+      updateProjectContentStats();
+    }
+
+    function insertProjectLinkPrompt() {
+      const url = prompt('Nhập đường dẫn liên kết (URL):', 'https://');
+      if (url && url !== 'https://') {
+        formatProjectDoc('createLink', url);
+      }
+    }
+
+    function openNewProjectEditor() {
+      state.editingProjectId = null;
+      document.getElementById('projectEditorTitle').innerHTML = '<i class="fas fa-plus-circle" style="color:var(--primary);"></i> Soạn Thảo Bài Viết Dự Án Mới';
+      document.getElementById('editingProjectId').value = '';
+      document.getElementById('formProjectTitle').value = '';
+      document.getElementById('formProjectSlug').value = '';
+      document.getElementById('formProjectSlugPreview').textContent = '/du-an/...';
+      document.getElementById('formProjectOverview').value = '';
+      document.getElementById('formProjectScope').value = '';
+      document.getElementById('formProjectHighlights').value = '';
+      document.getElementById('formProjectContent').innerHTML = '<p>Nhập bài viết chi tiết, giải pháp thi công, công nghệ ứng dụng hoặc hình ảnh công trường tại đây...</p>';
+      
+      document.getElementById('formProjectCategory').value = 'xay-lap';
+      syncProjectCategoryName();
+      document.getElementById('formProjectBadge').value = 'Xây Lắp Dân Dụng';
+      document.getElementById('formProjectStatus').value = 'Đã Bàn Giao';
+      document.getElementById('formProjectLocation').value = '';
+      document.getElementById('formProjectClient').value = '';
+      document.getElementById('formProjectScale').value = '';
+      document.getElementById('formProjectContractType').value = '';
+      document.getElementById('formProjectTimeline').value = '';
+      document.getElementById('formProjectYear').value = new Date().getFullYear().toString();
+      document.getElementById('formProjectIsActive').checked = true;
+      document.getElementById('formProjectIsFeatured').checked = false;
+
+      currentProjectGallery = [];
+      renderProjectGalleryGrid();
+
+      setProjectImagePreview('assets/images/project-1.svg');
+      updateProjectContentStats();
+      switchTab('project-editor');
+    }
+
+    async function openEditProjectEditor(id) {
+      try {
+        const res = await fetch(`/api/projects/${id}`);
+        const data = await res.json();
+        if (!data.success || !data.data) {
+          showToast('Không tìm thấy thông tin dự án để sửa!', 'error');
+          return;
+        }
+
+        const project = data.data;
+        state.editingProjectId = project.id || project._id;
+
+        document.getElementById('projectEditorTitle').innerHTML = '<i class="fas fa-pen-to-square" style="color:var(--primary);"></i> Chỉnh Sửa Bài Viết Dự Án';
+        document.getElementById('editingProjectId').value = project.id || project._id;
+        document.getElementById('formProjectTitle').value = project.title || '';
+        document.getElementById('formProjectSlug').value = project.slug || project.id || '';
+        document.getElementById('formProjectSlugPreview').textContent = `/du-an/${project.slug || project.id}`;
+        document.getElementById('formProjectOverview').value = project.overview || '';
+        document.getElementById('formProjectScope').value = Array.isArray(project.scope) ? project.scope.join('\n') : (project.scope || '');
+        document.getElementById('formProjectHighlights').value = Array.isArray(project.highlights) ? project.highlights.join('\n') : (project.highlights || '');
+        document.getElementById('formProjectContent').innerHTML = project.content || '<p></p>';
+
+        document.getElementById('formProjectCategory').value = project.category || 'xay-lap';
+        syncProjectCategoryName();
+        document.getElementById('formProjectBadge').value = project.badge || 'Xây Lắp Dân Dụng';
+        document.getElementById('formProjectStatus').value = project.status || 'Đã Bàn Giao';
+        document.getElementById('formProjectLocation').value = project.location || '';
+        document.getElementById('formProjectClient').value = project.client || '';
+        document.getElementById('formProjectScale').value = project.scale || '';
+        document.getElementById('formProjectContractType').value = project.contractType || '';
+        document.getElementById('formProjectTimeline').value = project.timeline || '';
+        document.getElementById('formProjectYear').value = project.year || '2024';
+        document.getElementById('formProjectIsActive').checked = project.isActive !== false;
+        document.getElementById('formProjectIsFeatured').checked = Boolean(project.isFeatured);
+
+        currentProjectGallery = Array.isArray(project.gallery) ? [...project.gallery] : (project.gallery ? project.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
+        renderProjectGalleryGrid();
+
+        setProjectImagePreview(project.image || 'assets/images/project-1.svg');
+        updateProjectContentStats();
+        switchTab('project-editor');
+      } catch (err) {
+        console.error('Error opening project editor:', err);
+        showToast('Lỗi khi nạp dữ liệu dự án!', 'error');
+      }
+    }
+
+    async function saveProjectForm() {
+      const title = document.getElementById('formProjectTitle').value.trim();
+      const overview = document.getElementById('formProjectOverview').value.trim();
+      const location = document.getElementById('formProjectLocation').value.trim();
+
+      if (!title) {
+        showToast('Vui lòng nhập tên công trình / dự án!', 'error');
+        document.getElementById('formProjectTitle').focus();
+        return;
+      }
+
+      if (!overview) {
+        showToast('Vui lòng nhập đoạn tóm tắt tổng quan dự án!', 'error');
+        document.getElementById('formProjectOverview').focus();
+        return;
+      }
+
+      if (!location) {
+        showToast('Vui lòng nhập địa điểm công trình!', 'error');
+        document.getElementById('formProjectLocation').focus();
+        return;
+      }
+
+      const editingId = document.getElementById('editingProjectId').value;
+      const slug = document.getElementById('formProjectSlug').value.trim();
+      const category = document.getElementById('formProjectCategory').value;
+      const categoryName = document.getElementById('formProjectCategoryName').value;
+      const badge = document.getElementById('formProjectBadge').value.trim();
+      const status = document.getElementById('formProjectStatus').value;
+      const client = document.getElementById('formProjectClient').value.trim();
+      const scale = document.getElementById('formProjectScale').value.trim();
+      const contractType = document.getElementById('formProjectContractType').value.trim();
+      const timeline = document.getElementById('formProjectTimeline').value.trim();
+      const year = document.getElementById('formProjectYear').value.trim();
+      const isActive = document.getElementById('formProjectIsActive').checked;
+      const isFeatured = document.getElementById('formProjectIsFeatured').checked;
+      let image = document.getElementById('formProjectImageUrl').value;
+      const scope = document.getElementById('formProjectScope').value.trim();
+      const highlights = document.getElementById('formProjectHighlights').value.trim();
+      const content = document.getElementById('formProjectContent').innerHTML.trim();
+
+      const btn = document.getElementById('btnSaveProject');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu & tải ảnh lên Cloudinary...';
+      btn.disabled = true;
+
+      // 1. If main image is base64, attempt Cloudinary upload
+      if (image && image.startsWith('data:image')) {
+        showToast('Đang tải ảnh đại diện lên Cloudinary CDN...', 'info');
+        try {
+          const upRes = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: image, filename: (slug || 'project') + '-main' })
+          });
+          const upData = await upRes.json();
+          if (upData.success && upData.url) {
+            image = upData.url;
+          }
+        } catch (e) {
+          console.warn('Fallback project upload image error:', e);
+        }
+      }
+
+      // 2. Upload any base64 sub-images in gallery
+      const uploadedGallery = [];
+      for (let i = 0; i < currentProjectGallery.length; i++) {
+        let gImg = currentProjectGallery[i];
+        if (gImg && gImg.startsWith('data:image')) {
+          try {
+            const upRes = await fetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ image: gImg, filename: (slug || 'project') + `-gallery-${i + 1}` })
+            });
+            const upData = await upRes.json();
+            if (upData.success && upData.url) {
+              uploadedGallery.push(upData.url);
+            } else {
+              uploadedGallery.push(gImg);
+            }
+          } catch (e) {
+            uploadedGallery.push(gImg);
+          }
+        } else {
+          uploadedGallery.push(gImg);
+        }
+      }
+      currentProjectGallery = uploadedGallery;
+
+      const payload = {
+        title,
+        slug,
+        category,
+        categoryName,
+        badge,
+        status,
+        client,
+        location,
+        scale,
+        contractType,
+        timeline,
+        year,
+        isActive,
+        isFeatured,
+        image,
+        gallery: currentProjectGallery,
+        overview,
+        scope,
+        highlights,
+        content
+      };
+
+      try {
+        let res;
+        if (editingId) {
+          res = await fetch(`/api/projects/${editingId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/projects', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Lưu bài viết dự án thành công!', 'success');
+          loadProjects();
+          loadStats();
+          switchTab('projects');
+        } else {
+          showToast(data.message || 'Có lỗi xảy ra!', 'error');
+        }
+      } catch (err) {
+        console.error('Error saving project:', err);
+        showToast('Lỗi máy chủ khi lưu dự án!', 'error');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    async function toggleProjectActive(id, currentActive) {
+      try {
+        const res = await fetch(`/api/projects/${id}/toggle-active`, { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message, 'success');
+          loadProjects();
+          loadStats();
+        } else {
+          showToast(data.message || 'Lỗi khi đổi trạng thái hiển thị!', 'error');
+        }
+      } catch (err) {
+        console.error('Error toggling project active:', err);
+        showToast('Không thể chuyển đổi trạng thái hiển thị dự án!', 'error');
+      }
+    }
+
+    async function toggleProjectFeatured(id) {
+      try {
+        const res = await fetch(`/api/projects/${id}/toggle-featured`, { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message, 'success');
+          loadProjects();
+        }
+      } catch (err) {
+        showToast('Không thể đổi trạng thái tiêu điểm!', 'error');
+      }
+    }
+
+    function openDeleteProjectModal(id, title) {
+      document.getElementById('deleteProjectTargetId').value = id;
+      document.getElementById('deleteProjectTitle').textContent = title;
+      openModal('deleteProjectModal');
+    }
+
+    async function executeDeleteProject() {
+      const id = document.getElementById('deleteProjectTargetId').value;
+      if (!id) return;
+
+      try {
+        const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Đã xóa dự án thành công!', 'success');
+          closeModal('deleteProjectModal');
+          loadProjects();
+          loadStats();
+        } else {
+          showToast(data.message || 'Lỗi khi xóa dự án!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ khi xóa dự án!', 'error');
+      }
+    }
+
+    async function confirmResetProjectsSeed() {
+      if (confirm('Khôi phục danh sách về 9 dự án mẫu ban đầu của Thành Phú trên MongoDB Atlas?')) {
+        try {
+          const res = await fetch('/api/projects/reset-seed', { method: 'POST' });
+          const data = await res.json();
+          if (data.success) {
+            showToast('Đã khôi phục 9 dự án mẫu thành công!', 'success');
+            loadProjects();
+            loadStats();
+          }
+        } catch (err) {
+          showToast('Lỗi khi khôi phục dự án!', 'error');
+        }
+      }
+    }
+
+    function openProjectPreviewModal() {
+      const title = document.getElementById('formProjectTitle').value || 'Tên Công Trình Dự Án';
+      const overview = document.getElementById('formProjectOverview').value || 'Đang cập nhật tổng quan dự án...';
+      const badge = document.getElementById('formProjectBadge').value || 'Xây Lắp Dân Dụng';
+      const status = document.getElementById('formProjectStatus').value || 'Đã Bàn Giao';
+      const categoryName = document.getElementById('formProjectCategoryName').value || 'Thi công xây lắp';
+      const location = document.getElementById('formProjectLocation').value || 'TP. Hồ Chí Minh';
+      const client = document.getElementById('formProjectClient').value || 'Đối tác Thành Phú';
+      const scale = document.getElementById('formProjectScale').value || 'Tiêu chuẩn';
+      const contractType = document.getElementById('formProjectContractType').value || 'Tổng thầu thi công';
+      const timeline = document.getElementById('formProjectTimeline').value || '2022 - 2024';
+      const year = document.getElementById('formProjectYear').value || '2024';
+      const image = document.getElementById('formProjectImageUrl').value || 'assets/images/project-1.svg';
+      const content = document.getElementById('formProjectContent').innerHTML || '<p></p>';
+
+      const scopeRaw = document.getElementById('formProjectScope').value.trim();
+      const highlightsRaw = document.getElementById('formProjectHighlights').value.trim();
+
+      document.getElementById('previewProjectTitle').textContent = title;
+      document.getElementById('previewProjectOverview').textContent = overview;
+      document.getElementById('previewProjectBadge').textContent = badge;
+      document.getElementById('previewProjectStatusBadge').textContent = status;
+      document.getElementById('previewProjectCategory').textContent = categoryName;
+      document.getElementById('previewProjectLocation').textContent = location;
+      document.getElementById('previewProjectClient').textContent = client;
+      document.getElementById('previewProjectScale').textContent = scale;
+      document.getElementById('previewProjectContractType').textContent = contractType;
+      document.getElementById('previewProjectTimeline').textContent = timeline;
+      document.getElementById('previewProjectYear').textContent = year;
+      document.getElementById('previewProjectImage').src = image;
+      document.getElementById('previewProjectContentBody').innerHTML = content;
+
+      const scopeUl = document.getElementById('previewProjectScopeList');
+      if (scopeRaw) {
+        scopeUl.innerHTML = scopeRaw.split('\n').filter(Boolean).map(item => `
+          <li style="margin-bottom:6px; display:flex; align-items:flex-start; gap:8px;">
+            <i class="fas fa-check-circle" style="color:var(--primary); margin-top:3px;"></i>
+            <span>${escapeHtml(item.trim())}</span>
+          </li>
+        `).join('');
+      } else {
+        scopeUl.innerHTML = '<li style="color:var(--text-muted); font-style:italic;">Chưa nhập phạm vi thi công.</li>';
+      }
+
+      const highUl = document.getElementById('previewProjectHighlightsList');
+      if (highlightsRaw) {
+        highUl.innerHTML = highlightsRaw.split('\n').filter(Boolean).map(item => `
+          <li style="margin-bottom:6px; display:flex; align-items:flex-start; gap:8px;">
+            <i class="fas fa-star" style="color:var(--accent); margin-top:3px;"></i>
+            <span>${escapeHtml(item.trim())}</span>
+          </li>
+        `).join('');
+      } else {
+        highUl.innerHTML = '<li style="color:var(--text-muted); font-style:italic;">Chưa nhập điểm nhấn kỹ thuật.</li>';
+      }
+
+      openModal('projectPreviewModal');
+    }
+
+    // ==========================================
+    // HERO SLIDES MANAGEMENT LOGIC
+    // ==========================================
+    async function loadSlidesSummary() {
+      try {
+        const res = await fetch('/api/slides?all=true');
+        const data = await res.json();
+        if (data.success && data.data) {
+          document.getElementById('sidebarSlideCount').textContent = data.data.length;
+        }
+      } catch (e) {}
+    }
+
+    async function loadSlides() {
+      const tbody = document.getElementById('slidesTableBody');
+      const emptyState = document.getElementById('slidesEmptyState');
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;"><i class="fas fa-spinner fa-spin"></i> Đang tải danh sách slide từ MongoDB Atlas...</td></tr>';
+      emptyState.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/slides?all=true');
+        const data = await res.json();
+        if (!data.success) {
+          showToast('Lỗi khi tải danh sách slide!', 'error');
+          return;
+        }
+
+        state.slides = data.data || [];
+        document.getElementById('sidebarSlideCount').textContent = state.slides.length;
+        
+        if (data.settings && data.settings.autoplaySpeed) {
+          document.getElementById('settingSlideSpeed').value = data.settings.autoplaySpeed;
+          state.slideSpeed = data.settings.autoplaySpeed;
+        }
+
+        if (state.slides.length === 0) {
+          tbody.innerHTML = '';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+        renderSlidesTable(state.slides);
+      } catch (err) {
+        console.error('Error loading slides:', err);
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--danger); padding:30px;">Không thể kết nối máy chủ để lấy dữ liệu slide!</td></tr>';
+        showToast('Lỗi kết nối máy chủ!', 'error');
+      }
+    }
+
+    function renderSlidesTable(slides) {
+      const tbody = document.getElementById('slidesTableBody');
+      tbody.innerHTML = '';
+
+      slides.forEach((slide, index) => {
+        const tr = document.createElement('tr');
+        const slideId = slide._id || slide.id;
+        tr.dataset.id = slideId;
+
+        const isCloudinary = slide.image && slide.image.includes('cloudinary');
+        const providerBadge = isCloudinary 
+          ? '<span class="badge-provider cloudinary"><i class="fas fa-cloud"></i> Cloudinary CDN</span>' 
+          : '<span class="badge-provider local"><i class="fas fa-hdd"></i> Local Asset</span>';
+
+        const statusClass = slide.isActive ? 'published' : 'draft';
+        const statusText = slide.isActive ? 'Đang hiển thị' : 'Đang ẩn';
+        const statusIcon = slide.isActive ? 'fa-circle-check' : 'fa-eye-slash';
+
+        let imgDisplayUrl = slide.image || '';
+        if (imgDisplayUrl.length > 55) {
+          imgDisplayUrl = imgDisplayUrl.slice(0, 32) + '...' + imgDisplayUrl.slice(-18);
+        }
+
+        tr.innerHTML = `
+          <td style="text-align:center;">
+            <div class="order-stepper-group" style="margin: 0 auto;">
+              <button type="button" class="btn-step" onclick="moveSlideOrder('${slideId}', -1)" title="Chạy trước (Giảm số thứ tự)">
+                <i class="fas fa-arrow-up"></i>
+              </button>
+              <input type="number" class="order-input slide-order-input" data-id="${slideId}" value="${slide.order ?? index}" min="0">
+              <button type="button" class="btn-step" onclick="moveSlideOrder('${slideId}', 1)" title="Chạy sau (Tăng số thứ tự)">
+                <i class="fas fa-arrow-down"></i>
+              </button>
+            </div>
+          </td>
+          <td>
+            <a href="${slide.image}" target="_blank" class="slide-thumb-container" title="Bấm để xem ảnh gốc">
+              <img src="${slide.image}" alt="Slide Banner" class="slide-thumb-preview" onerror="this.src='assets/images/hero-slide-1.svg'">
+              <div class="slide-thumb-overlay">
+                <i class="fas fa-up-right-from-square"></i>
+              </div>
+            </a>
+          </td>
+          <td>
+            <div style="margin-bottom: 5px;">${providerBadge}</div>
+            <a href="${slide.image}" target="_blank" style="font-size:0.78rem; color:var(--text-muted); word-break:break-all; text-decoration:none;" title="Xem đường dẫn ảnh">
+              <i class="fas fa-link" style="font-size:0.7rem; margin-right:4px;"></i>${escapeHtml(imgDisplayUrl)}
+            </a>
+          </td>
+          <td style="text-align:center;">
+            <span class="status-badge ${statusClass}" onclick="toggleSlideStatus('${slideId}', ${slide.isActive})" title="Click để ${slide.isActive ? 'tạm ẩn' : 'bật hiển thị'}">
+              <i class="fas ${statusIcon}"></i> ${statusText}
+            </span>
+          </td>
+          <td style="text-align:right;">
+            <div class="table-actions" style="justify-content:flex-end;">
+              <button class="action-btn edit-btn" onclick="openEditSlideModal('${slideId}')" title="Đổi ảnh slide">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="action-btn delete-btn" onclick="openDeleteSlideModal('${slideId}')" title="Xóa slide">
+                <i class="fas fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Slide Modal Handlers
+    function openNewSlideModal() {
+      document.getElementById('slideModalTitle').innerHTML = '<i class="fas fa-plus-circle" style="color:var(--primary);"></i> Thêm Slide Mới';
+      document.getElementById('slideEditId').value = '';
+      document.getElementById('slideImageData').value = '';
+      document.getElementById('slideFormOrder').value = state.slides.length;
+      document.getElementById('slideFormIsActive').checked = true;
+
+      removeSlideImage();
+      openModal('slideModal');
+    }
+
+    function openEditSlideModal(slideId) {
+      const slide = state.slides.find(s => (s._id || s.id) === slideId);
+      if (!slide) {
+        showToast('Không tìm thấy dữ liệu slide!', 'error');
+        return;
+      }
+
+      document.getElementById('slideModalTitle').innerHTML = '<i class="fas fa-pen-to-square" style="color:var(--primary);"></i> Đổi Ảnh Slide';
+      document.getElementById('slideEditId').value = slide._id || slide.id;
+      document.getElementById('slideImageData').value = slide.image || '';
+      document.getElementById('slideFormOrder').value = slide.order ?? 0;
+      document.getElementById('slideFormIsActive').checked = Boolean(slide.isActive);
+
+      setSlidePreviewImage(slide.image || '');
+      openModal('slideModal');
+    }
+
+    function handleSlideFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('Vui lòng chọn file hình ảnh hợp lệ (PNG, JPG, WEBP)!', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64 = e.target.result;
+        document.getElementById('slideImageData').value = base64;
+        setSlidePreviewImage(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setSlidePreviewImage(src) {
+      if (!src) {
+        removeSlideImage();
+        return;
+      }
+      document.getElementById('slidePreviewImg').src = src;
+      document.getElementById('slidePreviewWrapper').style.display = 'block';
+      document.getElementById('slideUploadPrompt').style.display = 'none';
+    }
+
+    function removeSlideImage() {
+      document.getElementById('slideImageData').value = '';
+      document.getElementById('slidePreviewImg').src = '';
+      document.getElementById('slidePreviewWrapper').style.display = 'none';
+      document.getElementById('slideUploadPrompt').style.display = 'block';
+      document.getElementById('slideFileInput').value = '';
+    }
+
+    async function submitSlideForm() {
+      const image = document.getElementById('slideImageData').value.trim();
+      if (!image) {
+        showToast('Vui lòng chọn hoặc tải lên hình ảnh cho slide!', 'error');
+        return;
+      }
+
+      const editId = document.getElementById('slideEditId').value;
+      const order = parseInt(document.getElementById('slideFormOrder').value, 10) || 0;
+      const isActive = document.getElementById('slideFormIsActive').checked;
+
+      const btn = document.getElementById('btnSaveSlide');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải ảnh lên Cloudinary...';
+      btn.disabled = true;
+
+      try {
+        let res;
+        const payload = { image, order, isActive };
+
+        if (editId) {
+          res = await fetch(`/api/slides/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/slides', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Lưu slide thành công!', 'success');
+          closeModal('slideModal');
+          loadSlides();
+        } else {
+          showToast(data.message || 'Lỗi khi lưu slide!', 'error');
+        }
+      } catch (err) {
+        console.error('Error saving slide:', err);
+        showToast('Lỗi máy chủ khi lưu slide!', 'error');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    function moveSlideOrder(slideId, delta) {
+      const input = document.querySelector(`.slide-order-input[data-id="${slideId}"]`);
+      if (input) {
+        let val = parseInt(input.value, 10) || 0;
+        val = Math.max(0, val + delta);
+        input.value = val;
+        saveSlideOrderBatch();
+      }
+    }
+
+    async function saveSlideOrderBatch() {
+      const inputs = document.querySelectorAll('.slide-order-input');
+      const orders = [];
+      inputs.forEach(input => {
+        orders.push({
+          id: input.dataset.id,
+          order: parseInt(input.value, 10) || 0
+        });
+      });
+
+      if (orders.length === 0) return;
+
+      try {
+        const res = await fetch('/api/slides/reorder', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orders })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Đã cập nhật thứ tự chạy slide!', 'success');
+          loadSlides();
+        } else {
+          showToast(data.message || 'Lỗi khi lưu thứ tự!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối khi cập nhật thứ tự slide!', 'error');
+      }
+    }
+
+    async function toggleSlideStatus(slideId, currentStatus) {
+      try {
+        const res = await fetch(`/api/slides/${slideId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isActive: !currentStatus })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Đã ${!currentStatus ? 'bật hiển thị' : 'tạm ẩn'} slide!`, 'success');
+          loadSlides();
+        } else {
+          showToast(data.message || 'Lỗi khi đổi trạng thái!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ khi đổi trạng thái slide!', 'error');
+      }
+    }
+
+    function openDeleteSlideModal(slideId) {
+      document.getElementById('deleteSlideTargetId').value = slideId;
+      openModal('deleteSlideModal');
+    }
+
+    async function executeDeleteSlide() {
+      const id = document.getElementById('deleteSlideTargetId').value;
+      if (!id) return;
+
+      try {
+        const res = await fetch(`/api/slides/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Đã xóa slide thành công khỏi MongoDB & Cloudinary!', 'success');
+          closeModal('deleteSlideModal');
+          loadSlides();
+        } else {
+          showToast(data.message || 'Lỗi khi xóa slide!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ khi xóa slide!', 'error');
+      }
+    }
+
+    async function saveSlideSpeed() {
+      const speedInput = document.getElementById('settingSlideSpeed');
+      const speed = parseFloat(speedInput.value);
+
+      if (isNaN(speed) || speed < 1 || speed > 60) {
+        showToast('Tốc độ chạy slide phải từ 1 đến 60 giây!', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/slides/settings', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ autoplaySpeed: speed })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Đã lưu tốc độ chạy slide: ${speed} giây/slide!`, 'success');
+        } else {
+          showToast(data.message || 'Lỗi khi lưu cài đặt tốc độ!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ khi lưu cài đặt tốc độ slide!', 'error');
+      }
+    }
+
+    // Modal Helpers
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('active');
+        if (!document.querySelector('.modal-overlay.active')) {
+          document.body.style.overflow = '';
+        }
+      }
+    }
+
+    // Dismiss modal on backdrop click or ESC key
+    document.addEventListener('click', (e) => {
+      if (e.target.classList && e.target.classList.contains('modal-overlay')) {
+        closeModal(e.target.id);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const activeModal = document.querySelector('.modal-overlay.active');
+        if (activeModal) closeModal(activeModal.id);
+      }
+    });
+
+    // Toast Notifications
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+
+      let icon = 'fa-circle-info';
+      if (type === 'success') icon = 'fa-circle-check';
+      if (type === 'error') icon = 'fa-circle-exclamation';
+
+      toast.innerHTML = `
+        <i class="fas ${icon}"></i>
+        <div style="flex:1;">${escapeHtml(message)}</div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 250);
+      }, 3500);
+    }
+
+    // Utilities
+    function slugifyVietnamese(str) {
+      if (!str) return '';
+      str = str.toLowerCase();
+      str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      str = str.replace(/[đĐ]/g, 'd');
+      str = str.replace(/[^a-z0-9\s-]/g, '');
+      str = str.trim().replace(/\s+/g, '-');
+      str = str.replace(/-+/g, '-');
+      return str;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="heroGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141920"/>
+      <stop offset="50%" stop-color="#0e1319"/>
+      <stop offset="100%" stop-color="#070a0e"/>
+    </linearGradient>
+    <linearGradient id="glowGrad3" x1="100%" y1="100%" x2="30%" y2="20%">
+      <stop offset="0%" stop-color="#ed1925" stop-opacity="0.18"/>
+      <stop offset="60%" stop-color="#FFCB56" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="heroGrid3" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Deep Architectural Background -->
+  <rect width="1920" height="1080" fill="url(#heroGrad3)"/>
+  <rect width="1920" height="1080" fill="url(#heroGrid3)"/>
+  <rect width="1920" height="1080" fill="url(#glowGrad3)"/>
+
+  <!-- Distant Cityscape Silhouette -->
+  <g opacity="0.15">
+    <rect x="700" y="420" width="130" height="660" fill="#ffffff"/>
+    <rect x="850" y="340" width="180" height="740" fill="#ffffff"/>
+    <rect x="1050" y="480" width="150" height="600" fill="#ffffff"/>
+    <rect x="1220" y="380" width="210" height="700" fill="#ffffff"/>
+    <rect x="1450" y="450" width="170" height="630" fill="#ffffff"/>
+    <rect x="1640" y="310" width="160" height="770" fill="#ffffff"/>
+    <rect x="1820" y="400" width="100" height="680" fill="#ffffff"/>
+  </g>
+
+  <!-- Giant Cable-Stayed Bridge Pylon Tower -->
+  <g opacity="0.55">
+    <!-- Pylon Legs (Inverted Y Shape) -->
+    <polygon points="1440,60 1460,60 1520,620 1580,1080 1540,1080 1490,640 1450,60" fill="#ed1925"/>
+    <polygon points="1440,60 1420,60 1360,620 1300,1080 1340,1080 1390,640 1430,60" fill="#ed1925"/>
+    <!-- Pylon Top Tower -->
+    <polygon points="1415,60 1465,60 1455,-40 1425,-40" fill="#FFCB56"/>
+    <!-- Cross Strut / Tie Beam -->
+    <rect x="1375" y="560" width="130" height="25" fill="#FFCB56"/>
+    <rect x="1395" y="740" width="90" height="18" fill="#ffffff" opacity="0.6"/>
+  </g>
+
+  <!-- Stay Cables (Harp System) -->
+  <g opacity="0.45" stroke="#ffffff" stroke-width="2">
+    <!-- Left Fan Cables -->
+    <line x1="1440" y1="120" x2="880" y2="700" stroke-dasharray="10,4"/>
+    <line x1="1440" y1="180" x2="980" y2="700"/>
+    <line x1="1440" y1="240" x2="1080" y2="700"/>
+    <line x1="1440" y1="300" x2="1170" y2="700"/>
+    <line x1="1440" y1="360" x2="1250" y2="700"/>
+    <line x1="1440" y1="420" x2="1320" y2="700"/>
+    <!-- Right Fan Cables -->
+    <line x1="1440" y1="120" x2="1920" y2="600" stroke-dasharray="10,4"/>
+    <line x1="1440" y1="180" x2="1860" y2="700"/>
+    <line x1="1440" y1="240" x2="1770" y2="700"/>
+    <line x1="1440" y1="300" x2="1690" y2="700"/>
+    <line x1="1440" y1="360" x2="1620" y2="700"/>
+    <line x1="1440" y1="420" x2="1560" y2="700"/>
+  </g>
+
+  <!-- Bridge Deck & Curving Elevated Expressway -->
+  <g opacity="0.5">
+    <!-- Main Deck -->
+    <line x1="600" y1="700" x2="1920" y2="700" stroke="#FFCB56" stroke-width="14"/>
+    <line x1="600" y1="712" x2="1920" y2="712" stroke="#b3b2b7" stroke-width="6"/>
+    <!-- Pier Columns -->
+    <rect x="920" y="718" width="40" height="362" fill="#303844"/>
+    <rect x="1740" y="718" width="40" height="362" fill="#303844"/>
+    <!-- Sweeping Highway Loop Flyover -->
+    <path d="M 680 1080 Q 1150 900 1350 710 T 1920 620" fill="none" stroke="#ed1925" stroke-width="8" stroke-dasharray="24,12"/>
+    <path d="M 720 1080 Q 1170 910 1360 720 T 1920 635" fill="none" stroke="#FFCB56" stroke-width="3"/>
+  </g>
+
+  <!-- Technical Coordinate Stamp -->
+  <g opacity="0.35" transform="translate(1360, 960)">
+    <text x="0" y="0" fill="#b3b2b7" font-family="'Montserrat', monospace" font-size="16" letter-spacing="4">INFRASTRUCTURE PACK 03 • MAIN SPAN 320M</text>
+    <text x="0" y="24" fill="#ed1925" font-family="'Montserrat', monospace" font-size="14" letter-spacing="2">GRADE 1 URBAN FREEWAY • DESIGN SPEED 100 KM/H</text>
+  </g>
+</svg>

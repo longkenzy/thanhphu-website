@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c222b"/>
+      <stop offset="50%" stop-color="#12161c"/>
+      <stop offset="100%" stop-color="#090b0e"/>
+    </linearGradient>
+    <linearGradient id="glowGrad1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ed1925" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="heroGrid1" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Deep Architectural Background -->
+  <rect width="1920" height="1080" fill="url(#heroGrad1)"/>
+  <rect width="1920" height="1080" fill="url(#heroGrid1)"/>
+  <rect width="1920" height="1080" fill="url(#glowGrad1)"/>
+
+  <!-- Geometric Construction Silhouettes -->
+  <g opacity="0.18">
+    <rect x="950" y="220" width="220" height="860" fill="#ffffff"/>
+    <rect x="1220" y="120" width="260" height="960" fill="#ffffff"/>
+    <rect x="1530" y="320" width="190" height="760" fill="#ffffff"/>
+    <rect x="1760" y="260" width="160" height="820" fill="#ffffff"/>
+    <rect x="720" y="440" width="180" height="640" fill="#ffffff"/>
+  </g>
+
+  <!-- Giant Engineering Structural Truss Lines -->
+  <g opacity="0.35">
+    <line x1="600" y1="1080" x2="1920" y2="200" stroke="#ed1925" stroke-width="2.5" stroke-dasharray="12,12"/>
+    <line x1="850" y1="1080" x2="1920" y2="450" stroke="#FFCB56" stroke-width="1.5" stroke-dasharray="8,8"/>
+    <line x1="400" y1="1080" x2="1600" y2="0" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  </g>
+
+  <!-- Giant Tower Crane Silhouette -->
+  <g opacity="0.45" transform="translate(1250, 80)">
+    <!-- Mast Tower -->
+    <line x1="200" y1="0" x2="200" y2="800" stroke="#FFCB56" stroke-width="8"/>
+    <line x1="240" y1="0" x2="240" y2="800" stroke="#FFCB56" stroke-width="8"/>
+    <!-- Truss X lacings inside mast -->
+    <line x1="200" y1="100" x2="240" y2="200" stroke="#FFCB56" stroke-width="3"/>
+    <line x1="240" y1="100" x2="200" y2="200" stroke="#FFCB56" stroke-width="3"/>
+    <line x1="200" y1="200" x2="240" y2="300" stroke="#FFCB56" stroke-width="3"/>
+    <line x1="240" y1="200" x2="200" y2="300" stroke="#FFCB56" stroke-width="3"/>
+    <line x1="200" y1="300" x2="240" y2="400" stroke="#FFCB56" stroke-width="3"/>
+    <line x1="240" y1="300" x2="200" y2="400" stroke="#FFCB56" stroke-width="3"/>
+
+    <!-- Jib & Counter Jib -->
+    <line x1="-150" y1="100" x2="520" y2="100" stroke="#FFCB56" stroke-width="8"/>
+    <line x1="220" y1="20" x2="-150" y2="100" stroke="#ed1925" stroke-width="4"/>
+    <line x1="220" y1="20" x2="350" y2="100" stroke="#ed1925" stroke-width="4"/>
+    <line x1="220" y1="20" x2="500" y2="100" stroke="#ed1925" stroke-width="4"/>
+    
+    <!-- Operator Cabin -->
+    <rect x="180" y="90" width="35" height="40" fill="#ed1925"/>
+
+    <!-- Hoist Line & Hook Block -->
+    <line x1="420" y1="100" x2="420" y2="380" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6,6"/>
+    <rect x="405" y="380" width="30" height="25" fill="#FFCB56"/>
+    <path d="M 420 405 L 420 435 A 15 15 0 0 1 405 450" fill="none" stroke="#FFCB56" stroke-width="4"/>
+  </g>
+
+  <!-- Technical Blueprint Coordinate Stamp -->
+  <g opacity="0.3" transform="translate(1400, 960)">
+    <text x="0" y="0" fill="#b3b2b7" font-family="'Montserrat', monospace" font-size="16" letter-spacing="4">PROJECT PHASE: 01 • LAT 10.8122 N / LONG 106.7029 E</text>
+    <text x="0" y="24" fill="#ed1925" font-family="'Montserrat', monospace" font-size="14" letter-spacing="2">SPECIFICATION: BIM LEVEL 2 • ISO 9001:2015 ACCREDITED</text>
+  </g>
+
+  <!-- Right Decorative Geometric Accent -->
+  <polygon points="1750,0 1920,0 1920,500 1550,500" fill="#ed1925" opacity="0.07"/>
+</svg>

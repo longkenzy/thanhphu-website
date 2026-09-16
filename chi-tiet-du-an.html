@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Dự Án | Công ty Cổ phần Đầu tư Xây lắp Thành Phú</title>
+  <meta name="description" content="Hồ sơ chi tiết công trình, quy mô kỹ thuật, hình ảnh thi công và giải pháp kết cấu của Công ty Cổ phần Đầu tư Xây lắp Thành Phú.">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <script src="assets/js/header.js"></script>
+</head>
+<body class="no-hero-slider">
+
+  <!-- Shared Persistent Header (Không bị reload khi chuyển trang) -->
+  <div id="site-header"></div>
+
+  <!-- Main Page Content Container -->
+  <div id="page-content">
+
+    <!-- Project Detail Section -->
+    <section class="section" style="padding-top: 35px;">
+      <div class="container" id="project-detail-container">
+        
+
+        <!-- Project Detail Header Banner -->
+        <div class="project-detail-header">
+          <div class="project-meta-badges">
+            <span class="project-badge" id="detail-badge">Xây Lắp</span>
+            <span class="project-status" id="detail-status">Đã Bàn Giao</span>
+            <a href="du-an.html" class="project-cat-tag" id="detail-category">Thi công xây lắp</a>
+          </div>
+          <h1 class="project-detail-title" id="detail-title">Tên Công Trình Dự Án</h1>
+        </div>
+
+        <!-- Project Main Visual & Thumbnails Gallery -->
+        <div class="project-detail-visual">
+          <div class="detail-main-img-box">
+            <img id="detail-main-img" src="assets/images/project-1.svg" alt="Hình ảnh công trình">
+          </div>
+          <div class="detail-thumbs-bar" id="detail-gallery-thumbs">
+            <!-- Thumbs dynamically injected by projects-data.js -->
+          </div>
+        </div>
+
+        <!-- Two Column Layout: Main Content (70%) vs Specs Sidebar (30%) -->
+        <div class="project-detail-grid">
+          
+          <!-- Left Column: Technical Overview & Scope -->
+          <div class="project-detail-body">
+            
+            <div class="detail-block">
+              <h2 class="detail-block-title">
+                <i class="fas fa-info-circle"></i> TỔNG QUAN DỰ ÁN
+              </h2>
+              <p class="detail-lead" id="detail-overview">
+                Nội dung giới thiệu công trình chi tiết...
+              </p>
+            </div>
+
+            <div class="detail-block">
+              <h2 class="detail-block-title">
+                <i class="fas fa-hard-hat"></i> HẠNG MỤC & PHẠM VI THI CÔNG
+              </h2>
+              <ul class="detail-check-list" id="detail-scope">
+                <!-- Injected dynamically -->
+              </ul>
+            </div>
+
+            <div class="detail-block">
+              <h2 class="detail-block-title">
+                <i class="fas fa-medal"></i> ĐIỂM NHẤN KỸ THUẬT & TIÊU CHUẨN ĐẠT ĐƯỢC
+              </h2>
+              <ul class="detail-check-list highlights-list" id="detail-highlights">
+                <!-- Injected dynamically -->
+              </ul>
+            </div>
+
+            <!-- Quality Assurance Commitment Box -->
+            <div class="commitment-box">
+              <div class="commitment-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="commitment-text">
+                <h4>CAM KẾT CHẤT LƯỢNG & TIẾN ĐỘ THÀNH PHÚ</h4>
+                <p>Mọi công trình đều được giám sát bởi hệ thống quản lý chất lượng ISO 9001:2015 và an toàn vệ sinh lao động ISO 45001:2018. Thành Phú cam kết bảo hành kết cấu dài hạn và hỗ trợ bảo trì kỹ thuật 24/7 sau bàn giao.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Specs Table & Sidebar Action -->
+          <div class="project-detail-sidebar">
+            
+            <!-- Project Specifications Card -->
+            <div class="project-spec-card">
+              <h3 class="spec-card-title">
+                <i class="fas fa-clipboard-list"></i> THÔNG SỐ CÔNG TRÌNH
+              </h3>
+              
+              <ul class="spec-item-list">
+                <li class="spec-item">
+                  <span class="spec-label"><i class="fas fa-user-tie"></i> Chủ đầu tư:</span>
+                  <strong class="spec-value" id="spec-client">--</strong>
+                </li>
+                <li class="spec-item">
+                  <span class="spec-label"><i class="fas fa-map-marker-alt"></i> Địa điểm:</span>
+                  <strong class="spec-value" id="spec-location">--</strong>
+                </li>
+                <li class="spec-item">
+                  <span class="spec-label"><i class="fas fa-ruler-combined"></i> Quy mô / Diện tích:</span>
+                  <strong class="spec-value" id="spec-scale">--</strong>
+                </li>
+                <li class="spec-item">
+                  <span class="spec-label"><i class="fas fa-file-contract"></i> Loại hợp đồng:</span>
+                  <strong class="spec-value" id="spec-contract">--</strong>
+                </li>
+                <li class="spec-item">
+                  <span class="spec-label"><i class="fas fa-calendar-alt"></i> Thời gian thực hiện:</span>
+                  <strong class="spec-value" id="spec-timeline">--</strong>
+                </li>
+                <li class="spec-item">
+                  <span class="spec-label"><i class="fas fa-check-circle"></i> Năm hoàn thành:</span>
+                  <strong class="spec-value" id="spec-year">--</strong>
+                </li>
+              </ul>
+
+              <div style="margin-top: 25px;">
+                <a href="lien-he.html" class="btn btn-primary" style="width: 100%;">
+                  <i class="fas fa-phone-alt"></i> YÊU CẦU TƯ VẤN DỰ ÁN
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Hotline Consultation Card -->
+            <div class="sidebar-help-card">
+              <div class="help-card-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <h4>BẠN CẦN TƯ VẤN THI CÔNG?</h4>
+              <p>Đội ngũ kỹ sư & chuyên gia dự toán Thành Phú luôn sẵn sàng khảo sát và tư vấn giải pháp tối ưu chi phí.</p>
+              <a href="tel:0903123456" class="sidebar-phone-btn">
+                <i class="fas fa-phone-volume"></i> 0903 123 456
+              </a>
+              <span class="sidebar-subtext">Hỗ trợ kỹ thuật 24/7 - Khảo sát miễn phí</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Related Projects Section -->
+        <div class="related-projects-section">
+          <div class="section-header" style="margin-bottom: 35px; text-align: left;">
+            <div class="section-subtitle">DANH MỤC TIÊU BIỂU</div>
+            <h2 class="section-title" style="font-size: 1.85rem;">CÁC CÔNG TRÌNH CÙNG LĨNH VỰC</h2>
+          </div>
+
+          <div class="grid grid-3" id="detail-related-grid">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div style="text-align: center; margin-top: 45px;">
+            <a href="du-an.html" class="btn btn-outline">
+              <i class="fas fa-th-large"></i> XEM TẤT CẢ DỰ ÁN THÀNH PHÚ
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: About & Identity -->
+        <div>
+          <div style="margin-bottom: 20px;">
+            <img src="assets/images/logo.png" alt="Logo Thành Phú" style="height: 42px; width: auto; display: block;">
+          </div>
+          <p class="footer-desc">
+            Công ty Cổ phần Đầu tư Xây lắp Thành Phú là đơn vị tổng thầu thi công xây dựng dân dụng, công nghiệp, hạ tầng kỹ thuật và kết cấu thép chuyên nghiệp.
+          </p>
+          <div style="margin-top: 15px; font-size: 0.85rem; color: var(--text-light);">
+            MST: <strong>0309995180</strong> do Sở KH&ĐT TP.HCM cấp.
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div>
+          <h4 class="footer-col-title">LIÊN KẾT NHANH</h4>
+          <ul class="footer-links">
+            <li><a href="index.html"><i class="fas fa-angle-right"></i> Trang chủ</a></li>
+            <li><a href="gioi-thieu.html"><i class="fas fa-angle-right"></i> Giới thiệu công ty</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-angle-right"></i> Lĩnh vực hoạt động</a></li>
+            <li><a href="du-an.html"><i class="fas fa-angle-right"></i> Dự án tiêu biểu</a></li>
+            <li><a href="tin-tuc.html"><i class="fas fa-angle-right"></i> Tin tức ngành</a></li>
+            <li><a href="tuyen-dung.html"><i class="fas fa-angle-right"></i> Cơ hội nghề nghiệp</a></li>
+            <li><a href="lien-he.html"><i class="fas fa-angle-right"></i> Liên hệ báo giá</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Core Services -->
+        <div>
+          <h4 class="footer-col-title">LĨNH VỰC THI CÔNG</h4>
+          <ul class="footer-links">
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng dân dụng & cao tầng</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng nhà xưởng công nghiệp</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Hạ tầng giao thông đô thị</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Gia công lắp dựng kết cấu thép</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Hệ nhôm kính facade cao cấp</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Thiết kế & Thi công nội thất</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact details -->
+        <div>
+          <h4 class="footer-col-title">TRỤ SỞ LÀM VIỆC</h4>
+          <div class="footer-contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>22A Vũ Ngọc Phan, Phường 13, Quận Bình Thạnh, TP. Hồ Chí Minh</div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <a href="tel:02835532345" style="color: #ffffff; font-weight: 700;">(028) 3553 2345</a><br>
+              <a href="tel:0903123456" style="color: var(--accent);">Hotline: 0903 123 456</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <a href="mailto:thanhphuhcns@gmail.com">thanhphuhcns@gmail.com</a><br>
+              <a href="mailto:info@thanhphuxd.com">info@thanhphuxd.com</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-globe"></i>
+            <div><a href="https://thanhphuxd.com">www.thanhphuxd.com</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <div>© 2026 CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. Tất cả quyền được bảo lưu.</div>
+          <div style="display: flex; gap: 20px;">
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Quy chuẩn an toàn</a>
+            <a href="#">Hồ sơ năng lực</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <!-- Projects Database Script -->
+  <script src="assets/js/projects-data.js"></script>
+  <!-- Main Script -->
+  <script src="assets/js/main.js"></script>
+  
+  <script>
+    // Khởi tạo hiển thị chi tiết dự án khi tải trang
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof renderProjectDetail === 'function') {
+        renderProjectDetail();
+      }
+    });
+  </script>
+</body>
+</html>

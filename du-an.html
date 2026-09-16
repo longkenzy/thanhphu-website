@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dự Án Tiêu Biểu | Công ty Cổ phần Đầu tư Xây lắp Thành Phú</title>
+  <meta name="description" content="Danh mục các công trình và dự án tiêu biểu do Thành Phú thi công xây dựng trong các lĩnh vực dân dụng, cao ốc, nhà máy công nghiệp và hạ tầng kỹ thuật.">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <script src="assets/js/header.js"></script>
+</head>
+<body>
+
+  <!-- Shared Persistent Header (Không bị reload khi chuyển trang) -->
+  <div id="site-header"></div>
+
+  <!-- Main Page Content Container -->
+  <div id="page-content">
+
+
+  <!-- Project Gallery Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-subtitle">DẤU ẤN CÔNG TRÌNH</div>
+        <h2 class="section-title">HỒ SƠ CÔNG TRÌNH THỰC HIỆN</h2>
+        <p class="section-desc">Mỗi công trình là một tác phẩm được kết tinh từ tâm huyết, khối óc và kỷ luật lao động nghiêm ngặt của đội ngũ Thành Phú.</p>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="filter-nav" id="projects-filter-nav">
+        <button type="button" class="filter-btn active" data-filter="all">TẤT CẢ DỰ ÁN</button>
+        <button type="button" class="filter-btn" data-filter="xay-lap">THI CÔNG XÂY LẮP</button>
+        <button type="button" class="filter-btn" data-filter="noi-that">TRANG TRÍ NỘI THẤT</button>
+        <button type="button" class="filter-btn" data-filter="nhom-kinh">SXLĐ CẤU KIỆN NHÔM KÍNH</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="grid grid-3 project-grid" id="projects-grid-container">
+        <!-- Danh sách dự án tải động từ API MongoDB Atlas qua assets/js/projects-data.js -->
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--text-muted);">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary); margin-bottom: 12px;"></i>
+          <p>Đang tải danh sách công trình...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid grid-4">
+        <div class="footer-brand">
+          <div style="background: #ffffff; display: inline-block; padding: 10px 16px; border-radius: var(--radius-sm); margin-bottom: 18px; border-left: 4px solid var(--primary);">
+            <img src="assets/images/logo.png" alt="Logo Thành Phú" style="height: 42px; width: auto; display: block;">
+          </div>
+          <p class="footer-desc">
+            Tiền thân là Công ty CP Xây dựng TTNT Thành Phú. Đơn vị tổng thầu thi công xây dựng hàng đầu với cam kết Uy Tín - Tiến Độ - Chất Lượng.
+          </p>
+          <div style="font-size: 0.82rem; color: var(--gray);">
+            <div><strong>Mã số thuế:</strong> 0310001821</div>
+            <div><strong>Hệ thống quản lý:</strong> ISO 9001:2015</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">LIÊN KẾT NHANH</h4>
+          <ul class="footer-links">
+            <li><a href="index.html"><i class="fas fa-angle-right"></i> Trang chủ</a></li>
+            <li><a href="gioi-thieu.html"><i class="fas fa-angle-right"></i> Giới thiệu công ty</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-angle-right"></i> Lĩnh vực hoạt động</a></li>
+            <li><a href="du-an.html"><i class="fas fa-angle-right"></i> Dự án tiêu biểu</a></li>
+            <li><a href="tin-tuc.html"><i class="fas fa-angle-right"></i> Tin tức & Sự kiện</a></li>
+            <li><a href="tuyen-dung.html"><i class="fas fa-angle-right"></i> Cơ hội nghề nghiệp</a></li>
+            <li><a href="lien-he.html"><i class="fas fa-angle-right"></i> Liên hệ báo giá</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">LĨNH VỰC CHÍNH</h4>
+          <ul class="footer-links">
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng dân dụng & cao tầng</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng nhà xưởng công nghiệp</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Hạ tầng giao thông đô thị</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Kết cấu thép & gia công kim loại</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Cửa nhựa uPVC & Nhôm kính</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Thiết kế & Thi công nội thất</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">TRỤ SỞ LÀM VIỆC</h4>
+          <div class="footer-contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>22A Vũ Ngọc Phan, Phường 13, Quận Bình Thạnh, TP. Hồ Chí Minh</div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <a href="tel:02835532345" style="color: #ffffff; font-weight: 700;">(028) 3553 2345</a><br>
+              <a href="tel:0903123456" style="color: var(--accent);">Hotline: 0903 123 456</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <a href="mailto:thanhphuhcns@gmail.com">thanhphuhcns@gmail.com</a><br>
+              <a href="mailto:info@thanhphuxd.com">info@thanhphuxd.com</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-globe"></i>
+            <div><a href="https://thanhphuxd.com">www.thanhphuxd.com</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <div>© 2026 CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. Tất cả quyền được bảo lưu.</div>
+          <div style="display: flex; gap: 20px;">
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Quy chuẩn an toàn</a>
+            <a href="#">Hồ sơ năng lực</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </div>
+
+  <div class="back-to-top" title="Lên đầu trang">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/projects-data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

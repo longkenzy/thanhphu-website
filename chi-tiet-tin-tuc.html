@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Chi Tiết Bản Tin | Công ty Cổ phần Đầu tư Xây lắp Thành Phú</title>
+  <meta name="description" id="page-meta-desc" content="Thông tin cập nhật tiến độ công trường, công nghệ kỹ thuật và sự kiện từ Thành Phú Construction.">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <script src="assets/js/header.js"></script>
+
+  <style>
+    .article-header {
+      margin-bottom: 28px;
+    }
+    .article-meta-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .article-category-badge {
+      background: var(--primary);
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+    }
+    .article-main-title {
+      font-size: 2.2rem;
+      line-height: 1.35;
+      margin-bottom: 18px;
+      color: var(--dark);
+    }
+    .article-lead-box {
+      font-size: 1.12rem;
+      font-weight: 500;
+      line-height: 1.75;
+      color: var(--text-main);
+      border-left: 4px solid var(--primary);
+      padding: 14px 20px;
+      background: #fdf2f2;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-bottom: 28px;
+    }
+    .article-feature-img-box {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 35px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      max-height: 480px;
+    }
+    .article-feature-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .article-body-content {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #334155;
+    }
+    .article-body-content h2, .article-body-content h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--dark);
+      margin: 32px 0 14px;
+      line-height: 1.35;
+    }
+    .article-body-content h2 { font-size: 1.55rem; }
+    .article-body-content h3 { font-size: 1.35rem; }
+    .article-body-content p {
+      margin-bottom: 20px;
+    }
+    .article-body-content blockquote {
+      border-left: 4px solid var(--primary);
+      background: #f8fafc;
+      padding: 18px 24px;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--text-main);
+      margin: 28px 0;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .article-body-content ul, .article-body-content ol {
+      padding-left: 28px;
+      margin-bottom: 24px;
+    }
+    .article-body-content li {
+      margin-bottom: 8px;
+    }
+    .article-body-content .callout-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid var(--accent-dark);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      margin: 25px 0;
+    }
+    .article-social-share {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 0;
+      border-top: 1px solid var(--gray-border);
+      border-bottom: 1px solid var(--gray-border);
+      margin: 40px 0 30px;
+      flex-wrap: wrap;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+    }
+    .share-fb { background: #1877f2; }
+    .share-fb:hover { background: #1464c9; }
+    .share-zalo { background: #0068ff; }
+    .share-zalo:hover { background: #0052cc; }
+    .share-copy { background: #475569; }
+    .share-copy:hover { background: #334155; }
+    
+    .sidebar-widget {
+      background: #ffffff;
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .widget-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .related-news-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f1f5f9;
+      text-decoration: none;
+      color: inherit;
+    }
+    .related-news-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .related-news-item img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+    .related-news-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--dark);
+      transition: var(--transition);
+    }
+    .related-news-item:hover .related-news-title {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body class="no-hero-slider">
+
+  <!-- Shared Persistent Header -->
+  <div id="site-header"></div>
+
+  <!-- Main Page Content Container -->
+  <div id="page-content">
+
+    <!-- Breadcrumb Section -->
+    <section style="background: #f1f5f9; padding: 18px 0; border-bottom: 1px solid var(--gray-border);">
+      <div class="container" style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted); flex-wrap:wrap;">
+        <a href="index.html" style="color:var(--text-muted);"><i class="fas fa-home"></i> Trang chủ</a>
+        <span>/</span>
+        <a href="tin-tuc.html" style="color:var(--text-muted);">Tin tức & Sự kiện</a>
+        <span>/</span>
+        <span style="color:var(--primary); font-weight:600;" id="breadcrumb-title">Đang tải bản tin...</span>
+      </div>
+    </section>
+
+    <!-- Main Detail Section -->
+    <section class="section" style="padding-top: 40px; padding-bottom: 70px;">
+      <div class="container">
+        
+        <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 40px;" id="detail-layout-grid">
+          
+          <!-- Left Column: Article Body -->
+          <div>
+            <div class="article-header">
+              <div class="article-meta-bar">
+                <span class="article-category-badge" id="article-category">TIN TỨC</span>
+                <span><i class="far fa-calendar-alt"></i> <span id="article-date">--/--/----</span></span>
+                <span><i class="far fa-user"></i> <span id="article-author">Ban Biên Tập Thành Phú</span></span>
+                <span><i class="far fa-eye"></i> <span id="article-views">0</span> lượt đọc</span>
+              </div>
+              <h1 class="article-main-title" id="article-title">Tiêu đề bài viết đang được tải...</h1>
+            </div>
+
+            <!-- Lead Excerpt -->
+            <div class="article-lead-box" id="article-excerpt">
+              Đoạn tóm tắt mở đầu bài viết...
+            </div>
+
+            <!-- Main Feature Image -->
+            <div class="article-feature-img-box">
+              <img id="article-image" src="assets/images/news-1.svg" alt="Hình ảnh bài viết">
+            </div>
+
+            <!-- Rich Body Content -->
+            <div class="article-body-content" id="article-content">
+              <div style="text-align: center; padding: 40px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                <p style="margin-top: 12px; color: var(--text-muted);">Đang tải nội dung bản tin...</p>
+              </div>
+            </div>
+
+            <!-- Social Share Bar -->
+            <div class="article-social-share">
+              <span style="font-weight: 700; font-size: 0.9rem; color: var(--dark);">Chia sẻ bài viết:</span>
+              <button class="share-btn share-fb" onclick="shareFacebook()">
+                <i class="fab fa-facebook-f"></i> Facebook
+              </button>
+              <button class="share-btn share-zalo" onclick="shareZalo()">
+                <i class="fas fa-comment-dots"></i> Zalo
+              </button>
+              <button class="share-btn share-copy" onclick="copyArticleLink()">
+                <i class="fas fa-link"></i> Sao chép liên kết
+              </button>
+            </div>
+
+            <!-- Back to News Button -->
+            <div style="margin-top: 25px;">
+              <a href="tin-tuc.html" class="btn btn-outline" style="border: 1px solid var(--gray-border); padding: 10px 22px; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> Quay lại danh mục Tin Tức
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Sidebar -->
+          <div>
+            <!-- Quick Contact Card -->
+            <div class="sidebar-widget" style="border-top: 4px solid var(--primary); background: #ffffff;">
+              <h4 class="widget-title">LIÊN HỆ TRUYỀN THÔNG</h4>
+              <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;">
+                Mọi thông tin báo chí, tư vấn kỹ thuật hoặc hợp tác thầu xây lắp, vui lòng liên hệ:
+              </p>
+              <div style="font-size: 0.88rem; line-height: 2;">
+                <div><i class="fas fa-phone-alt" style="color:var(--primary); margin-right:8px;"></i> <strong>Hotline:</strong> 0903 123 456</div>
+                <div><i class="fas fa-envelope" style="color:var(--primary); margin-right:8px;"></i> <strong>Email:</strong> thanhphuhcns@gmail.com</div>
+                <div><i class="fas fa-map-marker-alt" style="color:var(--primary); margin-right:8px;"></i> Bình Thạnh, TP.HCM</div>
+              </div>
+              <div style="margin-top: 18px;">
+                <a href="lien-he.html" class="btn btn-primary btn-sm" style="width: 100%;">
+                  Gửi Yêu Cầu Báo Giá <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Related Articles Widget -->
+            <div class="sidebar-widget">
+              <h4 class="widget-title">BẢN TIN LIÊN QUAN</h4>
+              <div id="related-articles-list">
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Đang nạp tin liên quan...</div>
+              </div>
+            </div>
+
+            <!-- Profile Brochure Download Widget -->
+            <div class="sidebar-widget" style="background: linear-gradient(135deg, #1f242d 0%, #14171d 100%); color: #ffffff; border: none;">
+              <div style="color: var(--accent); font-size: 1.5rem; margin-bottom: 12px;">
+                <i class="fas fa-file-pdf"></i>
+              </div>
+              <h4 style="color: #ffffff; font-size: 1.1rem; margin-bottom: 10px;">HỒ SƠ NĂNG LỰC THÀNH PHÚ</h4>
+              <p style="font-size: 0.82rem; color: #a0a6b5; line-height: 1.6; margin-bottom: 16px;">
+                Tải xuống bản tóm lược năng lực thi công, danh mục thiết bị cơ giới và các dự án tiêu biểu.
+              </p>
+              <a href="gioi-thieu.html" class="btn btn-primary btn-sm" style="width: 100%;">
+                <i class="fas fa-download"></i> Xem Hồ Sơ Năng Lực
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="grid grid-4">
+          <div class="footer-brand">
+            <div style="background: #ffffff; display: inline-block; padding: 10px 16px; border-radius: var(--radius-sm); margin-bottom: 18px; border-left: 4px solid var(--primary);">
+              <img src="assets/images/logo.png" alt="Logo Thành Phú" style="height: 42px; width: auto; display: block;">
+            </div>
+            <p class="footer-desc">
+              Tiền thân là Công ty CP Xây dựng TTNT Thành Phú. Đơn vị tổng thầu thi công xây dựng hàng đầu với cam kết Uy Tín - Tiến Độ - Chất Lượng.
+            </p>
+            <div style="font-size: 0.82rem; color: var(--gray);">
+              <div><strong>Mã số thuế:</strong> 0310001821</div>
+              <div><strong>Hệ thống quản lý:</strong> ISO 9001:2015</div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">LIÊN KẾT NHANH</h4>
+            <ul class="footer-links">
+              <li><a href="index.html"><i class="fas fa-angle-right"></i> Trang chủ</a></li>
+              <li><a href="gioi-thieu.html"><i class="fas fa-angle-right"></i> Giới thiệu công ty</a></li>
+              <li><a href="linh-vuc.html"><i class="fas fa-angle-right"></i> Lĩnh vực hoạt động</a></li>
+              <li><a href="du-an.html"><i class="fas fa-angle-right"></i> Dự án tiêu biểu</a></li>
+              <li><a href="tin-tuc.html"><i class="fas fa-angle-right"></i> Tin tức & Sự kiện</a></li>
+              <li><a href="admin.html" style="color:var(--accent); font-weight:600;"><i class="fas fa-lock"></i> Quản trị CMS</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">LĨNH VỰC CHÍNH</h4>
+            <ul class="footer-links">
+              <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng dân dụng & cao tầng</a></li>
+              <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng nhà xưởng công nghiệp</a></li>
+              <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Hạ tầng giao thông đô thị</a></li>
+              <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Kết cấu thép & cơ khí chế tạo</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">TRỤ SỞ LÀM VIỆC</h4>
+            <div class="footer-contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>22A Vũ Ngọc Phan, P. 13, Q. Bình Thạnh, TP. Hồ Chí Minh</div>
+            </div>
+            <div class="footer-contact-item">
+              <i class="fas fa-phone-alt"></i>
+              <div>
+                <a href="tel:02835532345" style="color: #ffffff; font-weight: 700;">(028) 3553 2345</a><br>
+                <a href="tel:0903123456" style="color: var(--accent);">Hotline: 0903 123 456</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-bottom-inner">
+            <div>© 2026 CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. Tất cả quyền được bảo lưu.</div>
+            <div>
+              <a href="admin.html" style="color:rgba(255,255,255,0.7);"><i class="fas fa-cog"></i> Trang Quản Trị /admin</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="back-to-top" title="Lên đầu trang">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+  <script>
+    async function loadArticleDetail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const articleId = urlParams.get('id') || urlParams.get('slug') || 'le-cat-noc-saigon-horizon';
+
+      try {
+        const res = await fetch(`/api/articles/${articleId}?view=1`);
+        const data = await res.json();
+
+        if (data.success && data.data) {
+          const article = data.data;
+
+          document.title = `${article.title} | Xây Lắp Thành Phú`;
+          const metaDesc = document.getElementById('page-meta-desc');
+          if (metaDesc) metaDesc.content = article.excerpt || article.title;
+
+          document.getElementById('breadcrumb-title').textContent = article.title;
+          document.getElementById('article-title').textContent = article.title;
+          document.getElementById('article-category').textContent = article.categoryName || 'TIN TỨC';
+          document.getElementById('article-date').textContent = article.date || '';
+          document.getElementById('article-author').textContent = article.author || 'Ban Truyền Thông';
+          document.getElementById('article-views').textContent = Number(article.views || 0).toLocaleString('vi-VN');
+          document.getElementById('article-excerpt').textContent = article.excerpt || '';
+          document.getElementById('article-image').src = article.image || 'assets/images/news-1.svg';
+          document.getElementById('article-content').innerHTML = article.content || '<p>Nội dung đang được cập nhật...</p>';
+
+          loadRelatedArticles(article.id, article.category);
+        } else {
+          showNotFound();
+        }
+      } catch (err) {
+        console.warn('API error, using fallback');
+        showNotFound();
+      }
+    }
+
+    async function loadRelatedArticles(currentId, category) {
+      try {
+        const res = await fetch('/api/articles?status=published');
+        const data = await res.json();
+        if (data.success && data.data) {
+          const related = data.data.filter(a => a.id !== currentId).slice(0, 4);
+          const container = document.getElementById('related-articles-list');
+          if (container) {
+            container.innerHTML = related.map(item => `
+              <a href="chi-tiet-tin-tuc.html?id=${item.id}" class="related-news-item">
+                <img src="${item.image || 'assets/images/news-1.svg'}" alt="${item.title}">
+                <div>
+                  <h5 class="related-news-title">${item.title}</h5>
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+                    <i class="far fa-calendar-alt"></i> ${item.date}
+                  </div>
+                </div>
+              </a>
+            `).join('');
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function showNotFound() {
+      document.getElementById('article-title').textContent = 'Không tìm thấy bài viết';
+      document.getElementById('article-content').innerHTML = `
+        <div style="text-align:center; padding: 40px;">
+          <p>Bài viết này không tồn tại hoặc đã được chuyển vào bản nháp.</p>
+          <a href="tin-tuc.html" class="btn btn-primary btn-sm" style="margin-top: 15px;">Quay lại Trang Tin Tức</a>
+        </div>
+      `;
+    }
+
+    function shareFacebook() {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+    }
+
+    function shareZalo() {
+      window.open(`https://zalo.me/share?url=${encodeURIComponent(window.location.href)}`, '_blank');
+    }
+
+    function copyArticleLink() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Đã sao chép liên kết bài viết vào clipboard!');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadArticleDetail);
+  </script>
+</body>
+</html>

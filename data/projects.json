@@ -1,0 +1,40 @@
+[
+  {
+    "id": "toa-nha-van-phong-thuong-mai-saigon-horizon",
+    "slug": "toa-nha-van-phong-thuong-mai-saigon-horizon",
+    "title": "Tòa Nhà Văn Phòng & Thương Mại SaiGon Horizon",
+    "category": "xay-lap",
+    "categoryName": "Thi công xây lắp",
+    "badge": "Xây Lắp Dân Dụng",
+    "status": "Đã Bàn Giao",
+    "image": "https://res.cloudinary.com/bzwvyqou/image/upload/v1788835900/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-1788835888687.jpg",
+    "cloudinaryId": "",
+    "gallery": [
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788835900/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-1788835888687.jpg",
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836225/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-2-1788836213310.jpg",
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836228/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-3-1788836219556.jpg",
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836232/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-4-1788836222261.jpg",
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836237/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-5-1788836226707.jpg"
+    ],
+    "location": "fsdfadv",
+    "client": "fdà",
+    "scale": "dfá",
+    "contractType": "fádf",
+    "timeline": "Khởi công: Tháng 04/2022 - Nghiệm thu bàn giao: Tháng 06/2024",
+    "year": "2026",
+    "overview": "test",
+    "scope": [
+      "test"
+    ],
+    "highlights": [
+      "test"
+    ],
+    "content": "<p>test</p>",
+    "order": 0,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 0,
+    "createdAt": "2026-09-08T02:51:34.587Z",
+    "updatedAt": "2026-09-08T02:57:11.859Z"
+  }
+]

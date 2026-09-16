@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#182029"/>
+      <stop offset="100%" stop-color="#0f1216"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ed1925"/>
+      <stop offset="100%" stop-color="#FFCB56"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+
+  <!-- Architectural Geometry / Building Silhouettes -->
+  <g opacity="0.25">
+    <rect x="60" y="140" width="110" height="360" fill="#ffffff" />
+    <rect x="200" y="80" width="140" height="420" fill="#ffffff" />
+    <rect x="370" y="190" width="100" height="310" fill="#ffffff" />
+    <rect x="500" y="110" width="130" height="390" fill="#ffffff" />
+    <rect x="660" y="160" width="90" height="340" fill="#ffffff" />
+    <!-- Diagonal Construction Truss Lines -->
+    <line x1="0" y1="500" x2="800" y2="200" stroke="#ed1925" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.6"/>
+    <line x1="100" y1="500" x2="700" y2="100" stroke="#FFCB56" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+  </g>
+
+  <!-- Tower Crane Graphic Silhouette -->
+  <g opacity="0.35" transform="translate(480, 50)">
+    <line x1="80" y1="0" x2="80" y2="350" stroke="#FFCB56" stroke-width="4"/>
+    <line x1="0" y1="40" x2="220" y2="40" stroke="#FFCB56" stroke-width="4"/>
+    <line x1="80" y1="0" x2="0" y2="40" stroke="#FFCB56" stroke-width="2"/>
+    <line x1="80" y1="0" x2="160" y2="40" stroke="#FFCB56" stroke-width="2"/>
+    <circle cx="80" cy="40" r="6" fill="#ed1925"/>
+    <line x1="180" y1="40" x2="180" y2="120" stroke="#b3b2b7" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <rect x="172" y="120" width="16" height="12" fill="#FFCB56"/>
+  </g>
+
+  <!-- Badge Pill -->
+  <g transform="translate(50, 60)">
+    <rect x="0" y="0" width="160" height="32" rx="3" fill="#ed1925" />
+    <text x="80" y="21" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="12" font-weight="bold" text-anchor="middle" letter-spacing="1.5">CÔNG NGHỆ</text>
+  </g>
+
+  <!-- Center Card Container -->
+  <g transform="translate(50, 240)">
+    <rect x="0" y="0" width="700" height="190" rx="4" fill="rgba(15, 18, 22, 0.85)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    <rect x="0" y="0" width="6" height="190" fill="#ed1925" />
+    
+    <text x="35" y="55" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="24" font-weight="bold">Ứng Dụng Mô Hình BIM 3D & 4D</text>
+    <text x="35" y="90" fill="#FFCB56" font-family="'Montserrat', sans-serif" font-size="14" font-weight="600" letter-spacing="1">TỐI ƯU KIỂM SOÁT XUNG ĐỘT MEP</text>
+    <line x1="35" y1="115" x2="665" y2="115" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    
+    <text x="35" y="150" fill="#b3b2b7" font-family="'Be Vietnam Pro', sans-serif" font-size="13">CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015</text>
+  </g>
+
+  <!-- Bottom Accent Stripe -->
+  <rect x="0" y="494" width="800" height="6" fill="url(#accentGrad)" />
+</svg>

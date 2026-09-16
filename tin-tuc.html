@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tin Tức & Hoạt Động | Công ty Cổ phần Đầu tư Xây lắp Thành Phú</title>
+  <meta name="description" content="Bản tin công trường, tiến độ thi công dự án, sự kiện doanh nghiệp và kiến thức chuyên ngành xây dựng của Thành Phú.">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <script src="assets/js/header.js"></script>
+</head>
+<body>
+
+  <!-- Shared Persistent Header (Không bị reload khi chuyển trang) -->
+  <div id="site-header"></div>
+
+  <!-- Main Page Content Container -->
+  <div id="page-content">
+
+
+  <!-- News Section -->
+  <section class="section">
+    <div class="container">
+      
+      <!-- Dynamic Featured Highlight Story Container -->
+      <div id="featured-story-container">
+        <div style="background:#ffffff; border:1px solid var(--gray-border); border-radius:var(--radius-sm); overflow:hidden; margin-bottom: 50px; display:grid; grid-template-columns: 1.2fr 1fr; border-left: 5px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.06);">
+          <div style="position:relative; min-height: 340px;">
+            <img src="assets/images/news-1.svg" alt="Tiêu điểm tin tức" style="width:100%; height:100%; object-fit:cover;">
+            <span style="position:absolute; top:15px; left:15px; background:var(--primary); color:#ffffff; font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; padding:4px 12px; text-transform:uppercase;">TIN TIÊU ĐIỂM</span>
+          </div>
+          <div style="padding: 35px; display:flex; flex-direction:column; justify-content:center;">
+            <div style="color:var(--text-muted); font-size:0.85rem; margin-bottom:8px;">
+              <i class="far fa-calendar-alt"></i> 15/08/2026 &nbsp;|&nbsp; <i class="fas fa-user-edit"></i> Ban Truyền Thông Thành Phú
+            </div>
+            <h2 style="font-size:1.6rem; margin-bottom:14px; line-height:1.35;">Lễ Cất Nóc Vượt Tiến Độ 25 Ngày Tòa Nhà Văn Phòng SaiGon Horizon</h2>
+            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px; line-height:1.7;">
+              Sáng ngày 15/08, Công ty CP Đầu tư Xây lắp Thành Phú cùng Chủ đầu tư đã chính thức đổ mẻ bê tông cất nóc tầng 21 tháp văn phòng cao cấp SaiGon Horizon. Sự kiện đánh dấu việc hoàn thành toàn bộ phần kết cấu thô trước tiến độ cam kết 25 ngày.
+            </p>
+            <div>
+              <a href="chi-tiet-tin-tuc.html?id=le-cat-noc-saigon-horizon" class="btn btn-primary btn-sm">Xem chi tiết bài viết <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" style="text-align:left; margin-bottom: 25px;">
+        <div class="section-subtitle">TẤT CẢ BẢN TIN</div>
+        <h3 style="font-size: 1.8rem; text-transform: uppercase;">CẬP NHẬT HOẠT ĐỘNG MỚI NHẤT</h3>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div id="news-category-tabs" class="news-category-tabs">
+        <button type="button" class="news-tab-btn active" data-cat="all" onclick="filterNewsGrid('all', this)">Tất Cả Bản Tin</button>
+        <button type="button" class="news-tab-btn" data-cat="su-kien" onclick="filterNewsGrid('su-kien', this)">Sự Kiện & Tiến Độ</button>
+        <button type="button" class="news-tab-btn" data-cat="an-toan" onclick="filterNewsGrid('an-toan', this)">An Toàn Lao Động</button>
+        <button type="button" class="news-tab-btn" data-cat="cong-nghe" onclick="filterNewsGrid('cong-nghe', this)">Công Nghệ Xây Dựng</button>
+        <button type="button" class="news-tab-btn" data-cat="tien-do" onclick="filterNewsGrid('tien-do', this)">Tiến Độ Dự Án</button>
+        <button type="button" class="news-tab-btn" data-cat="kien-thuc" onclick="filterNewsGrid('kien-thuc', this)">Kiến Thức Xây Dựng</button>
+        <button type="button" class="news-tab-btn" data-cat="giai-thuong" onclick="filterNewsGrid('giai-thuong', this)">Giải Thưởng & Sự Kiện</button>
+        <button type="button" class="news-tab-btn" data-cat="nang-luc" onclick="filterNewsGrid('nang-luc', this)">Năng Lực Sản Xuất</button>
+      </div>
+
+      <!-- Dynamic News Grid -->
+      <div class="grid grid-3" id="news-grid-container">
+        <!-- Fallback cards if JS is loading -->
+        <div class="news-card">
+          <div class="news-img-box">
+            <span class="news-date"><i class="far fa-calendar-alt"></i> 02/08/2026</span>
+            <img src="assets/images/news-2.svg" alt="Tập huấn an toàn">
+          </div>
+          <div class="news-body">
+            <div class="news-category">An Toàn Lao Động</div>
+            <h3 class="news-title"><a href="chi-tiet-tin-tuc.html?id=tap-huan-an-toan-lao-dong-pccc-q3-2026">Tập Huấn Công Tác An Toàn Lao Động & Phòng Cháy Chữa Cháy Quý III/2026</a></h3>
+            <p class="news-excerpt">Chương trình huấn luyện định kỳ nhằm củng cố nhận thức an toàn, kỹ năng làm việc trên cao và phản ứng sự cố cho 150 cán bộ kỹ thuật.</p>
+            <a href="chi-tiet-tin-tuc.html?id=tap-huan-an-toan-lao-dong-pccc-q3-2026" class="service-link">Chi tiết <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-img-box">
+            <span class="news-date"><i class="far fa-calendar-alt"></i> 20/07/2026</span>
+            <img src="assets/images/news-3.svg" alt="Công nghệ BIM">
+          </div>
+          <div class="news-body">
+            <div class="news-category">Công Nghệ Xây Dựng</div>
+            <h3 class="news-title"><a href="chi-tiet-tin-tuc.html?id=ung-dung-bim-trong-quan-ly-xung-dot-mep">Ứng Dụng Mô Hình Thông Tin Công Trình (BIM) Trong Quản Lý Xung Đột Kết Cấu MEP</a></h3>
+            <p class="news-excerpt">BIM 3D và 4D giúp phòng Kỹ thuật Thành Phú giải quyết triệt để xung đột giữa hệ dầm sàn và đường ống cấp thoát nước/thông gió.</p>
+            <a href="chi-tiet-tin-tuc.html?id=ung-dung-bim-trong-quan-ly-xung-dot-mep" class="service-link">Chi tiết <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-img-box">
+            <span class="news-date"><i class="far fa-calendar-alt"></i> 10/07/2026</span>
+            <img src="assets/images/news-4.svg" alt="Lễ khởi công hạ tầng">
+          </div>
+          <div class="news-body">
+            <div class="news-category">Tiến Độ Dự Án</div>
+            <h3 class="news-title"><a href="chi-tiet-tin-tuc.html?id=khoi-cong-ha-tang-do-thi-nam-long">Lễ Khởi Công Giai Đoạn 2 Tuyến Hạ Tầng Kỹ Thuật Đô Thị Nam Long</a></h3>
+            <p class="news-excerpt">Thành Phú chính thức đưa vào công trường 25 thiết bị cơ giới nặng để triển khai thảm nhựa asphalt và hạ tầng ngầm phân khu 2.</p>
+            <a href="chi-tiet-tin-tuc.html?id=khoi-cong-ha-tang-do-thi-nam-long" class="service-link">Chi tiết <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Signup -->
+  <section class="section section-dark" style="padding: 60px 0;">
+    <div class="container" style="max-width: 800px; text-align: center;">
+      <div class="section-subtitle" style="margin-bottom: 12px;">BẢN TIN NỘI BỘ</div>
+      <h3 style="font-size: 1.85rem; text-transform: uppercase; color: #ffffff; margin-bottom: 12px;">ĐĂNG KÝ NHẬN BẢN TIN KỸ THUẬT & DỰ TOÁN</h3>
+      <p style="color: var(--gray); margin-bottom: 25px;">Nhận các phân tích thị trường vật liệu xây dựng và báo cáo tiến độ mới nhất từ chuyên gia Thành Phú.</p>
+      
+      <form class="contact-form" style="display: flex; gap: 12px; max-width: 580px; margin: 0 auto; flex-wrap: wrap;">
+        <input type="email" name="email" class="form-control" placeholder="Nhập địa chỉ email của bạn..." required style="flex: 1; min-width: 260px;">
+        <button type="submit" class="btn btn-primary" style="white-space: nowrap;">
+          <i class="fas fa-paper-plane"></i> ĐĂNG KÝ NGAY
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid grid-4">
+        <div class="footer-brand">
+          <div style="background: #ffffff; display: inline-block; padding: 10px 16px; border-radius: var(--radius-sm); margin-bottom: 18px; border-left: 4px solid var(--primary);">
+            <img src="assets/images/logo.png" alt="Logo Thành Phú" style="height: 42px; width: auto; display: block;">
+          </div>
+          <p class="footer-desc">
+            Tiền thân là Công ty CP Xây dựng TTNT Thành Phú. Đơn vị tổng thầu thi công xây dựng hàng đầu với cam kết Uy Tín - Tiến Độ - Chất Lượng.
+          </p>
+          <div style="font-size: 0.82rem; color: var(--gray);">
+            <div><strong>Mã số thuế:</strong> 0310001821</div>
+            <div><strong>Hệ thống quản lý:</strong> ISO 9001:2015</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">LIÊN KẾT NHANH</h4>
+          <ul class="footer-links">
+            <li><a href="index.html"><i class="fas fa-angle-right"></i> Trang chủ</a></li>
+            <li><a href="gioi-thieu.html"><i class="fas fa-angle-right"></i> Giới thiệu công ty</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-angle-right"></i> Lĩnh vực hoạt động</a></li>
+            <li><a href="du-an.html"><i class="fas fa-angle-right"></i> Dự án tiêu biểu</a></li>
+            <li><a href="tin-tuc.html"><i class="fas fa-angle-right"></i> Tin tức & Sự kiện</a></li>
+            <li><a href="tuyen-dung.html"><i class="fas fa-angle-right"></i> Cơ hội nghề nghiệp</a></li>
+            <li><a href="lien-he.html"><i class="fas fa-angle-right"></i> Liên hệ báo giá</a></li>
+            <li><a href="admin.html" style="color:var(--accent); font-weight:600;"><i class="fas fa-lock"></i> Quản trị CMS</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">LĨNH VỰC CHÍNH</h4>
+          <ul class="footer-links">
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng dân dụng & cao tầng</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Xây dựng nhà xưởng công nghiệp</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Hạ tầng giao thông đô thị</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Kết cấu thép & gia công kim loại</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Cửa nhựa uPVC & Nhôm kính</a></li>
+            <li><a href="linh-vuc.html"><i class="fas fa-check"></i> Thiết kế & Thi công nội thất</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">TRỤ SỞ LÀM VIỆC</h4>
+          <div class="footer-contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>22A Vũ Ngọc Phan, Phường 13, Quận Bình Thạnh, TP. Hồ Chí Minh</div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <a href="tel:02835532345" style="color: #ffffff; font-weight: 700;">(028) 3553 2345</a><br>
+              <a href="tel:0903123456" style="color: var(--accent);">Hotline: 0903 123 456</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <a href="mailto:thanhphuhcns@gmail.com">thanhphuhcns@gmail.com</a><br>
+              <a href="mailto:info@thanhphuxd.com">info@thanhphuxd.com</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-globe"></i>
+            <div><a href="https://thanhphuxd.com">www.thanhphuxd.com</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <div>© 2026 CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. Tất cả quyền được bảo lưu.</div>
+          <div style="display: flex; gap: 20px;">
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Quy chuẩn an toàn</a>
+            <a href="admin.html"><i class="fas fa-cog"></i> Quản Trị CMS</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </div>
+
+  <div class="back-to-top" title="Lên đầu trang">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initNewsPage === 'function') {
+        initNewsPage();
+      }
+    });
+  </script>
+</body>
+</html>

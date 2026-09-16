@@ -1,0 +1,24 @@
+{
+  "name": "thanhphu-construction-web",
+  "version": "1.0.0",
+  "description": "Website Công ty Cổ phần Đầu tư Xây lắp Thành Phú - Flat Design",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "construction",
+    "xay-dung-thanh-phu",
+    "flat-design",
+    "gsap"
+  ],
+  "author": "Thanh Phu XD",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^2.11.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.2",
+    "mongoose": "^9.9.5"
+  }
+}

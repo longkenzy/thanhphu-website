@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 550" width="100%" height="100%">
+  <defs>
+    <linearGradient id="avatarBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e242d"/>
+      <stop offset="100%" stop-color="#12161b"/>
+    </linearGradient>
+  </defs>
+  <rect width="500" height="550" fill="url(#avatarBg)"/>
+  
+  <!-- Silhouette / Stylized Avatar Body -->
+  <circle cx="250" cy="180" r="90" fill="#2c3440" stroke="#ed1925" stroke-width="3"/>
+  <path d="M 120 450 C 120 310, 380 310, 380 450 Z" fill="#2c3440" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  
+  <!-- Hard Hat Symbol on Avatar -->
+  <path d="M 190 130 C 190 85, 310 85, 310 130 Z" fill="#FFCB56"/>
+  <rect x="180" y="125" width="140" height="12" rx="4" fill="#FFCB56"/>
+
+  <!-- Initial in Center -->
+  <text x="250" y="200" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="64" font-weight="bold" text-anchor="middle">N</text>
+
+  <!-- Card bottom label -->
+  <rect x="0" y="460" width="500" height="90" fill="#16191e"/>
+  <rect x="0" y="460" width="500" height="4" fill="#ed1925"/>
+  <text x="250" y="495" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="18" font-weight="bold" text-anchor="middle">KS. LÊ HOÀNG NAM</text>
+  <text x="250" y="525" fill="#FFCB56" font-family="'Montserrat', sans-serif" font-size="12" font-weight="bold" text-anchor="middle" letter-spacing="1">GIÁM ĐỐC BAN QLDA</text>
+</svg>
