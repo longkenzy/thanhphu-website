@@ -4,12 +4,13 @@ const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
-const Article = require('./models/Article');
-const { Slide, SlideSetting } = require('./models/Slide');
-const Project = require('./models/Project');
+const Article = require('../models/Article');
+const { Slide, SlideSetting } = require('../models/Slide');
+const Project = require('../models/Project');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const ROOT_DIR = path.join(__dirname, '..');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -109,10 +110,10 @@ const DEFAULT_SLIDES = [
 ];
 
 // Path to data files and uploads
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = path.join(ROOT_DIR, 'data');
 const ARTICLES_FILE = path.join(DATA_DIR, 'articles.json');
 const PROJECTS_FILE = path.join(DATA_DIR, 'projects.json');
-const UPLOADS_DIR = path.join(__dirname, 'assets', 'uploads');
+const UPLOADS_DIR = path.join(ROOT_DIR, 'assets', 'uploads');
 
 // Ensure data and uploads directories exist
 if (!fs.existsSync(DATA_DIR)) {
@@ -372,8 +373,8 @@ app.use(express.urlencoded({ extended: true, limit: '30mb' }));
 // Serve static assets and uploads (Only needed for local Node.js development; Vercel CDN serves static assets natively)
 if (!process.env.VERCEL) {
   app.use('/assets/uploads', express.static(UPLOADS_DIR));
-  app.use('/assets', express.static(path.join(__dirname, 'assets')));
-  app.use(express.static(path.join(__dirname)));
+  app.use('/assets', express.static(path.join(ROOT_DIR, 'assets')));
+  app.use(express.static(ROOT_DIR));
 
   // Friendly route mappings
   const routes = [
@@ -396,7 +397,7 @@ if (!process.env.VERCEL) {
 
   routes.forEach(route => {
     app.get(route.path, (req, res) => {
-      res.sendFile(path.join(__dirname, route.file));
+      res.sendFile(path.join(ROOT_DIR, route.file));
     });
   });
 }
