@@ -359,18 +359,15 @@ function initBackToTop() {
 }
 
 // ==========================================
-// 5. HOMEPAGE HERO IMAGE SLIDER (GSAP ANIMATED CAROUSEL)
+// 5. HOMEPAGE HERO IMAGE SLIDER ENGINE
 // ==========================================
 let heroSliderTimer = null;
-let heroProgressTween = null;
+let heroSliderKeyHandler = null;
+let heroSliderVisHandler = null;
 
 async function initHeroSlider() {
   const slider = document.getElementById('hero-slider');
   if (!slider) {
-    if (heroProgressTween) {
-      heroProgressTween.kill();
-      heroProgressTween = null;
-    }
     if (heroSliderTimer) {
       clearTimeout(heroSliderTimer);
       heroSliderTimer = null;
@@ -378,28 +375,36 @@ async function initHeroSlider() {
     return;
   }
 
+  // Clear any existing timer
+  if (heroSliderTimer) {
+    clearTimeout(heroSliderTimer);
+    heroSliderTimer = null;
+  }
+
   // Load dynamic slides from MongoDB Atlas & Cloudinary
-  let dynamicDuration = 6.0;
+  let dynamicDuration = 5.5;
   try {
     const res = await fetch('/api/slides');
-    const data = await res.json();
-    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-      const slidesContainer = slider.querySelector('.hero-slides');
-      if (slidesContainer) {
-        slidesContainer.innerHTML = '';
-        data.data.forEach((item, idx) => {
-          const slideDiv = document.createElement('div');
-          slideDiv.className = `hero-slide ${idx === 0 ? 'active' : ''}`;
-          slideDiv.dataset.slide = idx;
-          slideDiv.innerHTML = `
-            <div class="hero-slide-bg" style="background-image: url('${item.image}');"></div>
-            <div class="hero-slide-overlay"></div>
-          `;
-          slidesContainer.appendChild(slideDiv);
-        });
-      }
-      if (data.settings && data.settings.autoplaySpeed) {
-        dynamicDuration = parseFloat(data.settings.autoplaySpeed) || 6.0;
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        const slidesContainer = slider.querySelector('.hero-slides');
+        if (slidesContainer) {
+          slidesContainer.innerHTML = '';
+          data.data.forEach((item, idx) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = `hero-slide ${idx === 0 ? 'active' : ''}`;
+            slideDiv.dataset.slide = idx;
+            slideDiv.innerHTML = `
+              <div class="hero-slide-bg" style="background-image: url('${item.image}');"></div>
+              <div class="hero-slide-overlay"></div>
+            `;
+            slidesContainer.appendChild(slideDiv);
+          });
+        }
+        if (data.settings && data.settings.autoplaySpeed) {
+          dynamicDuration = parseFloat(data.settings.autoplaySpeed) || 5.5;
+        }
       }
     }
   } catch (err) {
@@ -407,22 +412,15 @@ async function initHeroSlider() {
   }
 
   const slides = slider.querySelectorAll('.hero-slide');
-  const dots = slider.querySelectorAll('.hero-dot');
   const prevBtn = document.getElementById('hero-prev');
   const nextBtn = document.getElementById('hero-next');
-  const progressBar = document.getElementById('hero-progress');
 
   if (!slides.length) return;
 
-  // Cleanup existing tweens and timers if re-initializing
-  if (heroProgressTween) {
-    heroProgressTween.kill();
-    heroProgressTween = null;
-  }
-  if (heroSliderTimer) {
-    clearTimeout(heroSliderTimer);
-    heroSliderTimer = null;
-  }
+  // Clean inline styles from all slides to ensure pure CSS transitions work cleanly
+  slides.forEach(s => {
+    s.style.opacity = '';
+  });
 
   let currentIndex = 0;
   slides.forEach((slide, idx) => {
@@ -431,119 +429,63 @@ async function initHeroSlider() {
     }
   });
 
+  // Ensure only one slide is active initially
+  slides.forEach((s, idx) => {
+    if (idx === currentIndex) {
+      s.classList.add('active');
+    } else {
+      s.classList.remove('active');
+    }
+  });
+
   const SLIDE_DURATION = dynamicDuration;
   let isTransitioning = false;
+  let isHovered = false;
 
-  /**
-   * GSAP Ken Burns Entry Animation for Slide Image Background
-   */
-  function animateSlideContent(slide) {
-    if (typeof gsap === 'undefined') return;
-
-    const bg = slide.querySelector('.hero-slide-bg');
-    if (bg) {
-      gsap.fromTo(bg, 
-        { scale: 1.12, opacity: 0.9 }, 
-        { scale: 1, opacity: 1, duration: SLIDE_DURATION + 0.5, ease: 'power1.out' }
-      );
-    }
-  }
-
-  /**
-   * Start autoplay (via GSAP progress tween if bar exists, otherwise via timer)
-   */
-  function startAutoplay() {
+  function stopAutoplay() {
     if (heroSliderTimer) {
       clearTimeout(heroSliderTimer);
       heroSliderTimer = null;
     }
-    if (heroProgressTween) {
-      heroProgressTween.kill();
-      heroProgressTween = null;
-    }
-
-    if (progressBar && typeof gsap !== 'undefined') {
-      progressBar.style.width = '0%';
-      heroProgressTween = gsap.fromTo(progressBar, 
-        { width: '0%' }, 
-        { 
-          width: '100%', 
-          duration: SLIDE_DURATION, 
-          ease: 'none',
-          onComplete: () => {
-            goToSlide((currentIndex + 1) % slides.length);
-          }
-        }
-      );
-    } else {
-      heroSliderTimer = setTimeout(() => {
-        goToSlide((currentIndex + 1) % slides.length);
-      }, SLIDE_DURATION * 1000);
-    }
   }
 
-  /**
-   * Switch to target slide with smooth GSAP crossfade
-   */
+  function startAutoplay() {
+    stopAutoplay();
+    if (isHovered || document.hidden || slides.length <= 1) return;
+
+    heroSliderTimer = setTimeout(() => {
+      goToSlide((currentIndex + 1) % slides.length);
+    }, SLIDE_DURATION * 1000);
+  }
+
   function goToSlide(targetIndex) {
     if (isTransitioning) return;
-    if (targetIndex === currentIndex && slides[currentIndex].classList.contains('active')) return;
+    if (targetIndex === currentIndex) return;
 
     isTransitioning = true;
-
-    // Stop and reset current timers
-    if (heroSliderTimer) {
-      clearTimeout(heroSliderTimer);
-      heroSliderTimer = null;
-    }
-    if (heroProgressTween) {
-      heroProgressTween.kill();
-      heroProgressTween = null;
-    }
-    if (progressBar) progressBar.style.width = '0%';
+    stopAutoplay();
 
     const currentSlide = slides[currentIndex];
     const nextSlide = slides[targetIndex];
 
-    // Smooth GSAP Crossfade
-    if (typeof gsap !== 'undefined') {
-      gsap.to(currentSlide, { 
-        opacity: 0, 
-        duration: 0.65, 
-        ease: 'power2.inOut', 
-        onComplete: () => {
-          currentSlide.classList.remove('active');
-          currentSlide.style.opacity = '';
-        }
-      });
-
-      nextSlide.classList.add('active');
-      gsap.fromTo(nextSlide, 
-        { opacity: 0 }, 
-        { opacity: 1, duration: 0.65, ease: 'power2.inOut' }
-      );
-    } else {
+    if (currentSlide) {
       currentSlide.classList.remove('active');
+      currentSlide.style.opacity = '';
+    }
+    if (nextSlide) {
       nextSlide.classList.add('active');
+      nextSlide.style.opacity = '';
     }
-
-    // Update pagination dots if any
-    if (dots && dots.length) {
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === targetIndex);
-      });
-    }
-
-    // Run Ken Burns animation on incoming slide
-    animateSlideContent(nextSlide);
 
     currentIndex = targetIndex;
 
-    // Reset transitioning flag & restart autoplay
+    // Reset transition lock after CSS transition (0.8s) completes and restart autoplay if appropriate
     setTimeout(() => {
       isTransitioning = false;
-      startAutoplay();
-    }, 500);
+      if (!isHovered && !document.hidden) {
+        startAutoplay();
+      }
+    }, 850);
   }
 
   // Next / Prev button event handlers
@@ -561,33 +503,15 @@ async function initHeroSlider() {
     };
   }
 
-  // Dot click handlers
-  if (dots && dots.length) {
-    dots.forEach(dot => {
-      dot.onclick = (e) => {
-        e.preventDefault();
-        const idx = parseInt(dot.getAttribute('data-index'), 10);
-        if (!isNaN(idx)) {
-          goToSlide(idx);
-        }
-      };
-    });
-  }
-
   // Pause autoplay on mouse hover, resume on mouse leave
   slider.onmouseenter = () => {
-    if (heroProgressTween) heroProgressTween.pause();
-    if (heroSliderTimer) {
-      clearTimeout(heroSliderTimer);
-      heroSliderTimer = null;
-    }
+    isHovered = true;
+    stopAutoplay();
   };
 
   slider.onmouseleave = () => {
-    if (heroProgressTween && !isTransitioning) heroProgressTween.play();
-    else if (!isTransitioning) {
-      startAutoplay();
-    }
+    isHovered = false;
+    startAutoplay();
   };
 
   // Touch Swipe Support for Mobile & Tablet
@@ -596,6 +520,7 @@ async function initHeroSlider() {
 
   slider.ontouchstart = (e) => {
     touchStartX = e.changedTouches[0].screenX;
+    stopAutoplay();
   };
 
   slider.ontouchend = (e) => {
@@ -605,13 +530,32 @@ async function initHeroSlider() {
       goToSlide((currentIndex + 1) % slides.length);
     } else if (touchEndX > touchStartX + swipeThreshold) {
       goToSlide((currentIndex - 1 + slides.length) % slides.length);
+    } else {
+      startAutoplay();
     }
   };
 
+  // Visibility change handler (tab switch or browser minimize)
+  if (heroSliderVisHandler) {
+    document.removeEventListener('visibilitychange', heroSliderVisHandler);
+  }
+  heroSliderVisHandler = () => {
+    if (document.hidden) {
+      stopAutoplay();
+    } else if (!isHovered) {
+      startAutoplay();
+    }
+  };
+  document.addEventListener('visibilitychange', heroSliderVisHandler);
+
   // Keyboard Navigation (Left / Right Arrows)
-  const handleKeydown = (e) => {
+  if (heroSliderKeyHandler) {
+    document.removeEventListener('keydown', heroSliderKeyHandler);
+  }
+  heroSliderKeyHandler = (e) => {
     if (!document.getElementById('hero-slider')) {
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', heroSliderKeyHandler);
+      heroSliderKeyHandler = null;
       return;
     }
     if (e.key === 'ArrowRight') {
@@ -620,10 +564,9 @@ async function initHeroSlider() {
       goToSlide((currentIndex - 1 + slides.length) % slides.length);
     }
   };
-  document.addEventListener('keydown', handleKeydown);
+  document.addEventListener('keydown', heroSliderKeyHandler);
 
-  // Initial trigger for active slide
-  animateSlideContent(slides[currentIndex]);
+  // Start Autoplay immediately
   startAutoplay();
 }
 
