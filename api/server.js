@@ -402,10 +402,18 @@ if (!process.env.VERCEL) {
   });
 }
 
+// URL Normalizer: Ensure req.url starts with /api when invoked by Vercel Serverless Function rewrites
+app.use((req, res, next) => {
+  if (req.url && !req.url.startsWith('/api') && !req.url.startsWith('/assets')) {
+    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+  }
+  next();
+});
+
 // Ensure MongoDB connection is active for all API calls (crucial for Vercel Serverless)
 let isDbConnected = false;
 app.use(async (req, res, next) => {
-  if (req.path.startsWith('/api')) {
+  if (req.url && req.url.startsWith('/api')) {
     if (!isDbConnected || mongoose.connection.readyState !== 1) {
       try {
         await connectDB();
@@ -2029,6 +2037,14 @@ app.post('/api/apply', (req, res) => {
   res.json({
     success: true,
     message: 'Hồ sơ ứng tuyển của bạn đã được tiếp nhận. Bộ phận Nhân sự Thành Phú sẽ liên hệ sớm nhất!'
+  });
+});
+
+// Fallback 404 handler for API routes to guarantee JSON response format (never HTML)
+app.use('/api', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `API endpoint không tồn tại: ${req.method} ${req.originalUrl || req.url}`
   });
 });
 
