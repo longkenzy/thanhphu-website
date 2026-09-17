@@ -63,13 +63,17 @@ const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME || 'thanhphu';
 
 async function connectDB() {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
   if (!MONGODB_URI) {
     console.warn('⚠️  MONGODB_URI chưa được cấu hình. Hệ thống sẽ hoạt động ở chế độ fallback file JSON.');
     return;
   }
   try {
     await mongoose.connect(MONGODB_URI, {
-      dbName: MONGODB_DB_NAME
+      dbName: MONGODB_DB_NAME,
+      serverSelectionTimeoutMS: 5000
     });
     console.log(`✅ Kết nối MongoDB Atlas thành công! [Database: ${mongoose.connection.name}]`);
     await autoSeedDatabase();
@@ -393,6 +397,22 @@ routes.forEach(route => {
   app.get(route.path, (req, res) => {
     res.sendFile(path.join(__dirname, route.file));
   });
+});
+
+// Ensure MongoDB connection is active for all API calls (crucial for Vercel Serverless)
+let isDbConnected = false;
+app.use(async (req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    if (!isDbConnected || mongoose.connection.readyState !== 1) {
+      try {
+        await connectDB();
+        isDbConnected = mongoose.connection.readyState === 1;
+      } catch (err) {
+        console.warn('[MongoDB Middleware] Connect failed:', err.message);
+      }
+    }
+  }
+  next();
 });
 
 // ==========================================
@@ -2025,4 +2045,8 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+}
+
+module.exports = app;

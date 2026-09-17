@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/trang-chu",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/gioi-thieu",
+      "destination": "/gioi-thieu.html"
+    },
+    {
+      "source": "/linh-vuc",
+      "destination": "/linh-vuc.html"
+    },
+    {
+      "source": "/linh-vuc-hoat-dong",
+      "destination": "/linh-vuc.html"
+    },
+    {
+      "source": "/du-an",
+      "destination": "/du-an.html"
+    },
+    {
+      "source": "/chi-tiet-du-an",
+      "destination": "/chi-tiet-du-an.html"
+    },
+    {
+      "source": "/tin-tuc",
+      "destination": "/tin-tuc.html"
+    },
+    {
+      "source": "/chi-tiet-tin-tuc",
+      "destination": "/chi-tiet-tin-tuc.html"
+    },
+    {
+      "source": "/tuyen-dung",
+      "destination": "/tuyen-dung.html"
+    },
+    {
+      "source": "/lien-he",
+      "destination": "/lien-he.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/dang-nhap",
+      "destination": "/admin.html"
+    }
+  ]
+}
