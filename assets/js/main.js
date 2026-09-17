@@ -361,28 +361,28 @@ function initBackToTop() {
 // ==========================================
 // 5. HOMEPAGE HERO IMAGE SLIDER ENGINE
 // ==========================================
-let heroSliderTimer = null;
+let heroSliderInterval = null;
 let heroSliderKeyHandler = null;
 let heroSliderVisHandler = null;
 
 async function initHeroSlider() {
   const slider = document.getElementById('hero-slider');
   if (!slider) {
-    if (heroSliderTimer) {
-      clearTimeout(heroSliderTimer);
-      heroSliderTimer = null;
+    if (heroSliderInterval) {
+      clearInterval(heroSliderInterval);
+      heroSliderInterval = null;
     }
     return;
   }
 
-  // Clear any existing timer
-  if (heroSliderTimer) {
-    clearTimeout(heroSliderTimer);
-    heroSliderTimer = null;
+  // Clear any existing interval
+  if (heroSliderInterval) {
+    clearInterval(heroSliderInterval);
+    heroSliderInterval = null;
   }
 
   // Load dynamic slides from MongoDB Atlas & Cloudinary
-  let dynamicDuration = 5.5;
+  let dynamicDuration = 5.0;
   try {
     const res = await fetch('/api/slides');
     if (res.ok) {
@@ -403,7 +403,10 @@ async function initHeroSlider() {
           });
         }
         if (data.settings && data.settings.autoplaySpeed) {
-          dynamicDuration = parseFloat(data.settings.autoplaySpeed) || 5.5;
+          const parsed = parseFloat(data.settings.autoplaySpeed);
+          if (!isNaN(parsed) && parsed > 0) {
+            dynamicDuration = parsed;
+          }
         }
       }
     }
@@ -415,9 +418,9 @@ async function initHeroSlider() {
   const prevBtn = document.getElementById('hero-prev');
   const nextBtn = document.getElementById('hero-next');
 
-  if (!slides.length) return;
+  if (!slides || slides.length <= 1) return;
 
-  // Clean inline styles from all slides to ensure pure CSS transitions work cleanly
+  // Clean inline styles from all slides
   slides.forEach(s => {
     s.style.opacity = '';
   });
@@ -438,32 +441,14 @@ async function initHeroSlider() {
     }
   });
 
-  const SLIDE_DURATION = dynamicDuration;
+  const intervalMs = Math.max(1500, dynamicDuration * 1000);
   let isTransitioning = false;
   let isHovered = false;
 
-  function stopAutoplay() {
-    if (heroSliderTimer) {
-      clearTimeout(heroSliderTimer);
-      heroSliderTimer = null;
-    }
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    if (isHovered || document.hidden || slides.length <= 1) return;
-
-    heroSliderTimer = setTimeout(() => {
-      goToSlide((currentIndex + 1) % slides.length);
-    }, SLIDE_DURATION * 1000);
-  }
-
   function goToSlide(targetIndex) {
-    if (isTransitioning) return;
     if (targetIndex === currentIndex) return;
 
     isTransitioning = true;
-    stopAutoplay();
 
     const currentSlide = slides[currentIndex];
     const nextSlide = slides[targetIndex];
@@ -479,40 +464,67 @@ async function initHeroSlider() {
 
     currentIndex = targetIndex;
 
-    // Reset transition lock after CSS transition (0.8s) completes and restart autoplay if appropriate
+    // Reset transitioning flag after CSS transition finishes
     setTimeout(() => {
       isTransitioning = false;
-      if (!isHovered && !document.hidden) {
-        startAutoplay();
-      }
-    }, 850);
+    }, 750);
   }
 
-  // Next / Prev button event handlers
+  function nextSlide() {
+    goToSlide((currentIndex + 1) % slides.length);
+  }
+
+  function prevSlide() {
+    goToSlide((currentIndex - 1 + slides.length) % slides.length);
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    heroSliderInterval = setInterval(() => {
+      if (isHovered || document.hidden || isTransitioning) return;
+      nextSlide();
+    }, intervalMs);
+  }
+
+  function stopAutoplay() {
+    if (heroSliderInterval) {
+      clearInterval(heroSliderInterval);
+      heroSliderInterval = null;
+    }
+  }
+
+  function restartAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  // Next / Prev button event handlers with instant reset of interval
   if (nextBtn) {
     nextBtn.onclick = (e) => {
       e.preventDefault();
-      goToSlide((currentIndex + 1) % slides.length);
+      nextSlide();
+      restartAutoplay();
     };
   }
 
   if (prevBtn) {
     prevBtn.onclick = (e) => {
       e.preventDefault();
-      goToSlide((currentIndex - 1 + slides.length) % slides.length);
+      prevSlide();
+      restartAutoplay();
     };
   }
 
-  // Pause autoplay on mouse hover, resume on mouse leave
-  slider.onmouseenter = () => {
-    isHovered = true;
-    stopAutoplay();
-  };
-
-  slider.onmouseleave = () => {
-    isHovered = false;
-    startAutoplay();
-  };
+  // Mouse hover events (Desktop only)
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouchDevice) {
+    slider.onmouseenter = () => {
+      isHovered = true;
+    };
+    slider.onmouseleave = () => {
+      isHovered = false;
+    };
+  }
 
   // Touch Swipe Support for Mobile & Tablet
   let touchStartX = 0;
@@ -520,18 +532,17 @@ async function initHeroSlider() {
 
   slider.ontouchstart = (e) => {
     touchStartX = e.changedTouches[0].screenX;
-    stopAutoplay();
   };
 
   slider.ontouchend = (e) => {
     touchEndX = e.changedTouches[0].screenX;
     const swipeThreshold = 45;
     if (touchEndX < touchStartX - swipeThreshold) {
-      goToSlide((currentIndex + 1) % slides.length);
+      nextSlide();
+      restartAutoplay();
     } else if (touchEndX > touchStartX + swipeThreshold) {
-      goToSlide((currentIndex - 1 + slides.length) % slides.length);
-    } else {
-      startAutoplay();
+      prevSlide();
+      restartAutoplay();
     }
   };
 
@@ -542,8 +553,8 @@ async function initHeroSlider() {
   heroSliderVisHandler = () => {
     if (document.hidden) {
       stopAutoplay();
-    } else if (!isHovered) {
-      startAutoplay();
+    } else {
+      restartAutoplay();
     }
   };
   document.addEventListener('visibilitychange', heroSliderVisHandler);
@@ -559,14 +570,16 @@ async function initHeroSlider() {
       return;
     }
     if (e.key === 'ArrowRight') {
-      goToSlide((currentIndex + 1) % slides.length);
+      nextSlide();
+      restartAutoplay();
     } else if (e.key === 'ArrowLeft') {
-      goToSlide((currentIndex - 1 + slides.length) % slides.length);
+      prevSlide();
+      restartAutoplay();
     }
   };
   document.addEventListener('keydown', heroSliderKeyHandler);
 
-  // Start Autoplay immediately
+  // Start Autoplay loop
   startAutoplay();
 }
 
