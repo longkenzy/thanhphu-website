@@ -369,35 +369,37 @@ function slugifyVietnamese(str) {
 app.use(express.json({ limit: '30mb' }));
 app.use(express.urlencoded({ extended: true, limit: '30mb' }));
 
-// Serve static assets and uploads
-app.use('/assets/uploads', express.static(UPLOADS_DIR));
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-app.use(express.static(path.join(__dirname)));
+// Serve static assets and uploads (Only needed for local Node.js development; Vercel CDN serves static assets natively)
+if (!process.env.VERCEL) {
+  app.use('/assets/uploads', express.static(UPLOADS_DIR));
+  app.use('/assets', express.static(path.join(__dirname, 'assets')));
+  app.use(express.static(path.join(__dirname)));
 
-// Friendly route mappings
-const routes = [
-  { path: '/', file: 'index.html' },
-  { path: '/trang-chu', file: 'index.html' },
-  { path: '/gioi-thieu', file: 'gioi-thieu.html' },
-  { path: '/linh-vuc', file: 'linh-vuc.html' },
-  { path: '/linh-vuc-hoat-dong', file: 'linh-vuc.html' },
-  { path: '/du-an', file: 'du-an.html' },
-  { path: '/chi-tiet-du-an', file: 'chi-tiet-du-an.html' },
-  { path: '/tin-tuc', file: 'tin-tuc.html' },
-  { path: '/chi-tiet-tin-tuc', file: 'chi-tiet-tin-tuc.html' },
-  { path: '/tuyen-dung', file: 'tuyen-dung.html' },
-  { path: '/lien-he', file: 'lien-he.html' },
-  { path: '/admin', file: 'admin.html' },
-  { path: '/admin.html', file: 'admin.html' },
-  { path: '/login', file: 'admin.html' },
-  { path: '/dang-nhap', file: 'admin.html' }
-];
+  // Friendly route mappings
+  const routes = [
+    { path: '/', file: 'index.html' },
+    { path: '/trang-chu', file: 'index.html' },
+    { path: '/gioi-thieu', file: 'gioi-thieu.html' },
+    { path: '/linh-vuc', file: 'linh-vuc.html' },
+    { path: '/linh-vuc-hoat-dong', file: 'linh-vuc.html' },
+    { path: '/du-an', file: 'du-an.html' },
+    { path: '/chi-tiet-du-an', file: 'chi-tiet-du-an.html' },
+    { path: '/tin-tuc', file: 'tin-tuc.html' },
+    { path: '/chi-tiet-tin-tuc', file: 'chi-tiet-tin-tuc.html' },
+    { path: '/tuyen-dung', file: 'tuyen-dung.html' },
+    { path: '/lien-he', file: 'lien-he.html' },
+    { path: '/admin', file: 'admin.html' },
+    { path: '/admin.html', file: 'admin.html' },
+    { path: '/login', file: 'admin.html' },
+    { path: '/dang-nhap', file: 'admin.html' }
+  ];
 
-routes.forEach(route => {
-  app.get(route.path, (req, res) => {
-    res.sendFile(path.join(__dirname, route.file));
+  routes.forEach(route => {
+    app.get(route.path, (req, res) => {
+      res.sendFile(path.join(__dirname, route.file));
+    });
   });
-});
+}
 
 // Ensure MongoDB connection is active for all API calls (crucial for Vercel Serverless)
 let isDbConnected = false;
