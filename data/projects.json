@@ -1,40 +1,335 @@
 [
   {
-    "id": "toa-nha-van-phong-thuong-mai-saigon-horizon",
-    "slug": "toa-nha-van-phong-thuong-mai-saigon-horizon",
+    "id": "saigon-horizon",
+    "slug": "saigon-horizon",
     "title": "Tòa Nhà Văn Phòng & Thương Mại SaiGon Horizon",
     "category": "xay-lap",
     "categoryName": "Thi công xây lắp",
     "badge": "Xây Lắp Dân Dụng",
     "status": "Đã Bàn Giao",
-    "image": "https://res.cloudinary.com/bzwvyqou/image/upload/v1788835900/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-1788835888687.jpg",
-    "cloudinaryId": "",
+    "image": "assets/images/project-1.svg",
     "gallery": [
-      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788835900/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-1788835888687.jpg",
-      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836225/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-2-1788836213310.jpg",
-      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836228/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-3-1788836219556.jpg",
-      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836232/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-4-1788836222261.jpg",
-      "https://res.cloudinary.com/bzwvyqou/image/upload/v1788836237/thanhphu/news/toa-nha-van-phong-thuong-mai-saigon-horizon-gallery-5-1788836226707.jpg"
+      "assets/images/project-1.svg",
+      "assets/images/hero-slide-1.svg",
+      "assets/images/project-7.svg"
     ],
-    "location": "fsdfadv",
-    "client": "fdà",
-    "scale": "dfá",
-    "contractType": "fádf",
+    "location": "Đường Nguyễn Hữu Thọ, Quận 7, TP. Hồ Chí Minh",
+    "client": "Horizon Real Estate Corporation",
+    "scale": "2 tầng hầm + 21 tầng nổi (Tổng diện tích sàn: 32,500 m²)",
+    "contractType": "Tổng thầu thi công xây dựng kết cấu & hoàn thiện trọn gói",
     "timeline": "Khởi công: Tháng 04/2022 - Nghiệm thu bàn giao: Tháng 06/2024",
-    "year": "2026",
-    "overview": "test",
+    "year": "2024",
+    "overview": "Tổ hợp văn phòng hạng A và trung tâm thương mại SaiGon Horizon là công trình điểm nhấn kiến trúc tại cửa ngõ Nam Sài Gòn. Thành Phú đảm nhiệm vai trò Tổng thầu xây lắp toàn diện từ giai đoạn thi công cọc khoan nhồi sâu, tường vây Barrette 2 tầng hầm đến kết cấu thân bê tông dự ứng lực nhịp lớn và toàn bộ hạ tầng kỹ thuật phụ trợ.",
     "scope": [
-      "test"
+      "Thi công cọc khoan nhồi D1200 - D1500 sâu 58m và tường vây Barrette dày 800mm.",
+      "Xây dựng 2 tầng hầm sâu 8.5m với biện pháp Semi-Topdown kiểm soát chuyển vị an toàn tuyệt đối.",
+      "Thi công kết cấu khung bê tông cốt thép toàn khối 21 tầng nổi ứng dụng cốp pha nhôm định hình hiện đại.",
+      "Hoàn thiện khối đế thương mại, ốp lát đá Granite cao cấp và hạ tầng cảnh quan nội khu."
     ],
     "highlights": [
-      "test"
+      "Đạt 1,200,000 giờ làm việc an toàn không tai nạn lao động.",
+      "Bàn giao vượt tiến độ cam kết 25 ngày so với hợp đồng gốc.",
+      "Ứng dụng mô hình BIM 3D trong quản lý xung đột kết cấu và cơ điện MEP."
     ],
-    "content": "<p>test</p>",
-    "order": 0,
+    "order": 1,
+    "isFeatured": true,
+    "isActive": true,
+    "views": 2540
+  },
+  {
+    "id": "tan-tao",
+    "slug": "tan-tao",
+    "title": "Tổ Hợp Nhà Máy Cơ Khí & Linh Kiện Tân Tạo",
+    "category": "xay-lap",
+    "categoryName": "Thi công xây lắp",
+    "badge": "Xây Lắp Nhà Xưởng",
+    "status": "Đã Bàn Giao",
+    "image": "assets/images/project-2.svg",
+    "gallery": [
+      "assets/images/project-2.svg",
+      "assets/images/hero-slide-2.svg",
+      "assets/images/project-5.svg"
+    ],
+    "location": "KCN Tân Tạo, Quận Bình Tân, TP. Hồ Chí Minh",
+    "client": "Tân Tạo Precision Mechanics JSC",
+    "scale": "Khu đất 50,000 m² - Diện tích sàn xưởng sản xuất: 45,000 m²",
+    "contractType": "Tổng thầu thiết kế và thi công (Design & Build)",
+    "timeline": "Khởi công: Tháng 09/2022 - Bàn giao: Tháng 11/2023",
+    "year": "2023",
+    "overview": "Dự án tổ hợp sản xuất cơ khí công nghệ cao đòi hỏi tiêu chuẩn khắt khe về độ rung chấn nền móng và khả năng chịu tải trọng lớn của sàn xưởng. Thành Phú áp dụng công nghệ sàn bê tông gia cường sợi thép đánh bóng siêu phẳng cùng kết cấu giàn thép tiền chế khẩu độ lớn 48m không cột giữa.",
+    "scope": [
+      "San lấp mặt bằng và xử lý nền đất yếu bằng phương pháp cọc xi măng đất (CDM).",
+      "Gia công chế tạo và lắp dựng hơn 2,800 tấn kết cấu thép tiền chế vượt nhịp 48m tại xưởng cơ khí Thành Phú.",
+      "Thi công nền sàn bê tông cốt sợi thép rải phẳng bằng máy laser tự động, phủ lớp sơn Epoxy kháng tĩnh điện và hóa chất.",
+      "Hệ thống trạm biến áp 3x2500kVA và mạng lưới cấp thoát nước tuần hoàn."
+    ],
+    "highlights": [
+      "Đạt chứng chỉ công trình xanh LEED Gold (Hoa Kỳ).",
+      "Độ phẳng mặt sàn đạt tiêu chuẩn quốc tế DIN 18202 Class 4.",
+      "Tối ưu 15% thời gian gia công lắp ghép nhờ tự chủ nhà xưởng kết cấu thép."
+    ],
+    "order": 2,
+    "isFeatured": true,
+    "isActive": true,
+    "views": 1820
+  },
+  {
+    "id": "nam-long",
+    "slug": "nam-long",
+    "title": "Hạ Tầng Trục Tuyến Giao Thông KĐT Nam Long",
+    "category": "xay-lap",
+    "categoryName": "Thi công xây lắp",
+    "badge": "Hạ Tầng Giao Thông",
+    "status": "Đang Thi Công",
+    "image": "assets/images/project-3.svg",
+    "gallery": [
+      "assets/images/project-3.svg",
+      "assets/images/hero-slide-3.svg",
+      "assets/images/project-6.svg"
+    ],
+    "location": "Huyện Bến Lức, Tỉnh Long An",
+    "client": "Tập Đoàn Nam Long (Nam Long Group)",
+    "scale": "Trục đường chính lộ giới 30m, chiều dài 4.2 km + Cống hộp ngầm D1500",
+    "contractType": "Gói thầu thi công nền móng, mặt đường và hệ thống ngầm kỹ thuật",
+    "timeline": "Khởi công: Tháng 03/2024 - Dự kiến nghiệm thu: Quý 4/2026",
+    "year": "2024 - 2026",
+    "overview": "Dự án phát triển trục xương sống giao thông kết nối các phân khu đô thị vệ tinh quy mô 355ha của Nam Long Group. Đội ngũ cơ giới Thành Phú huy động dàn thiết bị chuyên dùng gồm lu rung 25 tấn, máy rải bê tông nhựa nóng và trạm trộn bê tông tươi lưu động tại chân công trình.",
+    "scope": [
+      "Xử lý nền đất yếu ven sông Vàm Cỏ bằng bấc thấm kết hợp hút chân không.",
+      "Thi công lớp cấp phối đá dăm loại 1 và thảm 2 lớp bê tông nhựa chặt C12.5 & C19 dày 12cm.",
+      "Lắp đặt hệ thống hào tuynel kỹ thuật ngầm đa năng tích hợp điện ngầm, cáp viễn thông và cấp nước.",
+      "Xây dựng mạng lưới cống thoát nước mưa bê tông ly tâm đường kính D1000 - D1500."
+    ],
+    "highlights": [
+      "Tiến độ lũy kế hiện tại đạt 88%, vượt mốc cam kết với chủ đầu tư.",
+      "Kiểm định chất lượng độ đầm chặt K >= 0.98 qua 100% các điểm đo độc lập.",
+      "Giải pháp thi công đảm bảo duy trì dòng chảy tự nhiên và bảo vệ môi trường sinh thái sông nước."
+    ],
+    "order": 3,
+    "isFeatured": true,
+    "isActive": true,
+    "views": 1490
+  },
+  {
+    "id": "riverfront-villas",
+    "slug": "riverfront-villas",
+    "title": "Khu Biệt Thự Cao Cấp Ven Sông Riverfront Villas",
+    "category": "noi-that",
+    "categoryName": "Trang trí nội thất",
+    "badge": "Nội Thất Biệt Thự",
+    "status": "Đã Bàn Giao",
+    "image": "assets/images/project-4.svg",
+    "gallery": [
+      "assets/images/project-4.svg",
+      "assets/images/project-9.svg",
+      "assets/images/project-1.svg"
+    ],
+    "location": "Phường Thảo Điền, TP. Thủ Đức, TP. Hồ Chí Minh",
+    "client": "Riverside Luxury Land JSC",
+    "scale": "Quần thể 18 căn biệt thự đơn lập view sông (Mỗi căn sàn 450 - 680 m²)",
+    "contractType": "Tổng thầu thi công xây dựng kết cấu và hoàn thiện nội thất chìa khóa trao tay",
+    "timeline": "Khởi công: Tháng 01/2023 - Hoàn thành: Tháng 05/2024",
+    "year": "2024",
+    "overview": "Dự án biệt thự siêu sang dành cho giới tinh hoa tại bán đảo Thảo Điền. Công trình yêu cầu sự tinh xảo tuyệt đối trong từng đường nét trang trí nội thất phong cách Bắc Âu (Scandinavian Luxury) kết hợp vật liệu gỗ óc chó tự nhiên Bắc Mỹ, đá cẩm thạch Calacatta nhập khẩu và hệ thống Smart Home chuẩn KNX.",
+    "scope": [
+      "Thi công kết cấu móng bè cọc cừ tràm kết hợp cọc bê tông chống sạt lở mép sông.",
+      "Gia công lắp đặt đồ gỗ nội thất phòng khách, phòng ngủ Master, phòng rượu và walk-in closet.",
+      "Ốp lát đá tự nhiên Calacatta đối vân nghệ thuật khu vực sảnh chính và phòng tắm cao cấp.",
+      "Xây dựng bể bơi vô cực tràn bờ công nghệ lọc muối khoáng điện phân trên tầng thượng mỗi căn biệt thự."
+    ],
+    "highlights": [
+      "100% hạng mục đồ gỗ nội thất được đo ni đóng giày gia công tại xưởng Thành Phú.",
+      "Tích hợp hệ thống nhà thông minh kiểm soát ánh sáng, nhiệt độ và an ninh đa tầng.",
+      "Khách hàng đánh giá hài lòng tuyệt đối về độ hoàn thiện thẩm mỹ và sự yên tĩnh cách âm."
+    ],
+    "order": 4,
     "isFeatured": false,
     "isActive": true,
-    "views": 0,
-    "createdAt": "2026-09-08T02:51:34.587Z",
-    "updatedAt": "2026-09-08T02:57:11.859Z"
+    "views": 980
+  },
+  {
+    "id": "mega-logistics",
+    "slug": "mega-logistics",
+    "title": "Trung Tâm Kho Vận Thông Minh Mega Logistics VSIP II",
+    "category": "xay-lap",
+    "categoryName": "Thi công xây lắp",
+    "badge": "Xây Lắp Công Nghiệp",
+    "status": "Đã Bàn Giao",
+    "image": "assets/images/project-5.svg",
+    "gallery": [
+      "assets/images/project-5.svg",
+      "assets/images/hero-slide-2.svg",
+      "assets/images/project-2.svg"
+    ],
+    "location": "KCN VSIP II-A, Thị xã Tân Uyên, Tỉnh Bình Dương",
+    "client": "Mega Logistics Holdings Singapore",
+    "scale": "Diện tích khu đất: 80,000 m² - Diện tích sàn kho bãi: 62,000 m²",
+    "contractType": "Tổng thầu EPC (Thiết kế - Cung ứng - Thi công xây dựng)",
+    "timeline": "Khởi công: Tháng 05/2023 - Bàn giao: Tháng 03/2024",
+    "year": "2024",
+    "overview": "Trung tâm phân phối logistics hiện đại phục vụ chuỗi cung ứng thương mại điện tử xuyên biên giới. Dự án bao gồm hệ thống kho lạnh nhiệt độ âm sâu -25°C, sàn nâng thủy lực tự động (Dock Leveler) và mái nhà xưởng lắp đặt tấm pin năng lượng mặt trời công suất 3.5 MWp.",
+    "scope": [
+      "Thi công móng cọc ly tâm D500 ứng suất trước chiều dài 32m.",
+      "Lắp dựng hệ kết cấu khung kèo thép Zamil vượt nhịp lớn, tôn mái cách nhiệt 3 lớp PU chống nóng.",
+      "Thi công sàn bê tông công nghiệp đánh bóng rải sika Hardener chịu tải trọng động xe nâng 8 tấn.",
+      "Hệ thống PCCC tự động đầu phun Sprinkler ESFR phản ứng nhanh chuẩn NFPA."
+    ],
+    "highlights": [
+      "Vận hành thử nghiệm thành công toàn bộ hệ thống kho lạnh chỉ trong 10 ngày.",
+      "Tiết kiệm 20% năng lượng vận hành nhờ thiết kế đối lưu gió tự nhiên và điện mặt trời mái.",
+      "Bàn giao công trình đúng hẹn, không phát sinh chi phí phụ trội."
+    ],
+    "order": 5,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 1310
+  },
+  {
+    "id": "binh-loi",
+    "slug": "binh-loi",
+    "title": "Hạ Tầng Cảnh Quan Tuyến Kênh & Cầu Cảng Bình Lợi",
+    "category": "xay-lap",
+    "categoryName": "Thi công xây lắp",
+    "badge": "Hạ Tầng Đô Thị",
+    "status": "Đã Bàn Giao",
+    "image": "assets/images/project-6.svg",
+    "gallery": [
+      "assets/images/project-6.svg",
+      "assets/images/hero-slide-3.svg",
+      "assets/images/project-3.svg"
+    ],
+    "location": "Phường 13, Quận Bình Thạnh, TP. Hồ Chí Minh",
+    "client": "Ban Quản Lý Dự Án Hạ Tầng Đô Thị TP.HCM",
+    "scale": "Tuyến kè dài 2.8 km, cầu cảng du lịch 500 DWT và công viên ven sông 3.2 ha",
+    "contractType": "Thi công kè bảo vệ bờ, nạo vét lòng kênh và hạ tầng công viên cảnh quan",
+    "timeline": "Khởi công: Tháng 11/2021 - Hoàn thành: Tháng 12/2023",
+    "year": "2023",
+    "overview": "Dự án chỉnh trang đô thị trọng điểm khu vực Đông Bắc Sài Gòn, kết hợp cải tạo môi trường nước và kiến tạo không gian công cộng xanh cho cư dân. Thành Phú ứng dụng công nghệ kè cừ ván bê tông cốt thép dự ứng lực SW600 kết hợp thảm đá rọ bọc nhựa PVC chống xói lở chân bờ kè.",
+    "scope": [
+      "Đóng cừ ván SW600 sâu 18m bằng búa rung cơ giới gắn trên sà lan nổi.",
+      "Đổ bê tông dầm mũ kè và xây dựng đường dạo bộ lát đá Granite tự nhiên dọc bờ kênh.",
+      "Thi công cầu cảng đón tàu du lịch thủy nội địa kết cấu dầm sàn bê tông dự ứng lực.",
+      "Trồng cây xanh bóng mát, lắp đặt hệ thống chiếu sáng mỹ thuật LED thông minh điều khiển tự động."
+    ],
+    "highlights": [
+      "Giải quyết dứt điểm tình trạng ngập úng và sạt lở bờ kênh mùa triều cường.",
+      "Được Sở Xây Dựng TP.HCM trao tặng bằng khen Công trình tiêu biểu chào mừng kỷ niệm ngày thành lập Thành phố.",
+      "Không ảnh hưởng đến giao thông thủy trong suốt 24 tháng thi công liên tục."
+    ],
+    "order": 6,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 1150
+  },
+  {
+    "id": "aqua-pearl",
+    "slug": "aqua-pearl",
+    "title": "Khu Căn Hộ Nghỉ Dưỡng & Khách Sạn Cao Cấp Aqua Pearl",
+    "category": "noi-that",
+    "categoryName": "Trang trí nội thất",
+    "badge": "Nội Thất Khách Sạn",
+    "status": "Đang Thi Công",
+    "image": "assets/images/project-7.svg",
+    "gallery": [
+      "assets/images/project-7.svg",
+      "assets/images/project-1.svg",
+      "assets/images/hero-slide-1.svg"
+    ],
+    "location": "Bãi Dài, TP. Cam Ranh, Tỉnh Khánh Hòa",
+    "client": "Aqua Pearl Resort & Hospitality Group",
+    "scale": "Tháp khách sạn 18 tầng (320 phòng tiêu chuẩn 5 sao) + 45 căn Condotel",
+    "contractType": "Tổng thầu thi công hoàn thiện nội thất và hệ vách ngăn chống cháy",
+    "timeline": "Khởi công: Tháng 08/2024 - Dự kiến bàn giao: Tháng 09/2026",
+    "year": "2024 - 2026",
+    "overview": "Tổ hợp nghỉ dưỡng tiêu chuẩn quốc tế ven bờ biển Cam Ranh. Thành Phú phụ trách toàn bộ gói hoàn thiện nội thất sảnh đón Grand Lobby, nhà hàng buffet 500 chỗ, trung tâm hội nghị quốc tế và 320 phòng nghỉ cao cấp với phong cách kiến trúc nhiệt đới đương đại (Tropical Modernism).",
+    "scope": [
+      "Thi công trần thạch cao uốn lượn giật cấp âm đèn hắt nghệ thuật diện tích 15,000 m².",
+      "Sản xuất lắp đặt cửa gỗ tự nhiên chống cháy 90 phút và hệ tủ âm tường chịu ẩm môi trường biển.",
+      "Trang trí ốp lát đá Marble Travertine và gỗ tiêu âm tiêu chuẩn âm học phòng hội nghị.",
+      "Hệ thống vách kính tắm nhôm kính mạ Anode chống ăn mòn muối biển."
+    ],
+    "highlights": [
+      "Tiến độ hoàn thiện phòng mẫu Mockup đạt điểm đánh giá 9.8/10 từ đơn vị vận hành quốc tế.",
+      "100% vật liệu sử dụng có chứng nhận thân thiện môi trường và hàm lượng phát thải VOC cực thấp.",
+      "Áp dụng dây chuyền lắp ghép Module hóa giúp rút ngắn 20% thời gian thi công tại công trường."
+    ],
+    "order": 7,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 870
+  },
+  {
+    "id": "diamond-parkview",
+    "slug": "diamond-parkview",
+    "title": "Tòa Nhà Chung Cư Cao Cấp & Shophouse Diamond Parkview",
+    "category": "nhom-kinh",
+    "categoryName": "SXLĐ cấu kiện nhôm kính",
+    "badge": "Nhôm Kính Mặt Dựng",
+    "status": "Đã Bàn Giao",
+    "image": "assets/images/project-8.svg",
+    "gallery": [
+      "assets/images/project-8.svg",
+      "assets/images/project-1.svg",
+      "assets/images/project-7.svg"
+    ],
+    "location": "Quận Cẩm Lệ, TP. Đà Nẵng",
+    "client": "Diamond Land Development",
+    "scale": "2 tháp cao 25 tầng (580 căn hộ + 3 tầng khối đế Shophouse)",
+    "contractType": "Gói thầu thiết kế, gia công và lắp dựng toàn bộ hệ nhôm kính mặt dựng",
+    "timeline": "Khởi công: Tháng 06/2022 - Hoàn thành: Tháng 04/2024",
+    "year": "2024",
+    "overview": "Công trình biểu tượng kiến trúc mới tại trung tâm Đà Nẵng. Thành Phú gia công và lắp dựng toàn bộ hệ mặt dựng kính Unitized cách âm cách nhiệt cản tia UV, hệ lam trang trí nhôm định hình sơn tĩnh điện chống ăn mòn gió biển và toàn bộ cửa sổ, ban công kính cường lực.",
+    "scope": [
+      "Sản xuất và lắp đặt 18,500 m² vách kính mặt dựng Unitized kính hộp Low-E dán an toàn 24mm.",
+      "Thi công hơn 3,200 bộ cửa sổ mở hất và cửa đi trượt nhôm hệ Xingfa Class A nhập khẩu.",
+      "Lắp dựng lan can kính cường lực không trụ 15mm hệ Spider inox 316 chống rỉ sét.",
+      "Hệ thống lam nhôm chắn nắng chuyển động tự động theo hướng nắng mặt trời."
+    ],
+    "highlights": [
+      "Khả năng cản nhiệt lên đến 72%, giúp giảm 30% chi phí điều hòa không khí cho tòa nhà.",
+      "Đạt thử nghiệm kín nước, kín khí và áp lực gió bão cấp 14 tại trung tâm thí nghiệm độc lập IBST.",
+      "Không xảy ra bất kỳ sự cố thấm dột nào qua 2 mùa mưa bão lớn tại miền Trung."
+    ],
+    "order": 8,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 1640
+  },
+  {
+    "id": "cnc-amata",
+    "slug": "cnc-amata",
+    "title": "Nhà Xưởng Chế Tạo Cơ Khí Chính Xác & Cửa uPVC Amata",
+    "category": "nhom-kinh",
+    "categoryName": "SXLĐ cấu kiện nhôm kính",
+    "badge": "Nhà Xưởng Cơ Khí",
+    "status": "Đã Bàn Giao",
+    "image": "assets/images/project-9.svg",
+    "gallery": [
+      "assets/images/project-9.svg",
+      "assets/images/hero-slide-2.svg",
+      "assets/images/project-2.svg"
+    ],
+    "location": "KCN Amata, TP. Biên Hòa, Tỉnh Đồng Nai",
+    "client": "Amata Precision Industry Corporation",
+    "scale": "Khuôn viên 35,000 m² (Nhà xưởng 2 tầng: 28,000 m² + Nhà văn phòng điều hành)",
+    "contractType": "Tổng thầu thi công xây lắp kết cấu thép và cung cấp hệ cửa uPVC công nghiệp",
+    "timeline": "Khởi công: Tháng 02/2023 - Nghiệm thu: Tháng 01/2024",
+    "year": "2024",
+    "overview": "Dự án nhà xưởng công nghiệp phụ trợ công nghệ cao của nhà đầu tư Nhật Bản. Thành Phú đảm nhận trọn gói từ kết cấu móng bu lông neo cường độ cao, lắp dựng khung giàn không gian khẩu độ rộng đến gia công sản xuất toàn bộ hệ thống cửa nhựa uPVC lõi thép gia cường và vách ngăn panel cách âm phòng sạch.",
+    "scope": [
+      "Thi công móng đơn bê tông cốt thép kết hợp hệ giằng móng kiên cố chịu tải máy ép 500 tấn.",
+      "Lắp dựng 1,900 tấn kết cấu thép mạ kẽm nhúng nóng chống ăn mòn hóa chất công nghiệp.",
+      "Sản xuất lắp đặt hơn 850 bộ cửa nhựa uPVC cách âm cách nhiệt tại nhà máy Thành Phú.",
+      "Lắp đặt hệ thống cầu trục dầm đôi 10 tấn và trạm khí nén trung tâm."
+    ],
+    "highlights": [
+      "Bàn giao vượt tiến độ 18 ngày, tạo điều kiện cho đối tác lắp đặt dây chuyền máy móc sớm.",
+      "Đạt tiêu chuẩn phòng sạch Class 100,000 cho khu vực lắp ráp linh kiện điện tử.",
+      "Chủ đầu tư Nhật Bản gửi thư khen ngợi đặc biệt về tác phong an toàn 5S trên công trường."
+    ],
+    "order": 9,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 1050
   }
 ]

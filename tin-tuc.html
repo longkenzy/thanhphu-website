@@ -11,6 +11,7 @@
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon.png">
   <script src="assets/js/header.js"></script>
+  <script src="assets/js/articles-data.js"></script>
 </head>
 <body>
 
@@ -27,20 +28,24 @@
       
       <!-- Dynamic Featured Highlight Story Container -->
       <div id="featured-story-container">
-        <div style="background:#ffffff; border:1px solid var(--gray-border); border-radius:var(--radius-sm); overflow:hidden; margin-bottom: 50px; display:grid; grid-template-columns: 1.2fr 1fr; border-left: 5px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.06);">
-          <div style="position:relative; min-height: 340px;">
-            <img src="assets/images/news-1.svg" alt="Tiêu điểm tin tức" style="width:100%; height:100%; object-fit:cover;">
-            <span style="position:absolute; top:15px; left:15px; background:var(--primary); color:#ffffff; font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; padding:4px 12px; text-transform:uppercase;">TIN TIÊU ĐIỂM</span>
+        <div class="featured-story-card">
+          <div class="featured-story-media">
+            <img src="assets/images/news-1.svg" alt="Tiêu điểm tin tức">
+            <span class="featured-story-badge">TIN TIÊU ĐIỂM</span>
           </div>
-          <div style="padding: 35px; display:flex; flex-direction:column; justify-content:center;">
-            <div style="color:var(--text-muted); font-size:0.85rem; margin-bottom:8px;">
-              <i class="far fa-calendar-alt"></i> 15/08/2026 &nbsp;|&nbsp; <i class="fas fa-user-edit"></i> Ban Truyền Thông Thành Phú
+          <div class="featured-story-body">
+            <div class="featured-story-meta">
+              <span><i class="far fa-calendar-alt"></i> 15/08/2026</span>
+              <span class="meta-sep">|</span>
+              <span><i class="fas fa-user-edit"></i> Ban Truyền Thông Thành Phú</span>
             </div>
-            <h2 style="font-size:1.6rem; margin-bottom:14px; line-height:1.35;">Lễ Cất Nóc Vượt Tiến Độ 25 Ngày Tòa Nhà Văn Phòng SaiGon Horizon</h2>
-            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px; line-height:1.7;">
+            <h2 class="featured-story-title">
+              <a href="chi-tiet-tin-tuc.html?id=le-cat-noc-saigon-horizon">Lễ Cất Nóc Vượt Tiến Độ 25 Ngày Tòa Nhà Văn Phòng SaiGon Horizon</a>
+            </h2>
+            <p class="featured-story-excerpt">
               Sáng ngày 15/08, Công ty CP Đầu tư Xây lắp Thành Phú cùng Chủ đầu tư đã chính thức đổ mẻ bê tông cất nóc tầng 21 tháp văn phòng cao cấp SaiGon Horizon. Sự kiện đánh dấu việc hoàn thành toàn bộ phần kết cấu thô trước tiến độ cam kết 25 ngày.
             </p>
-            <div>
+            <div class="featured-story-action">
               <a href="chi-tiet-tin-tuc.html?id=le-cat-noc-saigon-horizon" class="btn btn-primary btn-sm">Xem chi tiết bài viết <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
@@ -198,6 +203,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/articles-data.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {

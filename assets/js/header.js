@@ -5,6 +5,12 @@
  */
 
 const SHARED_HEADER_HTML = `
+<!-- Top Loading Bar (for SPA page transitions) -->
+<div id="page-loader-bar" class="page-loader-bar"></div>
+
+<!-- Top Scroll Reading Progress Indicator -->
+<div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+
 <!-- Top Bar -->
 <div class="top-bar">
   <div class="container top-bar-inner">

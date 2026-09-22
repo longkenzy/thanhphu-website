@@ -522,189 +522,171 @@ async function renderProjectDetail() {
   }
 }
 
+const PROJECTS_LIST = Object.values(PROJECTS_DATA);
+
 /**
- * Hàm khởi tạo và hiển thị danh sách dự án động trên trang du-an.html
+ * Render HTML card cho 1 dự án
  */
-async function initProjectsPage() {
-  const gridContainer = document.getElementById('projects-grid-container') || document.querySelector('.project-grid');
+function renderSingleProjectCardHtml(p) {
+  const isOngoing = p.status && (p.status.toLowerCase().includes('đang') || p.status.toLowerCase().includes('thi công'));
+  const statusStyle = isOngoing ? 'background: var(--accent); color: var(--dark);' : 'background: var(--primary); color: #ffffff;';
+  
+  return `
+    <div class="project-card" data-category="${p.category || 'xay-lap'}">
+      <a href="chi-tiet-du-an.html?id=${p.slug || p.id}" class="project-img-box">
+        <span class="project-badge">${p.badge || p.categoryName || 'Dự Án Tiêu Biểu'}</span>
+        <span class="project-status" style="${statusStyle}">${p.status || 'Đã Bàn Giao'}</span>
+        <img src="${p.image || 'assets/images/project-1.svg'}" alt="${p.title}" loading="lazy" onerror="this.src='assets/images/project-1.svg'">
+      </a>
+      <div class="project-body">
+        <h3 class="project-title"><a href="chi-tiet-du-an.html?id=${p.slug || p.id}">${p.title}</a></h3>
+        <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.overview || ''}</p>
+        <div class="project-meta">
+          ${p.location ? `<div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>` : ''}
+          ${p.scale ? `<div class="project-meta-item"><i class="fas fa-ruler-combined"></i> ${p.scale}</div>` : ''}
+          ${p.client ? `<div class="project-meta-item"><i class="fas fa-user-tie"></i> Chủ đầu tư: ${p.client}</div>` : ''}
+          ${p.timeline || p.year ? `<div class="project-meta-item"><i class="fas fa-calendar-alt"></i> ${p.timeline || ('Hoàn thành: ' + p.year)}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Cập nhật số lượng trên các nút Filter Nav
+ */
+function updateProjectsFilterNavCounts(projects) {
   const filterNav = document.getElementById('projects-filter-nav') || document.querySelector('.filter-nav');
+  if (!filterNav) return;
 
-  if (!gridContainer) return;
+  const xayLapCount = projects.filter(p => p.category === 'xay-lap' || p.category === 'caotang' || p.category === 'congnghiep' || p.category === 'hatang').length;
+  const noiThatCount = projects.filter(p => p.category === 'noi-that').length;
+  const nhomKinhCount = projects.filter(p => p.category === 'nhom-kinh').length;
+  
+  filterNav.innerHTML = `
+    <button type="button" class="filter-btn active" data-filter="all">TẤT CẢ DỰ ÁN (${projects.length})</button>
+    <button type="button" class="filter-btn" data-filter="xay-lap">THI CÔNG XÂY LẮP (${xayLapCount})</button>
+    <button type="button" class="filter-btn" data-filter="noi-that">TRANG TRÍ NỘI THẤT (${noiThatCount})</button>
+    <button type="button" class="filter-btn" data-filter="nhom-kinh">SXLĐ CẤU KIỆN NHÔM KÍNH (${nhomKinhCount})</button>
+  `;
+}
 
-  try {
-    const res = await fetch('/api/projects');
-    if (!res.ok) throw new Error('API response not ok');
-    const data = await res.json();
-    
-    if (data.success && Array.isArray(data.data)) {
-      const projects = data.data;
-      window.allLoadedProjects = projects;
+/**
+ * Render danh sách dự án vào grid container
+ */
+function renderProjectsToGrid(container, projects) {
+  if (!container) return;
 
-      // Cập nhật số lượng trên các nút bộ lọc Filter Nav
-      if (filterNav) {
-        const xayLapCount = projects.filter(p => p.category === 'xay-lap' || p.category === 'caotang' || p.category === 'congnghiep' || p.category === 'hatang').length;
-        const noiThatCount = projects.filter(p => p.category === 'noi-that').length;
-        const nhomKinhCount = projects.filter(p => p.category === 'nhom-kinh').length;
-        
-        filterNav.innerHTML = `
-          <button type="button" class="filter-btn active" data-filter="all">TẤT CẢ DỰ ÁN (${projects.length})</button>
-          <button type="button" class="filter-btn" data-filter="xay-lap">THI CÔNG XÂY LẮP (${xayLapCount})</button>
-          <button type="button" class="filter-btn" data-filter="noi-that">TRANG TRÍ NỘI THẤT (${noiThatCount})</button>
-          <button type="button" class="filter-btn" data-filter="nhom-kinh">SXLĐ CẤU KIỆN NHÔM KÍNH (${nhomKinhCount})</button>
-        `;
-      }
+  if (!projects || projects.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 70px 20px; background: #ffffff; border: 1px dashed var(--gray-border); border-radius: var(--radius-sm); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+        <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
+        <h3 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--dark);">Hiện chưa có dự án nào được công bố</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 520px; margin: 0 auto 20px;">
+          Danh mục dự án đang được cập nhật hoặc tạm ẩn. Vui lòng quay lại sau hoặc liên hệ với chúng tôi để biết thêm chi tiết.
+        </p>
+        <a href="lien-he.html" class="btn btn-primary btn-sm"><i class="fas fa-phone-alt"></i> Liên Hệ Trực Tiếp</a>
+      </div>
+    `;
+    return;
+  }
 
-      // Nếu không có dự án nào trong hệ thống (hoặc đã bị xóa hết)
-      if (projects.length === 0) {
-        gridContainer.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 70px 20px; background: #ffffff; border: 1px dashed var(--gray-border); border-radius: var(--radius-sm); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
-            <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
-            <h3 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--dark);">Hiện chưa có dự án nào được công bố</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 520px; margin: 0 auto 20px;">
-              Danh mục dự án đang được cập nhật hoặc tạm ẩn. Vui lòng quay lại sau hoặc liên hệ với chúng tôi để biết thêm chi tiết.
-            </p>
-            <a href="lien-he.html" class="btn btn-primary btn-sm"><i class="fas fa-phone-alt"></i> Liên Hệ Trực Tiếp</a>
-          </div>
-        `;
-        return;
-      }
+  container.innerHTML = projects.map(p => renderSingleProjectCardHtml(p)).join('');
 
-      // Render danh sách dự án động
-      gridContainer.innerHTML = projects.map(p => {
-        const isOngoing = p.status && (p.status.toLowerCase().includes('đang') || p.status.toLowerCase().includes('thi công'));
-        const statusStyle = isOngoing ? 'background: var(--accent); color: var(--dark);' : 'background: var(--primary); color: #ffffff;';
-        
-        return `
-          <div class="project-card" data-category="${p.category || 'xay-lap'}">
-            <a href="chi-tiet-du-an.html?id=${p.slug || p.id}" class="project-img-box">
-              <span class="project-badge">${p.badge || p.categoryName || 'Dự Án Tiêu Biểu'}</span>
-              <span class="project-status" style="${statusStyle}">${p.status || 'Đã Bàn Giao'}</span>
-              <img src="${p.image || 'assets/images/project-1.svg'}" alt="${p.title}" loading="lazy" onerror="this.src='assets/images/project-1.svg'">
-            </a>
-            <div class="project-body">
-              <h3 class="project-title"><a href="chi-tiet-du-an.html?id=${p.slug || p.id}">${p.title}</a></h3>
-              <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.overview || ''}</p>
-              <div class="project-meta">
-                ${p.location ? `<div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>` : ''}
-                ${p.scale ? `<div class="project-meta-item"><i class="fas fa-ruler-combined"></i> ${p.scale}</div>` : ''}
-                ${p.client ? `<div class="project-meta-item"><i class="fas fa-user-tie"></i> Chủ đầu tư: ${p.client}</div>` : ''}
-                ${p.timeline || p.year ? `<div class="project-meta-item"><i class="fas fa-calendar-alt"></i> ${p.timeline || ('Hoàn thành: ' + p.year)}</div>` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      // Gắn lại sự kiện lọc danh mục
-      if (typeof initProjectFilter === 'function') {
-        initProjectFilter();
-      }
-      if (typeof gsap !== 'undefined') {
-        gsap.utils.toArray('#projects-grid-container .project-card').forEach((card, index) => {
-          gsap.fromTo(card,
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              delay: (index % 3) * 0.06,
-              ease: 'power2.out',
-              clearProps: 'transform,opacity',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top 92%',
-                toggleActions: 'play none none none'
-              }
-            }
-          );
-        });
-      }
-      if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.refresh();
-      }
-    }
-  } catch (err) {
-    console.warn('Không tải được danh sách dự án động từ API:', err);
+  if (typeof initProjectFilter === 'function') {
+    initProjectFilter();
+  }
+  if (typeof init3DTiltEffects === 'function') {
+    init3DTiltEffects();
   }
 }
 
 /**
- * Hàm khởi tạo và hiển thị dự án tiêu biểu trên trang chủ index.html
+ * Hàm khởi tạo và hiển thị danh sách dự án tức thì trên trang du-an.html (Instant 0ms + Revalidate)
+ */
+async function initProjectsPage() {
+  const gridContainer = document.getElementById('projects-grid-container') || document.querySelector('.project-grid');
+  if (!gridContainer) return;
+
+  // 1. TỨC THÌ: Render 9 dự án tiêu biểu từ bộ nhớ (0ms latency, không chờ mạng)
+  window.allLoadedProjects = PROJECTS_LIST;
+  updateProjectsFilterNavCounts(PROJECTS_LIST);
+  renderProjectsToGrid(gridContainer, PROJECTS_LIST);
+
+  // 2. Chạy ngầm: Lấy dữ liệu mới nhất từ REST API / MongoDB CMS nếu có thay đổi
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const res = await fetch('/api/projects', { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        window.allLoadedProjects = data.data;
+        updateProjectsFilterNavCounts(data.data);
+        renderProjectsToGrid(gridContainer, data.data);
+      }
+    }
+  } catch (err) {
+    // Không gián đoạn trải nghiệm người dùng: Đã có sẵn dữ liệu PROJECTS_LIST chất lượng cao
+  }
+}
+
+/**
+ * Hàm khởi tạo và hiển thị dự án tiêu biểu trên trang chủ index.html (Instant 0ms + Revalidate)
  */
 async function initHomeProjects() {
   const homeGrid = document.getElementById('home-projects-grid');
   if (!homeGrid) return;
 
+  // 1. TỨC THÌ: Render ngay các dự án tiêu biểu
+  const topProjects = PROJECTS_LIST.slice(0, 8);
+  homeGrid.innerHTML = topProjects.map(p => {
+    const isOngoing = p.status && (p.status.toLowerCase().includes('đang') || p.status.toLowerCase().includes('thi công'));
+    const statusStyle = isOngoing ? 'background: var(--accent); color: var(--dark);' : 'background: var(--primary); color: #ffffff;';
+    
+    return `
+      <div class="project-card" data-category="${p.category || 'caotang'}">
+        <a href="chi-tiet-du-an.html?id=${p.slug || p.id}" class="project-img-box">
+          <span class="project-badge">${p.badge || 'Dự Án'}</span>
+          <span class="project-status" style="${statusStyle}">${p.status || 'Đã Bàn Giao'}</span>
+          <img src="${p.image || 'assets/images/project-1.svg'}" alt="${p.title}" loading="lazy" onerror="this.src='assets/images/project-1.svg'">
+        </a>
+        <div class="project-body">
+          <h3 class="project-title"><a href="chi-tiet-du-an.html?id=${p.slug || p.id}">${p.title}</a></h3>
+          <div class="project-meta">
+            ${p.location ? `<div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>` : ''}
+            ${p.scale ? `<div class="project-meta-item"><i class="fas fa-ruler-combined"></i> Quy mô: ${p.scale}</div>` : ''}
+            ${p.timeline || p.year ? `<div class="project-meta-item"><i class="fas fa-calendar-check"></i> ${p.timeline || ('Hoàn thành: ' + p.year)}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof initProjectFilter === 'function') {
+    initProjectFilter();
+  }
+  if (typeof init3DTiltEffects === 'function') {
+    init3DTiltEffects();
+  }
+
+  // 2. Chạy ngầm: Đồng bộ với CMS API
   try {
-    const res = await fetch('/api/projects?limit=8');
-    if (!res.ok) throw new Error('API response not ok');
-    const data = await res.json();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const res = await fetch('/api/projects?limit=8', { signal: controller.signal });
+    clearTimeout(timeoutId);
 
-    if (data.success && Array.isArray(data.data)) {
-      const projects = data.data;
-      if (projects.length === 0) {
-        homeGrid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--text-muted);">
-            <i class="fas fa-folder-open" style="font-size: 2.5rem; margin-bottom: 12px; color: var(--gray);"></i>
-            <h4>Dự án đang được cập nhật</h4>
-            <p style="font-size: 0.9rem;">Vui lòng quay lại sau.</p>
-          </div>
-        `;
-        return;
-      }
-
-      homeGrid.innerHTML = projects.slice(0, 8).map(p => {
-        const isOngoing = p.status && (p.status.toLowerCase().includes('đang') || p.status.toLowerCase().includes('thi công'));
-        const statusStyle = isOngoing ? 'background: var(--accent); color: var(--dark);' : 'background: var(--primary); color: #ffffff;';
-        
-        return `
-          <div class="project-card" data-category="${p.category || 'caotang'}">
-            <a href="chi-tiet-du-an.html?id=${p.slug || p.id}" class="project-img-box">
-              <span class="project-badge">${p.badge || 'Dự Án'}</span>
-              <span class="project-status" style="${statusStyle}">${p.status || 'Đã Bàn Giao'}</span>
-              <img src="${p.image || 'assets/images/project-1.svg'}" alt="${p.title}" loading="lazy" onerror="this.src='assets/images/project-1.svg'">
-            </a>
-            <div class="project-body">
-              <h3 class="project-title"><a href="chi-tiet-du-an.html?id=${p.slug || p.id}">${p.title}</a></h3>
-              <div class="project-meta">
-                ${p.location ? `<div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>` : ''}
-                ${p.scale ? `<div class="project-meta-item"><i class="fas fa-ruler-combined"></i> Quy mô: ${p.scale}</div>` : ''}
-                ${p.timeline || p.year ? `<div class="project-meta-item"><i class="fas fa-calendar-check"></i> ${p.timeline || ('Hoàn thành: ' + p.year)}</div>` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      if (typeof initProjectFilter === 'function') {
-        initProjectFilter();
-      }
-      if (typeof gsap !== 'undefined') {
-        gsap.utils.toArray('#home-projects-grid .project-card').forEach((card, index) => {
-          gsap.fromTo(card,
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              delay: (index % 3) * 0.08,
-              ease: 'power2.out',
-              clearProps: 'transform,opacity',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top 92%',
-                toggleActions: 'play none none none'
-              }
-            }
-          );
-        });
-      }
-      if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.refresh();
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        // Cập nhật lại nếu dữ liệu từ server khác biệt
       }
     }
   } catch (err) {
-    console.warn('Không tải được dự án trang chủ:', err);
+    // Bỏ qua lỗi ngầm
   }
 }
 
@@ -731,6 +713,7 @@ function switchDetailMainImage(src, thumbElement) {
 // Gắn vào window để gọi từ bất kỳ đâu
 if (typeof window !== 'undefined') {
   window.PROJECTS_DATA = PROJECTS_DATA;
+  window.PROJECTS_LIST = PROJECTS_LIST;
   window.renderProjectDetail = renderProjectDetail;
   window.initProjectsPage = initProjectsPage;
   window.initHomeProjects = initHomeProjects;

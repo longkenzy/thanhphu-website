@@ -478,50 +478,45 @@ function mapProjectCategory(cat) {
 app.use(express.json({ limit: '30mb' }));
 app.use(express.urlencoded({ extended: true, limit: '30mb' }));
 
-// Serve static assets and uploads (Only needed for local Node.js development; Vercel CDN serves static assets natively)
-if (!process.env.VERCEL) {
-  app.use('/assets/uploads', express.static(UPLOADS_DIR));
-  app.use('/assets', express.static(path.join(ROOT_DIR, 'assets')));
-  app.use(express.static(ROOT_DIR));
+// Serve static assets and uploads (Active on all environments)
+app.use('/assets/uploads', express.static(UPLOADS_DIR));
+app.use('/assets', express.static(path.join(ROOT_DIR, 'assets')));
+app.use(express.static(ROOT_DIR));
 
-  // Friendly route mappings
-  const routes = [
-    { path: '/', file: 'index.html' },
-    { path: '/trang-chu', file: 'index.html' },
-    { path: '/gioi-thieu', file: 'gioi-thieu.html' },
-    { path: '/linh-vuc', file: 'linh-vuc.html' },
-    { path: '/linh-vuc-hoat-dong', file: 'linh-vuc.html' },
-    { path: '/du-an', file: 'du-an.html' },
-    { path: '/chi-tiet-du-an', file: 'chi-tiet-du-an.html' },
-    { path: '/tin-tuc', file: 'tin-tuc.html' },
-    { path: '/chi-tiet-tin-tuc', file: 'chi-tiet-tin-tuc.html' },
-    { path: '/tuyen-dung', file: 'tuyen-dung.html' },
-    { path: '/lien-he', file: 'lien-he.html' },
-    { path: '/admin', file: 'admin.html' },
-    { path: '/admin.html', file: 'admin.html' },
-    { path: '/login', file: 'admin.html' },
-    { path: '/dang-nhap', file: 'admin.html' }
-  ];
+// Friendly route mappings for HTML pages (Always active on both local & Vercel)
+const pageRoutes = [
+  { path: '/', file: 'index.html' },
+  { path: '/trang-chu', file: 'index.html' },
+  { path: '/gioi-thieu', file: 'gioi-thieu.html' },
+  { path: '/linh-vuc', file: 'linh-vuc.html' },
+  { path: '/linh-vuc-hoat-dong', file: 'linh-vuc.html' },
+  { path: '/du-an', file: 'du-an.html' },
+  { path: '/chi-tiet-du-an', file: 'chi-tiet-du-an.html' },
+  { path: '/tin-tuc', file: 'tin-tuc.html' },
+  { path: '/chi-tiet-tin-tuc', file: 'chi-tiet-tin-tuc.html' },
+  { path: '/tuyen-dung', file: 'tuyen-dung.html' },
+  { path: '/lien-he', file: 'lien-he.html' },
+  { path: '/admin', file: 'admin.html' },
+  { path: '/admin.html', file: 'admin.html' },
+  { path: '/login', file: 'admin.html' },
+  { path: '/dang-nhap', file: 'admin.html' }
+];
 
-  routes.forEach(route => {
-    app.get(route.path, (req, res) => {
-      res.sendFile(path.join(ROOT_DIR, route.file));
-    });
+pageRoutes.forEach(route => {
+  app.get(route.path, (req, res) => {
+    const filePath = path.join(ROOT_DIR, route.file);
+    if (fs.existsSync(filePath)) {
+      res.sendFile(filePath);
+    } else {
+      res.sendFile(path.join(ROOT_DIR, 'index.html'));
+    }
   });
-}
-
-// URL Normalizer: Ensure req.url starts with /api when invoked by Vercel Serverless Function rewrites
-app.use((req, res, next) => {
-  if (req.url && !req.url.startsWith('/api') && !req.url.startsWith('/assets')) {
-    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
-  }
-  next();
 });
 
-// Ensure MongoDB connection is active for all API calls (crucial for Vercel Serverless)
+// Ensure MongoDB connection is active for all API calls
 let isDbConnected = false;
 app.use(async (req, res, next) => {
-  if (req.url && req.url.startsWith('/api')) {
+  if (req.url && (req.url.startsWith('/api') || req.path.startsWith('/api'))) {
     if (!isDbConnected || mongoose.connection.readyState !== 1) {
       try {
         await connectDB();
@@ -668,7 +663,16 @@ app.get('/api/articles/:id', async (req, res) => {
     const { id } = req.params;
 
     if (mongoose.connection.readyState === 1) {
-      let article = await Article.findOne({ $or: [{ id: id }, { slug: id }] });
+      let queryList = [{ id: id }, { slug: id }];
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        queryList.push({ _id: id });
+      }
+      if (id === 'ung-dung-bim-trong-quan-ly-xung-dot-mep') queryList.push({ id: 'ung-dung-mo-hinh-bim-quan-ly-xung-dot-mep' }, { slug: 'ung-dung-mo-hinh-bim-quan-ly-xung-dot-mep' });
+      if (id === 'ung-dung-mo-hinh-bim-quan-ly-xung-dot-mep') queryList.push({ id: 'ung-dung-bim-trong-quan-ly-xung-dot-mep' }, { slug: 'ung-dung-bim-trong-quan-ly-xung-dot-mep' });
+      if (id === 'khoi-cong-ha-tang-do-thi-nam-long') queryList.push({ id: 'le-khoi-cong-ha-tang-do-thi-nam-long' }, { slug: 'le-khoi-cong-ha-tang-do-thi-nam-long' });
+      if (id === 'le-khoi-cong-ha-tang-do-thi-nam-long') queryList.push({ id: 'khoi-cong-ha-tang-do-thi-nam-long' }, { slug: 'khoi-cong-ha-tang-do-thi-nam-long' });
+
+      let article = await Article.findOne({ $or: queryList });
       if (!article) {
         return res.status(404).json({
           success: false,
@@ -690,7 +694,15 @@ app.get('/api/articles/:id', async (req, res) => {
 
     // Fallback
     const articles = getArticles();
-    const article = articles.find(a => a.id === id || a.slug === id);
+    const article = articles.find(a => 
+      a.id === id || 
+      a.slug === id || 
+      a._id === id ||
+      (id === 'ung-dung-bim-trong-quan-ly-xung-dot-mep' && (a.id === 'ung-dung-mo-hinh-bim-quan-ly-xung-dot-mep' || a.slug === 'ung-dung-mo-hinh-bim-quan-ly-xung-dot-mep')) ||
+      (id === 'ung-dung-mo-hinh-bim-quan-ly-xung-dot-mep' && (a.id === 'ung-dung-bim-trong-quan-ly-xung-dot-mep' || a.slug === 'ung-dung-bim-trong-quan-ly-xung-dot-mep')) ||
+      (id === 'khoi-cong-ha-tang-do-thi-nam-long' && (a.id === 'le-khoi-cong-ha-tang-do-thi-nam-long' || a.slug === 'le-khoi-cong-ha-tang-do-thi-nam-long')) ||
+      (id === 'le-khoi-cong-ha-tang-do-thi-nam-long' && (a.id === 'khoi-cong-ha-tang-do-thi-nam-long' || a.slug === 'khoi-cong-ha-tang-do-thi-nam-long'))
+    );
     if (!article) {
       return res.status(404).json({
         success: false,

@@ -88,6 +88,8 @@ async function navigateTo(url, pushState = true) {
     return;
   }
 
+  showTopPageLoader();
+
   // Close mobile drawer if open
   closeMobileMenu();
 
@@ -146,8 +148,10 @@ async function navigateTo(url, pushState = true) {
 
     // Re-initialize all scripts for newly injected content
     initPageFeatures();
+    hideTopPageLoader();
 
   } catch (error) {
+    hideTopPageLoader();
     console.warn('Seamless navigation fallback triggered:', error);
     window.location.href = url;
   }
@@ -217,12 +221,31 @@ async function initPageFeatures() {
 
   // 4. Tin tức trang chủ & trang tin tức
   if (document.getElementById('home-news-grid')) {
-    initHomeNews();
+    if (typeof ARTICLES_DATA === 'undefined') {
+      try {
+        await loadScript('assets/js/articles-data.js');
+      } catch (err) {}
+    }
+    if (typeof initHomeNews === 'function') {
+      initHomeNews();
+    }
   }
   if (document.getElementById('news-grid-container')) {
-    initNewsPage();
+    if (typeof ARTICLES_DATA === 'undefined') {
+      try {
+        await loadScript('assets/js/articles-data.js');
+      } catch (err) {}
+    }
+    if (typeof initNewsPage === 'function') {
+      await initNewsPage();
+    }
   }
   if (document.getElementById('article-content')) {
+    if (typeof loadArticleDetail !== 'function') {
+      try {
+        await loadScript('assets/js/articles-data.js');
+      } catch (err) {}
+    }
     if (typeof loadArticleDetail === 'function') {
       loadArticleDetail();
     }
@@ -236,6 +259,12 @@ async function initPageFeatures() {
   initProjectFilter();
   initContactForms();
   initBackToTop();
+
+  // 6. Motion Design & Micro-interactions
+  initScrollProgressBar();
+  init3DTiltEffects();
+  initMagneticButtons();
+  initSwipeGestures();
 }
 
 // ==========================================
@@ -976,69 +1005,80 @@ async function initNewsPage() {
 
   if (!newsGridContainer) return;
 
+  let articles = [];
+
   try {
     const res = await fetch('/api/articles?status=published');
     const data = await res.json();
-    if (!data.success || !Array.isArray(data.data) || data.data.length === 0) return;
+    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+      articles = data.data;
+    }
+  } catch (err) {
+    console.warn('Could not fetch dynamic news, checking local database:', err.message || err);
+  }
 
-    const articles = data.data;
+  if (articles.length === 0 && typeof window.ARTICLES_LIST !== 'undefined' && Array.isArray(window.ARTICLES_LIST)) {
+    articles = window.ARTICLES_LIST;
+  }
 
-    // Find featured article (marked isFeatured or first article)
-    const featured = articles.find(a => a.isFeatured) || articles[0];
+  if (articles.length === 0) return;
 
-    // Render Featured Story if container exists
-    if (featuredContainer && featured) {
-      featuredContainer.innerHTML = `
-        <div style="background:#ffffff; border:1px solid var(--gray-border); border-radius:var(--radius-sm); overflow:hidden; margin-bottom: 50px; display:grid; grid-template-columns: 1.2fr 1fr; border-left: 5px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.06);">
-          <div style="position:relative; min-height: 340px;">
-            <img src="${featured.image || 'assets/images/news-1.svg'}" alt="${featured.title}" style="width:100%; height:100%; object-fit:cover;">
-            <span style="position:absolute; top:15px; left:15px; background:var(--primary); color:#ffffff; font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; padding:4px 12px; text-transform:uppercase;">TIN TIÊU ĐIỂM</span>
+  // Find featured article (marked isFeatured or first article)
+  const featured = articles.find(a => a.isFeatured) || articles[0];
+
+  // Render Featured Story if container exists
+  if (featuredContainer && featured) {
+    featuredContainer.innerHTML = `
+      <div class="featured-story-card">
+        <div class="featured-story-media">
+          <img src="${featured.image || 'assets/images/news-1.svg'}" alt="${featured.title}">
+          <span class="featured-story-badge">TIN TIÊU ĐIỂM</span>
+        </div>
+        <div class="featured-story-body">
+          <div class="featured-story-meta">
+            <span><i class="far fa-calendar-alt"></i> ${featured.date || ''}</span>
+            <span class="meta-sep">|</span>
+            <span><i class="fas fa-user-edit"></i> ${featured.author || 'Ban Truyền Thông'}</span>
           </div>
-          <div style="padding: 35px; display:flex; flex-direction:column; justify-content:center;">
-            <div style="color:var(--text-muted); font-size:0.85rem; margin-bottom:8px;">
-              <i class="far fa-calendar-alt"></i> ${featured.date || ''} &nbsp;|&nbsp; <i class="fas fa-user-edit"></i> ${featured.author || 'Ban Truyền Thông'}
-            </div>
-            <h2 style="font-size:1.6rem; margin-bottom:14px; line-height:1.35;">${featured.title}</h2>
-            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px; line-height:1.7;">
-              ${featured.excerpt || ''}
-            </p>
-            <div>
-              <a href="chi-tiet-tin-tuc.html?id=${featured.id}" class="btn btn-primary btn-sm">Xem chi tiết bài viết <i class="fas fa-arrow-right"></i></a>
-            </div>
+          <h2 class="featured-story-title">
+            <a href="chi-tiet-tin-tuc.html?id=${featured.slug || featured.id}">${featured.title}</a>
+          </h2>
+          <p class="featured-story-excerpt">
+            ${featured.excerpt || ''}
+          </p>
+          <div class="featured-story-action">
+            <a href="chi-tiet-tin-tuc.html?id=${featured.slug || featured.id}" class="btn btn-primary btn-sm">Xem chi tiết bài viết <i class="fas fa-arrow-right"></i></a>
           </div>
         </div>
-      `;
-    }
-
-    // List of other articles (or all if only 1 exists)
-    const listArticles = articles.length > 1 ? articles.filter(a => a.id !== featured?.id) : articles;
-
-    // Setup Category Tabs
-    if (filterTabsContainer) {
-      const categories = [
-        { key: 'all', label: 'Tất Cả Bản Tin' },
-        { key: 'su-kien', label: 'Sự Kiện & Tiến Độ' },
-        { key: 'an-toan', label: 'An Toàn Lao Động' },
-        { key: 'cong-nghe', label: 'Công Nghệ Xây Dựng' },
-        { key: 'tien-do', label: 'Tiến Độ Dự Án' },
-        { key: 'kien-thuc', label: 'Kiến Thức Xây Dựng' },
-        { key: 'giai-thuong', label: 'Giải Thưởng & Sự Kiện' },
-        { key: 'nang-luc', label: 'Năng Lực Sản Xuất' }
-      ];
-
-      filterTabsContainer.innerHTML = categories.map((cat, idx) => `
-        <button type="button" class="news-tab-btn ${idx === 0 ? 'active' : ''}" data-cat="${cat.key}" onclick="filterNewsGrid('${cat.key}', this)">
-          ${cat.label}
-        </button>
-      `).join('');
-    }
-
-    window.allLoadedNews = listArticles;
-    renderNewsCards(window.allLoadedNews);
-
-  } catch (err) {
-    console.warn('Could not fetch dynamic news, keeping static fallback:', err);
+      </div>
+    `;
   }
+
+  // List of other articles (or all if only 1 exists)
+  const listArticles = articles.length > 1 ? articles.filter(a => (a.id !== featured?.id && a.slug !== featured?.slug)) : articles;
+
+  // Setup Category Tabs
+  if (filterTabsContainer) {
+    const categories = [
+      { key: 'all', label: 'Tất Cả Bản Tin' },
+      { key: 'su-kien', label: 'Sự Kiện & Tiến Độ' },
+      { key: 'an-toan', label: 'An Toàn Lao Động' },
+      { key: 'cong-nghe', label: 'Công Nghệ Xây Dựng' },
+      { key: 'tien-do', label: 'Tiến Độ Dự Án' },
+      { key: 'kien-thuc', label: 'Kiến Thức Xây Dựng' },
+      { key: 'giai-thuong', label: 'Giải Thưởng & Sự Kiện' },
+      { key: 'nang-luc', label: 'Năng Lực Sản Xuất' }
+    ];
+
+    filterTabsContainer.innerHTML = categories.map((cat, idx) => `
+      <button type="button" class="news-tab-btn ${idx === 0 ? 'active' : ''}" data-cat="${cat.key}" onclick="filterNewsGrid('${cat.key}', this)">
+        ${cat.label}
+      </button>
+    `).join('');
+  }
+
+  window.allLoadedNews = listArticles;
+  renderNewsCards(window.allLoadedNews);
 }
 
 function renderNewsCards(items) {
@@ -1065,10 +1105,10 @@ function renderNewsCards(items) {
       <div class="news-body">
         <div class="news-category">${news.categoryName || 'Tin tức'}</div>
         <h3 class="news-title">
-          <a href="chi-tiet-tin-tuc.html?id=${news.id}">${news.title}</a>
+          <a href="chi-tiet-tin-tuc.html?id=${news.slug || news.id}">${news.title}</a>
         </h3>
         <p class="news-excerpt">${news.excerpt || ''}</p>
-        <a href="chi-tiet-tin-tuc.html?id=${news.id}" class="service-link">Chi tiết <i class="fas fa-arrow-right"></i></a>
+        <a href="chi-tiet-tin-tuc.html?id=${news.slug || news.id}" class="service-link">Chi tiết <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
   `).join('');
@@ -1094,32 +1134,42 @@ async function initHomeNews() {
   const container = document.getElementById('home-news-grid');
   if (!container) return;
 
+  let articles = [];
+
   try {
     const res = await fetch('/api/articles?status=published');
     const data = await res.json();
-    if (!data.success || !Array.isArray(data.data) || data.data.length === 0) return;
-
-    const top3 = data.data.slice(0, 3);
-    container.innerHTML = top3.map(item => `
-      <div class="news-card">
-        <div class="news-img-box">
-          <span class="news-date"><i class="far fa-calendar-alt"></i> ${item.date}</span>
-          <img src="${item.image || 'assets/images/news-1.svg'}" alt="${item.title}">
-        </div>
-        <div class="news-body">
-          <div class="news-category">${item.categoryName || 'Tin tức'}</div>
-          <h3 class="news-title"><a href="chi-tiet-tin-tuc.html?id=${item.id}">${item.title}</a></h3>
-          <p class="news-excerpt">${item.excerpt || ''}</p>
-          <a href="chi-tiet-tin-tuc.html?id=${item.id}" class="service-link">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    `).join('');
-
-    if (typeof ScrollTrigger !== 'undefined') {
-      ScrollTrigger.refresh();
+    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+      articles = data.data;
     }
   } catch (err) {
-    console.warn('Could not fetch home news, keeping static markup:', err);
+    console.warn('Could not fetch home news from API:', err.message || err);
+  }
+
+  if (articles.length === 0 && typeof window.ARTICLES_LIST !== 'undefined' && Array.isArray(window.ARTICLES_LIST)) {
+    articles = window.ARTICLES_LIST;
+  }
+
+  if (articles.length === 0) return;
+
+  const top3 = articles.slice(0, 3);
+  container.innerHTML = top3.map(item => `
+    <div class="news-card">
+      <div class="news-img-box">
+        <span class="news-date"><i class="far fa-calendar-alt"></i> ${item.date}</span>
+        <img src="${item.image || 'assets/images/news-1.svg'}" alt="${item.title}">
+      </div>
+      <div class="news-body">
+        <div class="news-category">${item.categoryName || 'Tin tức'}</div>
+        <h3 class="news-title"><a href="chi-tiet-tin-tuc.html?id=${item.slug || item.id}">${item.title}</a></h3>
+        <p class="news-excerpt">${item.excerpt || ''}</p>
+        <a href="chi-tiet-tin-tuc.html?id=${item.slug || item.id}" class="service-link">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.refresh();
   }
 }
 
@@ -1168,6 +1218,152 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// ==========================================
+// 13. MOTION DESIGN & ADVANCED UX CONTROLLER
+// ==========================================
+
+// 1. Top Reading Scroll Progress Bar
+function initScrollProgressBar() {
+  const progressBar = document.getElementById('scroll-progress-bar');
+  if (!progressBar) return;
+
+  let ticking = false;
+  const updateProgress = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateProgress);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  updateProgress();
+}
+
+// 2. SPA Top Page Loader Bar
+function showTopPageLoader() {
+  const bar = document.getElementById('page-loader-bar');
+  if (!bar) return;
+  bar.classList.remove('done');
+  bar.classList.add('loading');
+}
+
+function hideTopPageLoader() {
+  const bar = document.getElementById('page-loader-bar');
+  if (!bar) return;
+  bar.classList.remove('loading');
+  bar.classList.add('done');
+  setTimeout(() => {
+    bar.classList.remove('done');
+  }, 450);
+}
+
+// 3. 3D Tilt Effect on Cards (Desktop Only with fine cursor)
+function init3DTiltEffects() {
+  if (typeof window === 'undefined') return;
+  if (window.matchMedia && window.matchMedia('(hover: none) or (pointer: coarse)').matches) return;
+
+  const tiltCards = document.querySelectorAll('.project-card, .service-card, .stat-card, .director-card, .partner-item');
+  tiltCards.forEach(card => {
+    if (card.dataset.tiltInit === 'true') return;
+    card.dataset.tiltInit = 'true';
+
+    // Inject glare reflection if not present
+    if (!card.querySelector('.card-glare')) {
+      const glare = document.createElement('div');
+      glare.className = 'card-glare';
+      card.appendChild(glare);
+    }
+
+    const handleMouseMove = (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Subtle tilt (+/- 5.5deg) for high-end luxury architectural feel
+      const rotateX = ((y - centerY) / centerY) * -5.5;
+      const rotateY = ((x - centerX) / centerX) * 5.5;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(4px)`;
+      card.style.setProperty('--glare-x', `${(x / rect.width * 100).toFixed(1)}%`);
+      card.style.setProperty('--glare-y', `${(y / rect.height * 100).toFixed(1)}%`);
+    };
+
+    const handleMouseLeave = () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    };
+
+    card.addEventListener('mousemove', handleMouseMove);
+    card.addEventListener('mouseleave', handleMouseLeave);
+  });
+}
+
+// 4. Magnetic Buttons for High-Impact CTAs
+function initMagneticButtons() {
+  if (typeof window === 'undefined') return;
+  if (window.matchMedia && window.matchMedia('(hover: none) or (pointer: coarse)').matches) return;
+
+  const buttons = document.querySelectorAll('.btn-primary, .header-phone-btn, .service-link');
+  buttons.forEach(btn => {
+    if (btn.dataset.magneticInit === 'true') return;
+    btn.dataset.magneticInit = 'true';
+
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0px, 0px)';
+    });
+  });
+}
+
+// 5. Touch Gestures (Swipe for Hero Slider & Image Galleries)
+function initSwipeGestures() {
+  const slider = document.getElementById('hero-slider');
+  if (slider && !slider.dataset.swipeInit) {
+    slider.dataset.swipeInit = 'true';
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    slider.addEventListener('touchstart', (e) => {
+      if (e.changedTouches && e.changedTouches.length > 0) {
+        touchStartX = e.changedTouches[0].screenX;
+      }
+    }, { passive: true });
+
+    slider.addEventListener('touchend', (e) => {
+      if (e.changedTouches && e.changedTouches.length > 0) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }
+    }, { passive: true });
+
+    const handleSwipe = () => {
+      const threshold = 40;
+      if (touchEndX < touchStartX - threshold) {
+        // Swiped Left -> Next slide
+        if (typeof nextSlide === 'function') nextSlide();
+      }
+      if (touchEndX > touchStartX + threshold) {
+        // Swiped Right -> Prev slide
+        if (typeof prevSlide === 'function') prevSlide();
+      }
+    };
+  }
+}
+
 // Expose to window
 if (typeof window !== 'undefined') {
   window.initNewsPage = initNewsPage;
@@ -1175,5 +1371,12 @@ if (typeof window !== 'undefined') {
   window.initHomePartners = initHomePartners;
   window.renderNewsCards = renderNewsCards;
   window.filterNewsGrid = filterNewsGrid;
+  window.initScrollProgressBar = initScrollProgressBar;
+  window.init3DTiltEffects = init3DTiltEffects;
+  window.initMagneticButtons = initMagneticButtons;
+  window.initSwipeGestures = initSwipeGestures;
+  window.showTopPageLoader = showTopPageLoader;
+  window.hideTopPageLoader = hideTopPageLoader;
 }
+
 
