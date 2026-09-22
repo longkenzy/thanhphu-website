@@ -15,6 +15,25 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
 
+  <!-- Quill.js 2.0 Modern Rich Text Editor CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+  <!-- SheetJS (XLSX) CDN for Bulk Excel Import & Template Generation -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- Early Auth Check (Runs synchronously before DOM renders to prevent Flash of Login Screen) -->
+  <script>
+    (function() {
+      try {
+        var token = localStorage.getItem('tp_cms_auth_token') || sessionStorage.getItem('tp_cms_auth_token');
+        if (token) {
+          document.documentElement.classList.add('is-authenticated');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <style>
     /* ==========================================================================
        FLAT DESIGN DESIGN SYSTEM - THÀNH PHÚ CONSTRUCTION
@@ -1013,7 +1032,7 @@
     }
 
     /* ==========================================================================
-       6. FLAT EDITOR & DRAG-DROP MEDIA
+       6. FLAT QUILL 2.0 EDITOR & MEDIA
        ========================================================================== */
     .editor-grid {
       display: grid;
@@ -1021,61 +1040,102 @@
       gap: 24px;
     }
 
-    /* Formatting Toolbar */
-    .rich-toolbar {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-      padding: 8px 12px;
-      background: #F8FAFC;
-      border: 1px solid var(--border-color);
-      border-bottom: none;
+    /* Quill 2.0 Flat Design Theme */
+    .ql-toolbar.ql-snow {
+      border: 1px solid var(--border-color) !important;
+      border-bottom: none !important;
       border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      background: #F8FAFC;
+      padding: 10px 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    .tool-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-xs);
-      border: 1px solid transparent;
-      background: none;
-      color: var(--text-body);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
+    .ql-container.ql-snow {
+      border: 1px solid var(--border-color) !important;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      background: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      min-height: 380px;
+      line-height: 1.75;
       transition: var(--transition);
     }
 
-    .tool-btn:hover {
-      background: #E2E8F0;
+    .ql-container.ql-snow:focus-within {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 2px var(--primary-soft);
+    }
+
+    .ql-editor {
+      min-height: 360px;
+      padding: 18px 22px;
+    }
+
+    .ql-editor.ql-blank::before {
+      color: #94A3B8;
+      font-style: italic;
+    }
+
+    .ql-editor p {
+      margin-bottom: 14px;
+    }
+
+    .ql-editor h2, .ql-editor h3, .ql-editor h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
       color: var(--text-heading);
+      margin-top: 20px;
+      margin-bottom: 10px;
     }
 
-    .tool-divider {
-      width: 1px;
-      height: 20px;
-      background: var(--border-color);
-      margin: 0 4px;
+    .ql-editor blockquote {
+      border-left: 4px solid var(--primary);
+      background: #F8FAFC;
+      padding: 12px 18px;
+      margin: 16px 0;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
     }
 
-    .content-editable-box {
-      min-height: 380px;
-      max-height: 600px;
-      overflow-y: auto;
-      padding: 16px 20px;
-      border: 1px solid var(--border-color);
-      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-      background: #FFFFFF;
-      line-height: 1.8;
-      font-size: 0.95rem;
-      outline: none;
+    .ql-editor img {
+      max-width: 100%;
+      border-radius: 3px;
+      margin: 16px auto;
+      display: block;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
     }
 
-    .content-editable-box:focus {
-      border-color: var(--primary);
+    .ql-snow.ql-toolbar button:hover,
+    .ql-snow .ql-toolbar button:hover,
+    .ql-snow.ql-toolbar button.ql-active,
+    .ql-snow .ql-toolbar button.ql-active,
+    .ql-snow.ql-toolbar .ql-picker-label:hover,
+    .ql-snow .ql-toolbar .ql-picker-label.ql-active,
+    .ql-snow.ql-toolbar .ql-picker-item:hover,
+    .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+      color: var(--primary) !important;
+    }
+
+    .ql-snow.ql-toolbar button:hover .ql-stroke,
+    .ql-snow .ql-toolbar button:hover .ql-stroke,
+    .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+    .ql-snow .ql-toolbar button.ql-active .ql-stroke,
+    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
+    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
+    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke {
+      stroke: var(--primary) !important;
+    }
+
+    .ql-snow.ql-toolbar button:hover .ql-fill,
+    .ql-snow .ql-toolbar button:hover .ql-fill,
+    .ql-snow.ql-toolbar button.ql-active .ql-fill,
+    .ql-snow .ql-toolbar button.ql-active .ql-fill,
+    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,
+    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill,
+    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,
+    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill {
+      fill: var(--primary) !important;
     }
 
     /* Image Dropzone */
@@ -1397,10 +1457,12 @@
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    .admin-login-overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    .admin-login-overlay.hidden,
+    html.is-authenticated #adminLoginScreen {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      display: none !important;
     }
 
     .login-card {
@@ -1643,6 +1705,13 @@
           <span class="badge-count" id="sidebarSlideCount">0</span>
         </a>
       </li>
+      <li class="menu-item" data-tab="partners">
+        <a class="menu-link" onclick="switchTab('partners')">
+          <i class="fas fa-handshake"></i>
+          <span>Đối tác</span>
+          <span class="badge-count" id="sidebarPartnerCount">0</span>
+        </a>
+      </li>
 
       <div class="menu-heading">TRUY CẬP</div>
       <li class="menu-item">
@@ -1694,7 +1763,6 @@
         </button>
         <div class="page-title-group">
           <h1 id="currentSectionTitle">Bảng Tổng Quan</h1>
-          <p id="currentSectionDesc">Hệ thống quản lý nội dung và hiệu suất website Công ty Xây lắp Thành Phú</p>
         </div>
       </div>
 
@@ -1785,6 +1853,13 @@
               <div class="subtitle">Sửa, xóa, bật/tắt tiêu điểm</div>
             </div>
           </div>
+          <div class="shortcut-card" onclick="switchTab('partners')">
+            <i class="fas fa-handshake"></i>
+            <div>
+              <div class="title">Đối Tác & Chủ Đầu Tư</div>
+              <div class="subtitle">Quản lý logo & liên kết đối tác</div>
+            </div>
+          </div>
           <div class="shortcut-card" onclick="window.open('index.html', '_blank')">
             <i class="fas fa-arrow-up-right-from-square"></i>
             <div>
@@ -1867,7 +1942,13 @@
               </select>
             </div>
 
-            <div style="display:flex; align-items:center; gap:10px;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="downloadProjectTemplateExcel()" title="Tải file mẫu Excel chuẩn để điền dữ liệu hàng loạt">
+                <i class="fas fa-file-excel" style="color:#10B981;"></i> File Mẫu Excel
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="openBulkImportModal('projects')" title="Nhập hàng loạt dự án từ file Excel / CSV">
+                <i class="fas fa-file-import" style="color:var(--primary);"></i> Nhập từ Excel / CSV
+              </button>
               <button class="btn btn-primary btn-sm" onclick="openNewProjectEditor()">
                 <i class="fas fa-plus"></i> Viết bài dự án mới
               </button>
@@ -2191,10 +2272,16 @@
               </select>
             </div>
 
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span id="filteredCountBadge" style="font-size:0.82rem; color:var(--text-muted); font-weight:600;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span id="filteredCountBadge" style="font-size:0.82rem; color:var(--text-muted); font-weight:600; margin-right:4px;">
                 Đang tải...
               </span>
+              <button type="button" class="btn btn-outline btn-sm" onclick="downloadArticleTemplateExcel()" title="Tải file mẫu Excel chuẩn để điền bài viết tin tức">
+                <i class="fas fa-file-excel" style="color:#10B981;"></i> File Mẫu Excel
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="openBulkImportModal('articles')" title="Nhập hàng loạt tin tức từ file Excel / CSV">
+                <i class="fas fa-file-import" style="color:var(--primary);"></i> Nhập từ Excel / CSV
+              </button>
               <button class="btn btn-primary btn-sm" onclick="openNewPostEditor()">
                 <i class="fas fa-plus"></i> Đăng bài mới
               </button>
@@ -2277,34 +2364,15 @@
                   <textarea id="formExcerpt" class="form-control" rows="3" placeholder="Tóm tắt ngắn 2-3 câu giới thiệu nội dung chính của bài viết..." style="resize:vertical; line-height:1.5;"></textarea>
                 </div>
 
-                <!-- Rich Text Content Editor -->
+                <!-- Quill 2.0 Rich Text Content Editor -->
                 <div class="form-group">
                   <label class="form-label">Nội dung chi tiết bài viết <span class="required">*</span></label>
                   
-                  <!-- Formatting Toolbar -->
-                  <div class="rich-toolbar">
-                    <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="In đậm (Ctrl+B)"><i class="fas fa-bold"></i></button>
-                    <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="In nghiêng (Ctrl+I)"><i class="fas fa-italic"></i></button>
-                    <button type="button" class="tool-btn" onclick="formatDoc('underline')" title="Gạch chân (Ctrl+U)"><i class="fas fa-underline"></i></button>
-                    <div class="tool-divider"></div>
-                    <button type="button" class="tool-btn" onclick="formatDoc('formatBlock', '<h3>')" title="Tiêu đề H3"><strong>H3</strong></button>
-                    <button type="button" class="tool-btn" onclick="formatDoc('formatBlock', '<p>')" title="Đoạn văn bình thường">¶</button>
-                    <button type="button" class="tool-btn" onclick="formatDoc('formatBlock', '<blockquote>')" title="Khung trích dẫn"><i class="fas fa-quote-left"></i></button>
-                    <div class="tool-divider"></div>
-                    <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Danh sách chấm tròn"><i class="fas fa-list-ul"></i></button>
-                    <button type="button" class="tool-btn" onclick="formatDoc('insertOrderedList')" title="Danh sách đánh số"><i class="fas fa-list-ol"></i></button>
-                    <div class="tool-divider"></div>
-                    <button type="button" class="tool-btn" onclick="insertLinkPrompt()" title="Chèn liên kết"><i class="fas fa-link"></i></button>
-                    <button type="button" class="tool-btn" onclick="formatDoc('removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
-                  </div>
+                  <div id="quillArticleEditor"></div>
 
-                  <div id="formContent" class="content-editable-box" contenteditable="true" oninput="updateContentStats()">
-                    <p>Nhập nội dung bài viết chi tiết tại đây...</p>
-                  </div>
-
-                  <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.78rem; color:var(--text-muted);">
-                    <span id="contentWordCount">0 từ</span>
-                    <span id="contentReadTime">Khoảng 1 phút đọc</span>
+                  <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.78rem; color:var(--text-muted);">
+                    <span id="contentWordCount"><i class="fas fa-file-lines"></i> 0 từ</span>
+                    <span id="contentReadTime"><i class="far fa-clock"></i> Khoảng 1 phút đọc</span>
                   </div>
                 </div>
               </div>
@@ -2413,9 +2481,6 @@
               <h2 class="card-title">
                 <i class="fas fa-images" style="color:var(--primary);"></i> Quản Lý Hero Slide Trang Chủ
               </h2>
-              <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
-                Hình ảnh lưu trữ trực tiếp trên MongoDB & Cloudinary CDN. Tự động hiển thị và chuyển cảnh mượt mà trên trang chủ.
-              </p>
             </div>
             
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -2472,6 +2537,70 @@
             <p>Bấm nút "Thêm Slide Mới" để tải ảnh lên Cloudinary và đưa vào trang chủ website.</p>
             <button type="button" class="btn btn-primary btn-sm" onclick="openNewSlideModal()">
               <i class="fas fa-plus"></i> Thêm Slide Đầu Tiên
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 5: ĐỐI TÁC & CHỦ ĐẦU TƯ (PARTNERS) -->
+      <!-- ========================================== -->
+      <section class="admin-tab" id="tab-partners">
+        <div class="content-card">
+          <div class="card-header" style="flex-wrap: wrap; gap: 14px; align-items: center;">
+            <div>
+              <h2 class="card-title">
+                <i class="fas fa-handshake" style="color:var(--primary);"></i> Quản Lý Đối Tác & Chủ Đầu Tư
+              </h2>
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <!-- Search box -->
+              <div style="position:relative; width: 220px;">
+                <i class="fas fa-search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:0.8rem;"></i>
+                <input type="text" id="partnerSearchInput" class="form-control" placeholder="Tìm tên đối tác..." style="padding-left:30px; font-size:0.85rem; height:34px;" oninput="debouncePartnerSearch()">
+              </div>
+
+              <!-- Action buttons -->
+              <button type="button" class="btn btn-outline btn-sm" onclick="savePartnerOrderBatch()" title="Lưu thứ tự hiển thị các đối tác">
+                <i class="fas fa-arrow-down-1-9"></i> Lưu Thứ Tự
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="openNewPartnerModal()">
+                <i class="fas fa-plus"></i> Thêm Đối Tác Mới
+              </button>
+            </div>
+          </div>
+
+          <!-- Partner Table -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 110px; text-align: center;">Thứ tự</th>
+                  <th style="width: 150px; text-align: center;">Logo</th>
+                  <th>Tên Đối Tác / Chủ Đầu Tư</th>
+                  <th>Website / Liên Kết</th>
+                  <th>Nguồn lưu trữ & CDN</th>
+                  <th style="width: 140px; text-align: center;">Trạng thái</th>
+                  <th style="text-align: right; width: 110px;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="partnersTableBody">
+                <tr>
+                  <td colspan="7" style="text-align:center; padding:30px;">
+                    <i class="fas fa-spinner fa-spin"></i> Đang tải danh sách đối tác từ MongoDB Atlas...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="partnersEmptyState" class="empty-state" style="display: none;">
+            <i class="fas fa-handshake"></i>
+            <h3>Chưa có đối tác chiến lược nào</h3>
+            <p>Bấm nút "Thêm Đối Tác Mới" để tải logo lên Cloudinary CDN và đưa vào trang chủ website.</p>
+            <button type="button" class="btn btn-primary btn-sm" onclick="openNewPartnerModal()">
+              <i class="fas fa-plus"></i> Thêm Đối Tác Đầu Tiên
             </button>
           </div>
         </div>
@@ -2616,6 +2745,95 @@
     </div>
   </div>
 
+  <!-- MODAL: PARTNER MODAL (THÊM / SỬA ĐỐI TÁC) -->
+  <div class="modal-overlay" id="partnerModal">
+    <form id="partnerForm" class="modal-box" style="max-width: 520px;" onsubmit="event.preventDefault(); submitPartnerForm();">
+      <div class="modal-header">
+        <h3 id="partnerModalTitle"><i class="fas fa-handshake" style="color:var(--primary);"></i> Thêm Đối Tác Mới</h3>
+        <button type="button" class="modal-close-btn" onclick="closeModal('partnerModal')">&times;</button>
+      </div>
+      
+      <input type="hidden" id="partnerEditId" value="">
+      <input type="hidden" id="partnerImageData" value="">
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="partnerFormName">Tên Đối Tác / Chủ Đầu Tư <span class="required">*</span></label>
+          <input type="text" class="form-control" id="partnerFormName" placeholder="VD: VINHOMES, NOVALAND, VSIP GROUP..." required style="font-weight:600;">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="partnerFormWebsite">Website / Đường dẫn liên kết</label>
+          <input type="url" class="form-control" id="partnerFormWebsite" placeholder="https://vinhomes.vn">
+        </div>
+
+        <!-- Logo Upload Box -->
+        <div class="form-group">
+          <label class="form-label">Logo Đối Tác <span class="required">* (SVG, PNG hoặc JPG, tỷ lệ ngang 3:1 hoặc 4:1)</span></label>
+          
+          <div id="partnerUploadDropzone" class="image-dropzone" onclick="document.getElementById('partnerFileInput').click()" style="padding: 22px 16px;">
+            <input type="file" id="partnerFileInput" accept="image/*" style="display:none;" onchange="handlePartnerFileSelect(event)">
+            <div id="partnerUploadPrompt">
+              <i class="fas fa-cloud-arrow-up" style="font-size:2rem; color:var(--primary); margin-bottom:6px;"></i>
+              <div style="font-weight:600; font-size:0.9rem;">Bấm để chọn file logo hoặc kéo thả vào đây</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Tự động tải lên Cloudinary (folder: thanhphu/partners)</div>
+            </div>
+            <div id="partnerPreviewWrapper" style="display:none; position:relative; width:100%;">
+              <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:3px; padding:12px; display:flex; align-items:center; justify-content:center; min-height:80px;">
+                <img id="partnerPreviewImg" src="" alt="Partner Logo Preview" style="max-width:180px; max-height:60px; object-fit:contain;">
+              </div>
+              <button type="button" class="btn btn-danger btn-sm" onclick="event.stopPropagation(); removePartnerImage();" style="position:absolute; top:6px; right:6px;">
+                <i class="fas fa-trash"></i> Đổi logo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top: 14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="partnerFormOrder">Thứ tự hiển thị</label>
+            <input type="number" class="form-control" id="partnerFormOrder" value="0" min="0" step="1">
+          </div>
+          
+          <div class="form-group" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
+            <label class="form-label">Trạng thái kích hoạt</label>
+            <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:0.86rem; margin-top:6px;">
+              <input type="checkbox" id="partnerFormIsActive" checked style="width:18px; height:18px; accent-color:var(--primary);">
+              <span>Hiển thị trên Trang Chủ</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('partnerModal')">Hủy</button>
+        <button type="submit" class="btn btn-primary btn-sm" id="btnSavePartner">
+          <i class="fas fa-floppy-disk"></i> Lưu Đối Tác
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL: XÁC NHẬN XÓA ĐỐI TÁC -->
+  <div class="modal-overlay" id="deletePartnerModal">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 20px;">
+      <div style="width:52px; height:52px; background:var(--danger-bg); color:var(--danger); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:8px auto 14px;">
+        <i class="fas fa-trash-can"></i>
+      </div>
+      <h3 style="font-family:'Montserrat',sans-serif; font-size:1.15rem; margin-bottom:8px; color:var(--text-heading);">Xác Nhận Xóa Đối Tác</h3>
+      <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.5; margin-bottom:20px;">
+        Bạn có chắc chắn muốn xóa đối tác "<strong id="deletePartnerName">...</strong>"? Dữ liệu và hình ảnh logo sẽ được xóa khỏi MongoDB và Cloudinary CDN.
+      </p>
+      <input type="hidden" id="deletePartnerTargetId" value="">
+      <div style="display:flex; justify-content:center; gap:10px;">
+        <button class="btn btn-outline" onclick="closeModal('deletePartnerModal')">Hủy bỏ</button>
+        <button class="btn btn-danger" onclick="executeDeletePartner()">
+          <i class="fas fa-trash-can"></i> Xác Nhận Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL 5: LIVE PREVIEW DỰ ÁN (PROJECT PREVIEW) -->
   <div class="modal-overlay" id="projectPreviewModal">
     <div class="modal-box modal-lg" style="max-width: 860px;">
@@ -2746,6 +2964,115 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- MODAL: BULK IMPORT EXCEL / CSV / JSON -->
+  <!-- ========================================== -->
+  <div class="modal-overlay" id="bulkImportModal">
+    <div class="modal-box modal-lg" style="max-width: 980px; max-height: 92vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="background: #0F172A; color: #FFFFFF;">
+        <h3 id="bulkImportModalTitle" style="color: #FFFFFF; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-file-excel" style="color: #10B981;"></i> Nhập Hàng Loạt Dữ Liệu Từ Excel / CSV
+        </h3>
+        <button class="modal-close-btn" style="color: #94A3B8;" onclick="closeModal('bulkImportModal')">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px; overflow-y: auto; flex: 1;">
+        <!-- Top Guide / Help Banner -->
+        <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 3px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div style="font-size: 0.84rem; color: #166534; line-height: 1.5; flex: 1; min-width: 260px;">
+            <i class="fas fa-circle-info" style="margin-right: 6px; color: #10B981;"></i>
+            <span id="bulkImportGuideText">Hỗ trợ file định dạng <strong>.xlsx, .xls, .csv, .json</strong>. Tự động kiểm tra và nhập hàng loạt vào MongoDB Atlas.</span>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" id="btnDownloadModalTemplate" onclick="downloadCurrentTypeTemplate()" style="background:#FFFFFF; font-size:0.78rem; border-color:#86EFAC; color:#15803D; font-weight:600;">
+            <i class="fas fa-download"></i> Tải File Mẫu Excel Chuẩn
+          </button>
+        </div>
+
+        <!-- Dropzone Area -->
+        <div id="bulkImportDropzone" class="image-dropzone" style="padding: 28px 16px; background: #FFFFFF; border: 2px dashed #CBD5E1; cursor: pointer; text-align: center; border-radius: 3px; transition: all 0.2s ease;" onclick="document.getElementById('bulkImportFileInput').click()" ondragover="handleImportDragOver(event)" ondragleave="handleImportDragLeave(event)" ondrop="handleImportDrop(event)">
+          <input type="file" id="bulkImportFileInput" accept=".xlsx,.xls,.csv,.json" style="display:none;" onchange="handleBulkImportFileSelect(event)">
+          <i class="fas fa-file-excel" style="font-size: 2.4rem; color: #10B981; margin-bottom: 10px; display: inline-block;"></i>
+          <div style="font-weight: 700; font-size: 0.98rem; color: var(--text-heading);">
+            Kéo thả file Excel / CSV vào đây hoặc bấm để chọn file
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+            Hệ thống hỗ trợ nhập hàng chục, hàng trăm bài viết cùng một lúc trong vài giây
+          </div>
+        </div>
+
+        <!-- File Uploaded Info Card (hidden by default) -->
+        <div id="importFileInfoCard" style="display: none; margin-top: 14px; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 3px; padding: 12px 16px; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: #ECFDF5; color: #10B981; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+              <i class="fas fa-table"></i>
+            </div>
+            <div>
+              <div id="importFileName" style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">file.xlsx</div>
+              <div id="importFileDetails" style="font-size: 0.78rem; color: var(--text-muted);">0 dòng dữ liệu • 0 KB</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('bulkImportFileInput').click()" style="font-size: 0.78rem; padding: 4px 10px;">
+              <i class="fas fa-arrows-rotate"></i> Chọn File Khác
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="resetBulkImportState()" style="font-size: 0.78rem; padding: 4px 10px; color: var(--danger); border-color: #FECACA;">
+              <i class="fas fa-trash-can"></i> Xóa
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview Container (hidden by default) -->
+        <div id="bulkImportPreviewContainer" style="display: none; margin-top: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <h4 style="font-size: 0.92rem; font-weight: 700; color: var(--text-heading); display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-list-check" style="color: var(--primary);"></i>
+                <span>Xem trước danh sách (<strong id="importValidCountBadge" style="color: var(--success);">0</strong> mục hợp lệ)</span>
+              </h4>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);" id="importNoticeText">
+              * Kiểm tra các dòng dữ liệu trước khi bấm nạp vào cơ sở dữ liệu
+            </div>
+          </div>
+
+          <!-- Preview Table -->
+          <div class="table-responsive" style="max-height: 280px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 3px; background: #FFFFFF;">
+            <table class="admin-table" style="font-size: 0.82rem; width: 100%;">
+              <thead style="position: sticky; top: 0; background: #F1F5F9; z-index: 10;">
+                <tr id="importTableTheadRow">
+                  <!-- Dynamic headers based on project / article -->
+                </tr>
+              </thead>
+              <tbody id="importTableTbody">
+                <!-- Dynamic rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Import Progress Bar (hidden by default) -->
+        <div id="importProgressBarContainer" style="display: none; margin-top: 16px; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 3px; padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem;">
+            <span id="importProgressStatusText" style="font-weight: 600; color: var(--text-heading);">
+              <i class="fas fa-spinner fa-spin" style="color: var(--primary);"></i> Đang nạp dữ liệu vào MongoDB Atlas...
+            </span>
+            <span id="importProgressPercent" style="font-weight: 700; color: var(--primary);">0%</span>
+          </div>
+          <div style="height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden;">
+            <div id="importProgressBarFill" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 14px 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #F8FAFC;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('bulkImportModal')">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" id="btnExecuteBulkImport" disabled onclick="executeBulkImport()">
+          <i class="fas fa-cloud-arrow-up"></i> Bắt đầu Nạp Dữ Liệu (0 mục)
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
@@ -2784,8 +3111,567 @@
         { name: 'Nhôm Kính Landmark', url: 'assets/images/project-9.svg' }
       ],
       slides: [],
-      slideSpeed: 6
+      slideSpeed: 6,
+      partners: []
     };
+
+    // ==========================================================================
+    // BULK IMPORT EXCEL / CSV / JSON SYSTEM (SHEETJS XLSX)
+    // ==========================================================================
+    let bulkImportState = {
+      type: 'projects', // 'projects' or 'articles'
+      parsedItems: [],
+      rawFileName: '',
+      isProcessing: false
+    };
+
+    function downloadCurrentTypeTemplate() {
+      if (bulkImportState.type === 'projects') {
+        downloadProjectTemplateExcel();
+      } else {
+        downloadArticleTemplateExcel();
+      }
+    }
+
+    // 1. Tải file mẫu Excel Dự Án (.xlsx)
+    function downloadProjectTemplateExcel() {
+      try {
+        if (typeof XLSX === 'undefined') {
+          showToast('Thư viện Excel đang tải, vui lòng thử lại sau giây lát...', 'warning');
+          return;
+        }
+
+        const headers = [
+          'Tên dự án (*)',
+          'Chuyên mục (xay-lap / noi-that / nhom-kinh / ha-tang)',
+          'Địa điểm',
+          'Chủ đầu tư',
+          'Quy mô',
+          'Hình thức hợp đồng',
+          'Thời gian thi công',
+          'Năm hoàn thành',
+          'Tiến độ (Đã Bàn Giao / Đang Thi Công)',
+          'Ảnh đại diện URL',
+          'Ảnh phụ Gallery (cách nhau dấu phẩy ,)',
+          'Tổng quan dự án',
+          'Hạng mục thi công (cách nhau dấu chấm phẩy ;)',
+          'Điểm nhấn kỹ thuật (cách nhau dấu chấm phẩy ;)',
+          'Nội dung bài viết chi tiết'
+        ];
+
+        const sampleRows = [
+          [
+            'Tòa Nhà Văn Phòng & Thương Mại SaiGon Horizon',
+            'xay-lap',
+            'Quận 7, TP. Hồ Chí Minh',
+            'Tập đoàn Horizon Real Estate',
+            '2 tầng hầm, 21 tầng nổi, 32.500 m² sàn',
+            'Tổng thầu Thiết kế & Thi công (D&B)',
+            '18 tháng',
+            '2026',
+            'Đã Bàn Giao',
+            'assets/images/project-1.svg',
+            'assets/images/project-2.svg, assets/images/project-3.svg',
+            'Dự án tháp văn phòng hạng A áp dụng giải pháp thi công Topdown hiện đại, hoàn thành vượt tiến độ 25 ngày.',
+            'Thi công cọc khoan nhồi D1200 - D1500 sâu 58m; Xây dựng 2 tầng hầm với biện pháp Semi-Topdown; Thi công kết cấu BTCT 21 tầng nổi.',
+            'Đạt 1,200,000 giờ làm việc an toàn không tai nạn; Bàn giao vượt tiến độ 25 ngày; Ứng dụng BIM 3D quản lý xung đột MEP.',
+            '<h3>Giới thiệu công trình SaiGon Horizon</h3><p>Dự án tòa nhà văn phòng SaiGon Horizon do Thành Phú làm Tổng thầu thi công xây lắp đạt các tiêu chuẩn khắt khe về kỹ thuật và mỹ thuật...</p>'
+          ],
+          [
+            'Nhà Máy Sản Xuất Cơ Khí Chính Xác Tân Tạo',
+            'xay-lap',
+            'KCN Tân Tạo, Bình Tân, TP.HCM',
+            'Công ty TNHH Cơ Khí Công Nghệ Cao',
+            'Khuôn viên 25.000 m², nhà xưởng 16.000 m²',
+            'Tổng thầu xây dựng nhà xưởng công nghiệp',
+            '10 tháng',
+            '2025',
+            'Đã Bàn Giao',
+            'assets/images/project-2.svg',
+            'assets/images/project-4.svg',
+            'Tổ hợp nhà xưởng kết cấu thép nhịp lớn trang bị cầu trục 20 tấn đạt tiêu chuẩn công trình công nghiệp xanh.',
+            'Sản xuất và lắp dựng 1.200 tấn kết cấu thép; Thi công sàn bê tông siêu phẳng đánh bóng Hardener; Hệ thống PCCC tự động sprinkler.',
+            'Thi công kết cấu thép nhịp 42m không cột giữa; Đạt chứng nhận tiêu chuẩn công nghiệp xanh LEED Silver.',
+            '<p>Nhà máy cơ khí chính xác được trang bị hệ khung kèo thép tổ hợp cường độ cao và sàn bê tông mài nhẵn chịu tải trọng 5 tấn/m2...</p>'
+          ],
+          [
+            'Khu Đô Thị Sinh Thái Nam Long - Hạ Tầng Kỹ Thuật',
+            'ha-tang',
+            'Bến Lức, Long An',
+            'Tập đoàn Nam Long',
+            'Hạ tầng phân khu 45 hecta',
+            'Nhà thầu thi công hạ tầng giao thông',
+            '14 tháng',
+            '2026',
+            'Đang Thi Công',
+            'assets/images/project-3.svg',
+            '',
+            'Thi công đồng bộ mạng lưới giao thông nội khu, thoát nước mưa, xử lý nước thải và cáp điện ngầm hóa.',
+            'Thảm 120.000 m² bê tông nhựa asphalt nóng; Lắp đặt 8.5 km cống bê tông ly tâm D600 - D1500; Lát vỉa hè gạch Terrazzo cao cấp.',
+            'Ứng dụng trạm trộn bê tông nhựa asphalt đạt chuẩn môi trường; Đảm bảo tiến độ thoát nước trước mùa mưa lũ.',
+            '<p>Gói thầu hạ tầng kỹ thuật đóng vai trò huyết mạch kết nối toàn bộ khu đô thị với trục đường vành đai...</p>'
+          ]
+        ];
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet([headers, ...sampleRows]);
+        ws['!cols'] = headers.map((h, i) => ({ wch: i === 0 ? 35 : (i === 11 || i === 12 || i === 13 || i === 14 ? 38 : 22) }));
+        XLSX.utils.book_append_sheet(wb, ws, 'DanhSachDuAn');
+        XLSX.writeFile(wb, 'Mau_Import_Du_An_Thanh_Phu.xlsx');
+        showToast('Đã tải xuống file mẫu Excel Dự Án thành công!', 'success');
+      } catch (err) {
+        console.error('Error downloading template:', err);
+        showToast('Lỗi khi tạo file Excel mẫu: ' + err.message, 'error');
+      }
+    }
+
+    // 2. Tải file mẫu Excel Tin Tức (.xlsx)
+    function downloadArticleTemplateExcel() {
+      try {
+        if (typeof XLSX === 'undefined') {
+          showToast('Thư viện Excel đang tải, vui lòng thử lại sau giây lát...', 'warning');
+          return;
+        }
+
+        const headers = [
+          'Tiêu đề bài viết (*)',
+          'Chuyên mục (su-kien / an-toan / cong-nghe / tien-do / kien-thuc / giai-thuong / nang-luc)',
+          'Tác giả',
+          'Ngày đăng (DD/MM/YYYY)',
+          'Trạng thái (published / draft)',
+          'Tiêu điểm (Có / Không)',
+          'Ảnh đại diện URL',
+          'Tóm tắt bài viết',
+          'Nội dung bài viết chi tiết'
+        ];
+
+        const sampleRows = [
+          [
+            'Lễ Cất Nóc Vượt Tiến Độ 25 Ngày Tòa Nhà Văn Phòng SaiGon Horizon',
+            'su-kien',
+            'Ban Truyền Thông Thành Phú',
+            '18/09/2026',
+            'published',
+            'Có',
+            'assets/images/news-1.svg',
+            'Sáng ngày 18/09, Công ty CP Đầu tư Xây lắp Thành Phú cùng Chủ đầu tư đã chính thức đổ mẻ bê tông cất nóc tầng 21 tháp văn phòng cao cấp SaiGon Horizon.',
+            '<h3>Dấu ấn vượt tiến độ tại dự án trọng điểm</h3><p>Sáng ngày 18/09, tại công trường tháp văn phòng SaiGon Horizon, Thành Phú đã long trọng tổ chức lễ cất nóc công trình vượt tiến độ cam kết 25 ngày...</p>'
+          ],
+          [
+            'Tập Huấn Công Tác An Toàn Lao Động & Phòng Cháy Chữa Cháy Quý III/2026',
+            'an-toan',
+            'Phòng An Toàn HSE',
+            '10/09/2026',
+            'published',
+            'Không',
+            'assets/images/news-2.svg',
+            'Chương trình huấn luyện định kỳ nhằm củng cố nhận thức an toàn, kỹ năng làm việc trên cao và phản ứng sự cố cho 150 cán bộ kỹ thuật và công nhân.',
+            '<h3>Đặt an toàn lao động lên hàng đầu</h3><p>Khóa huấn luyện chuyên sâu đã giúp toàn bộ cán bộ công nhân viên nâng cao ý thức chấp hành bảo hộ lao động và quy trình thoát nạn...</p>'
+          ],
+          [
+            'Ứng Dụng Mô Hình BIM 3D Trong Quản Lý Xung Đột Kết Cấu MEP',
+            'cong-nghe',
+            'Phòng Kỹ Thuật & Đổi Mới',
+            '05/09/2026',
+            'published',
+            'Không',
+            'assets/images/news-3.svg',
+            'BIM 3D và 4D giúp phòng Kỹ thuật Thành Phú giải quyết triệt để xung đột giữa hệ dầm sàn và đường ống cấp thoát nước/thông gió, tiết kiệm 12% chi phí vật tư.',
+            '<h3>Chuyển đổi số mạnh mẽ trong thi công</h3><p>Ứng dụng phần mềm Revit kết hợp Navisworks giúp loại bỏ xung đột bản vẽ ngay từ giai đoạn Shop Drawing...</p>'
+          ]
+        ];
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet([headers, ...sampleRows]);
+        ws['!cols'] = headers.map((h, i) => ({ wch: i === 0 ? 35 : (i === 7 || i === 8 ? 40 : 22) }));
+        XLSX.utils.book_append_sheet(wb, ws, 'DanhSachTinTuc');
+        XLSX.writeFile(wb, 'Mau_Import_Tin_Tuc_Thanh_Phu.xlsx');
+        showToast('Đã tải xuống file mẫu Excel Tin Tức thành công!', 'success');
+      } catch (err) {
+        console.error('Error downloading template:', err);
+        showToast('Lỗi khi tạo file Excel mẫu: ' + err.message, 'error');
+      }
+    }
+
+    // 3. Mở Modal Nhập Hàng Loạt
+    function openBulkImportModal(type) {
+      bulkImportState.type = type || 'projects';
+      resetBulkImportState();
+
+      const titleEl = document.getElementById('bulkImportModalTitle');
+      const guideEl = document.getElementById('bulkImportGuideText');
+      const btnTemplate = document.getElementById('btnDownloadModalTemplate');
+
+      if (type === 'projects') {
+        titleEl.innerHTML = '<i class="fas fa-building" style="color:var(--primary);"></i> Nhập Hàng Loạt Dự Án / Công Trình Từ Excel';
+        guideEl.innerHTML = 'Nhập nhanh hàng chục dự án từ file Excel <strong>.xlsx, .csv</strong>. Tự động tạo slug SEO và nạp vào MongoDB Atlas.';
+        btnTemplate.innerHTML = '<i class="fas fa-download"></i> Tải File Mẫu Dự Án (.xlsx)';
+      } else {
+        titleEl.innerHTML = '<i class="fas fa-newspaper" style="color:var(--primary);"></i> Nhập Hàng Loạt Bài Viết / Tin Tức Từ Excel';
+        guideEl.innerHTML = 'Nhập nhanh hàng loạt bài viết tin tức từ file Excel <strong>.xlsx, .csv</strong>. Hỗ trợ tự động phân loại chuyên mục và tạo slug.';
+        btnTemplate.innerHTML = '<i class="fas fa-download"></i> Tải File Mẫu Tin Tức (.xlsx)';
+      }
+
+      openModal('bulkImportModal');
+    }
+
+    // 4. Reset trạng thái Import Modal
+    function resetBulkImportState() {
+      bulkImportState.parsedItems = [];
+      bulkImportState.rawFileName = '';
+      bulkImportState.isProcessing = false;
+
+      const fileInput = document.getElementById('bulkImportFileInput');
+      if (fileInput) fileInput.value = '';
+
+      document.getElementById('bulkImportDropzone').style.display = 'block';
+      document.getElementById('importFileInfoCard').style.display = 'none';
+      document.getElementById('bulkImportPreviewContainer').style.display = 'none';
+      document.getElementById('importProgressBarContainer').style.display = 'none';
+
+      const btnExec = document.getElementById('btnExecuteBulkImport');
+      btnExec.disabled = true;
+      btnExec.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Bắt đầu Nạp Dữ Liệu (0 mục)';
+    }
+
+    // 5. Drag & Drop Handlers
+    function handleImportDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('bulkImportDropzone');
+      if (dropzone) {
+        dropzone.style.borderColor = 'var(--primary)';
+        dropzone.style.background = 'var(--primary-soft)';
+      }
+    }
+
+    function handleImportDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('bulkImportDropzone');
+      if (dropzone) {
+        dropzone.style.borderColor = '#CBD5E1';
+        dropzone.style.background = '#FFFFFF';
+      }
+    }
+
+    function handleImportDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      handleImportDragLeave(e);
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        processBulkImportFile(e.dataTransfer.files[0]);
+      }
+    }
+
+    function handleBulkImportFileSelect(e) {
+      if (e.target && e.target.files && e.target.files.length > 0) {
+        processBulkImportFile(e.target.files[0]);
+      }
+    }
+
+    // 6. Xử lý đọc file Excel / CSV / JSON
+    function processBulkImportFile(file) {
+      if (!file) return;
+      const fileName = file.name;
+      const fileExt = fileName.split('.').pop().toLowerCase();
+
+      if (!['xlsx', 'xls', 'csv', 'json'].includes(fileExt)) {
+        showToast('Định dạng file không được hỗ trợ! Vui lòng chọn file .xlsx, .xls, .csv hoặc .json', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+
+      if (fileExt === 'json') {
+        reader.onload = function(e) {
+          try {
+            const json = JSON.parse(e.target.result);
+            const items = Array.isArray(json) ? json : (json.projects || json.articles || json.data || []);
+            parseAndPreviewImportItems(items, fileName, file.size);
+          } catch (err) {
+            showToast('Lỗi đọc file JSON: ' + err.message, 'error');
+          }
+        };
+        reader.readAsText(file);
+      } else {
+        reader.onload = function(e) {
+          try {
+            if (typeof XLSX === 'undefined') {
+              showToast('Thư viện Excel đang tải, vui lòng thử lại sau giây lát...', 'error');
+              return;
+            }
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const rawRows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+            if (!rawRows || rawRows.length === 0) {
+              showToast('File Excel không có dòng dữ liệu nào!', 'warning');
+              return;
+            }
+
+            parseAndPreviewImportItems(rawRows, fileName, file.size);
+          } catch (err) {
+            console.error('Error parsing Excel file:', err);
+            showToast('Lỗi đọc file Excel: ' + err.message, 'error');
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    }
+
+    // 7. Chuẩn hóa dữ liệu và hiển thị bảng Preview
+    function parseAndPreviewImportItems(rawRows, fileName, fileSize) {
+      const type = bulkImportState.type;
+      const parsed = [];
+      const theadRow = document.getElementById('importTableTheadRow');
+      const tbody = document.getElementById('importTableTbody');
+
+      function findValue(obj, keywords) {
+        for (const k of Object.keys(obj)) {
+          const normKey = k.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+          for (const kw of keywords) {
+            const normKw = kw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+            if (normKey.includes(normKw)) {
+              return (obj[k] !== undefined && obj[k] !== null) ? String(obj[k]).trim() : '';
+            }
+          }
+        }
+        return '';
+      }
+
+      if (type === 'projects') {
+        theadRow.innerHTML = `
+          <th style="width: 40px; text-align: center;">#</th>
+          <th>Tên Dự Án & Địa Điểm</th>
+          <th style="width: 140px;">Chuyên Mục</th>
+          <th style="width: 180px;">Chủ Đầu Tư / Quy Mô</th>
+          <th style="width: 130px; text-align: center;">Năm / Tiến Độ</th>
+          <th style="width: 70px; text-align: center;">Ảnh</th>
+          <th style="width: 90px; text-align: center;">Trạng thái</th>
+        `;
+
+        rawRows.forEach((row, idx) => {
+          const title = findValue(row, ['tieu de', 'ten du an', 'title', 'project', 'ten cong trinh']);
+          if (!title) return;
+
+          const category = findValue(row, ['chuyen muc', 'category', 'danh muc', 'linh vuc']) || 'xay-lap';
+          const location = findValue(row, ['dia diem', 'location', 'vi tri']) || 'Việt Nam';
+          const client = findValue(row, ['chu dau tu', 'client', 'khach hang']) || 'Chủ đầu tư';
+          const scale = findValue(row, ['quy mo', 'scale', 'dien tich']) || 'Đang cập nhật';
+          const contractType = findValue(row, ['hinh thuc', 'contract', 'goi thau']) || 'Tổng thầu thi công xây lắp';
+          const timeline = findValue(row, ['thoi gian', 'timeline', 'tien do']) || '12 tháng';
+          const year = findValue(row, ['nam', 'year', 'hoan thanh']) || '2026';
+          const status = findValue(row, ['trang thai', 'status', 'tien do cong trinh']) || 'Đã Bàn Giao';
+          const image = findValue(row, ['anh dai dien', 'image', 'avatar', 'hinh anh']) || 'assets/images/project-1.svg';
+          const gallery = findValue(row, ['gallery', 'anh phu', 'album']);
+          const overview = findValue(row, ['tong quan', 'overview', 'mo ta', 'gioi thieu']) || `Dự án ${title} do Công ty Cổ phần Đầu tư Xây lắp Thành Phú thi công.`;
+          const scope = findValue(row, ['hang muc', 'scope', 'pham vi']);
+          const highlights = findValue(row, ['diem nhan', 'highlights', 'tieu chuan']);
+          const content = findValue(row, ['noi dung', 'content', 'chi tiet']);
+
+          parsed.push({
+            title,
+            category,
+            location,
+            client,
+            scale,
+            contractType,
+            timeline,
+            year,
+            status,
+            image,
+            gallery,
+            overview,
+            scope,
+            highlights,
+            content
+          });
+        });
+
+        tbody.innerHTML = parsed.map((p, i) => `
+          <tr>
+            <td style="text-align: center; color: var(--text-muted);">${i + 1}</td>
+            <td>
+              <strong style="color: var(--text-heading); font-size: 0.85rem;">${escapeHtml(p.title)}</strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-location-dot"></i> ${escapeHtml(p.location)}</div>
+            </td>
+            <td><span class="pill-badge cat" style="font-size: 0.72rem;">${escapeHtml(p.category)}</span></td>
+            <td style="font-size: 0.78rem;">
+              <div>${escapeHtml(p.client)}</div>
+              <div style="color: var(--text-muted);">${escapeHtml(p.scale)}</div>
+            </td>
+            <td style="text-align: center; font-size: 0.78rem;">
+              <div>${escapeHtml(p.year)}</div>
+              <span class="pill-badge" style="font-size: 0.7rem; ${p.status.includes('Thi Công') ? 'background:#FEF3C7; color:#B45309;' : 'background:#ECFDF5; color:#047857;'}">${escapeHtml(p.status)}</span>
+            </td>
+            <td style="text-align: center;">
+              <img src="${escapeHtml(p.image)}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 3px; border: 1px solid var(--border-color);" onerror="this.src='assets/images/project-1.svg'">
+            </td>
+            <td style="text-align: center;">
+              <span class="pill-badge" style="background: #ECFDF5; color: #047857; font-size: 0.7rem;">Hợp lệ</span>
+            </td>
+          </tr>
+        `).join('');
+
+      } else {
+        theadRow.innerHTML = `
+          <th style="width: 40px; text-align: center;">#</th>
+          <th>Tiêu Đề Bài Viết</th>
+          <th style="width: 150px;">Chuyên Mục</th>
+          <th style="width: 170px;">Tác Giả / Ngày Đăng</th>
+          <th style="width: 110px; text-align: center;">Trạng Thái</th>
+          <th style="width: 70px; text-align: center;">Ảnh</th>
+          <th style="width: 90px; text-align: center;">Kiểm tra</th>
+        `;
+
+        rawRows.forEach((row, idx) => {
+          const title = findValue(row, ['tieu de', 'title', 'bai viet', 'ten bai']);
+          if (!title) return;
+
+          const category = findValue(row, ['chuyen muc', 'category', 'danh muc']) || 'su-kien';
+          const author = findValue(row, ['tac gia', 'author', 'nguoi viet']) || 'Ban Truyền Thông Thành Phú';
+          const date = findValue(row, ['ngay dang', 'date', 'ngay']) || new Date().toLocaleDateString('vi-VN');
+          const status = findValue(row, ['trang thai', 'status']) || 'published';
+          const isFeatured = findValue(row, ['tieu diem', 'featured', 'noi bat']);
+          const image = findValue(row, ['anh dai dien', 'image', 'avatar', 'hinh anh']) || 'assets/images/news-1.svg';
+          const excerpt = findValue(row, ['tom tat', 'excerpt', 'sapo', 'mo ta']);
+          const content = findValue(row, ['noi dung', 'content', 'chi tiet']);
+
+          parsed.push({
+            title,
+            category,
+            author,
+            date,
+            status,
+            isFeatured,
+            image,
+            excerpt,
+            content
+          });
+        });
+
+        tbody.innerHTML = parsed.map((a, i) => `
+          <tr>
+            <td style="text-align: center; color: var(--text-muted);">${i + 1}</td>
+            <td>
+              <strong style="color: var(--text-heading); font-size: 0.85rem;">${escapeHtml(a.title)}</strong>
+              ${a.excerpt ? `<div style="font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px;">${escapeHtml(a.excerpt)}</div>` : ''}
+            </td>
+            <td><span class="pill-badge cat" style="font-size: 0.72rem;">${escapeHtml(a.category)}</span></td>
+            <td style="font-size: 0.78rem;">
+              <div>${escapeHtml(a.author)}</div>
+              <div style="color: var(--text-muted);">${escapeHtml(a.date)}</div>
+            </td>
+            <td style="text-align: center;">
+              <span class="pill-badge" style="font-size: 0.7rem; ${a.status === 'published' ? 'background:#ECFDF5; color:#047857;' : 'background:#FFFBEB; color:#B45309;'}">
+                ${a.status === 'published' ? 'Xuất bản' : 'Bản nháp'}
+              </span>
+            </td>
+            <td style="text-align: center;">
+              <img src="${escapeHtml(a.image)}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 3px; border: 1px solid var(--border-color);" onerror="this.src='assets/images/news-1.svg'">
+            </td>
+            <td style="text-align: center;">
+              <span class="pill-badge" style="background: #ECFDF5; color: #047857; font-size: 0.7rem;">Hợp lệ</span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      if (parsed.length === 0) {
+        showToast('Không tìm thấy dòng dữ liệu hợp lệ trong file! Vui lòng kiểm tra lại cấu trúc cột hoặc tải file mẫu.', 'warning');
+        return;
+      }
+
+      bulkImportState.parsedItems = parsed;
+      bulkImportState.rawFileName = fileName;
+
+      document.getElementById('bulkImportDropzone').style.display = 'none';
+      const fileCard = document.getElementById('importFileInfoCard');
+      fileCard.style.display = 'flex';
+      document.getElementById('importFileName').textContent = fileName;
+      document.getElementById('importFileDetails').textContent = `${parsed.length} dòng dữ liệu hợp lệ • ${(fileSize / 1024).toFixed(1)} KB`;
+
+      document.getElementById('importValidCountBadge').textContent = parsed.length;
+      document.getElementById('bulkImportPreviewContainer').style.display = 'block';
+
+      const btnExec = document.getElementById('btnExecuteBulkImport');
+      btnExec.disabled = false;
+      btnExec.innerHTML = `<i class="fas fa-cloud-arrow-up"></i> Bắt đầu Nạp ${parsed.length} ${type === 'projects' ? 'Dự Án' : 'Bài Viết'} Vào Hệ Thống`;
+    }
+
+    // 8. Thực hiện gửi dữ liệu hàng loạt lên Backend
+    async function executeBulkImport() {
+      const { type, parsedItems } = bulkImportState;
+      if (!parsedItems || parsedItems.length === 0) {
+        showToast('Không có dữ liệu để nạp!', 'warning');
+        return;
+      }
+
+      const btnExec = document.getElementById('btnExecuteBulkImport');
+      const progressContainer = document.getElementById('importProgressBarContainer');
+      const progressBarFill = document.getElementById('importProgressBarFill');
+      const progressStatus = document.getElementById('importProgressStatusText');
+      const progressPercent = document.getElementById('importProgressPercent');
+
+      btnExec.disabled = true;
+      btnExec.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang nạp dữ liệu...';
+      progressContainer.style.display = 'block';
+      progressBarFill.style.width = '25%';
+      progressPercent.textContent = '25%';
+      progressStatus.innerHTML = `<i class="fas fa-spinner fa-spin" style="color:var(--primary);"></i> Đang ghi ${parsedItems.length} mục vào MongoDB Atlas...`;
+
+      try {
+        const endpoint = type === 'projects' ? '/api/projects/bulk' : '/api/articles/bulk';
+        const payload = type === 'projects' ? { projects: parsedItems } : { articles: parsedItems };
+
+        progressBarFill.style.width = '60%';
+        progressPercent.textContent = '60%';
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          progressBarFill.style.width = '100%';
+          progressPercent.textContent = '100%';
+          progressStatus.innerHTML = `<i class="fas fa-check-circle" style="color:var(--success);"></i> ${data.message || 'Nhập dữ liệu thành công!'}`;
+
+          showToast(`Thành công! ${data.message}`, 'success');
+
+          if (type === 'projects') {
+            await loadProjects();
+          } else {
+            await loadArticles();
+          }
+          await loadStats();
+
+          setTimeout(() => {
+            closeModal('bulkImportModal');
+            resetBulkImportState();
+          }, 900);
+        } else {
+          progressBarFill.style.background = 'var(--danger)';
+          progressStatus.innerHTML = `<i class="fas fa-circle-exclamation" style="color:var(--danger);"></i> ${data.message || 'Lỗi khi nhập dữ liệu!'}`;
+          showToast(data.message || 'Lỗi nhập dữ liệu từ máy chủ!', 'error');
+          btnExec.disabled = false;
+          btnExec.innerHTML = '<i class="fas fa-arrows-rotate"></i> Thử Lại';
+        }
+      } catch (err) {
+        console.error('Bulk import error:', err);
+        progressBarFill.style.background = 'var(--danger)';
+        progressStatus.innerHTML = `<i class="fas fa-circle-exclamation" style="color:var(--danger);"></i> Lỗi kết nối: ${err.message}`;
+        showToast('Lỗi kết nối máy chủ: ' + err.message, 'error');
+        btnExec.disabled = false;
+        btnExec.innerHTML = '<i class="fas fa-arrows-rotate"></i> Thử Lại';
+      }
+    }
 
     // ==========================================
     // AUTHENTICATION & LOGIN LOGIC
@@ -2799,6 +3685,7 @@
       const userRaw = localStorage.getItem(AUTH_USER_KEY) || sessionStorage.getItem(AUTH_USER_KEY);
 
       if (token) {
+        document.documentElement.classList.add('is-authenticated');
         if (loginOverlay) loginOverlay.classList.add('hidden');
         if (userRaw) {
           try {
@@ -2809,6 +3696,7 @@
         }
         return true;
       } else {
+        document.documentElement.classList.remove('is-authenticated');
         if (loginOverlay) {
           loginOverlay.classList.remove('hidden');
           const usernameInput = document.getElementById('loginUsername');
@@ -2858,14 +3746,16 @@
             sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(data.user));
           }
 
+          document.documentElement.classList.add('is-authenticated');
           setTimeout(() => {
-            document.getElementById('adminLoginScreen').classList.add('hidden');
+            const loginOverlay = document.getElementById('adminLoginScreen');
+            if (loginOverlay) loginOverlay.classList.add('hidden');
             showToast('Đăng nhập thành công! Chào mừng Quản trị viên.', 'success');
             loadStats();
             loadArticles();
             loadProjects();
             loadSlidesSummary();
-          }, 350);
+          }, 200);
         } else {
           showLoginAlert(data.message || 'Tên đăng nhập hoặc mật khẩu không chính xác!', 'error');
           passwordInput.value = '';
@@ -2882,7 +3772,9 @@
             sessionStorage.setItem(AUTH_STORAGE_KEY, fakeToken);
             sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(fakeUser));
           }
-          document.getElementById('adminLoginScreen').classList.add('hidden');
+          document.documentElement.classList.add('is-authenticated');
+          const loginOverlay = document.getElementById('adminLoginScreen');
+          if (loginOverlay) loginOverlay.classList.add('hidden');
           showToast('Đăng nhập thành công!', 'success');
           loadStats();
           loadArticles();
@@ -2925,6 +3817,7 @@
         sessionStorage.removeItem(AUTH_STORAGE_KEY);
         sessionStorage.removeItem(AUTH_USER_KEY);
 
+        document.documentElement.classList.remove('is-authenticated');
         const loginOverlay = document.getElementById('adminLoginScreen');
         if (loginOverlay) {
           loginOverlay.classList.remove('hidden');
@@ -2942,6 +3835,7 @@
       initPresetsGallery();
       initProjectPresetsGallery();
       setDefaultDate();
+      initQuillEditor();
 
       const isAuthenticated = checkAuth();
       if (isAuthenticated) {
@@ -2949,6 +3843,7 @@
         loadProjects();
         loadArticles();
         loadSlidesSummary();
+        loadPartnersSummary();
       }
     });
 
@@ -2975,32 +3870,29 @@
 
       // Update title
       const titleEl = document.getElementById('currentSectionTitle');
-      const descEl = document.getElementById('currentSectionDesc');
 
       if (tabId === 'dashboard') {
         titleEl.textContent = 'Bảng Tổng Quan';
-        descEl.textContent = 'Hệ thống quản lý nội dung và hiệu suất website Công ty Xây lắp Thành Phú';
         loadStats();
         loadProjects();
         loadArticles();
       } else if (tabId === 'projects') {
         titleEl.textContent = 'Quản Lý Bài Viết Dự Án';
-        descEl.textContent = 'Hồ sơ năng lực, tiến độ và bài viết chi tiết các công trình xây lắp';
         loadProjects();
       } else if (tabId === 'project-editor') {
         titleEl.textContent = state.editingProjectId ? 'Chỉnh Sửa Bài Viết Dự Án' : 'Soạn Thảo Bài Viết Dự Án Mới';
-        descEl.textContent = 'Hồ sơ kỹ thuật, phạm vi thi công, điểm nhấn và bài viết giới thiệu công trình';
       } else if (tabId === 'articles') {
         titleEl.textContent = 'Quản Lý Bài Viết & Tin Tức';
-        descEl.textContent = 'Danh sách toàn bộ bản tin, sự kiện và bài viết chuyên ngành trên MongoDB';
         loadArticles();
       } else if (tabId === 'editor') {
         titleEl.textContent = state.editingId ? 'Chỉnh Sửa Bài Viết' : 'Đăng Bài Viết Mới';
-        descEl.textContent = 'Soạn thảo nội dung và xuất bản trực tiếp lên website Thành Phú';
+        initQuillEditor();
       } else if (tabId === 'slides') {
         titleEl.textContent = 'Quản Lý Hero Slide Trang Chủ';
-        descEl.textContent = 'Quản lý hình ảnh banner, thứ tự chạy và tốc độ chuyển slide trang chủ';
         loadSlides();
+      } else if (tabId === 'partners') {
+        titleEl.textContent = 'Quản Lý Đối Tác & Chủ Đầu Tư';
+        loadPartners();
       }
 
       // Close mobile drawer if open
@@ -3024,6 +3916,9 @@
           document.getElementById('sidebarArticleCount').textContent = data.stats.total;
           if (document.getElementById('sidebarProjectCount')) {
             document.getElementById('sidebarProjectCount').textContent = data.stats.totalProjects || 0;
+          }
+          if (document.getElementById('sidebarPartnerCount')) {
+            document.getElementById('sidebarPartnerCount').textContent = data.stats.totalPartners || 0;
           }
 
           // Render Category Progress Bars in Dashboard
@@ -3293,32 +4188,105 @@
       }
     }
 
-    // Rich Text Formatting
-    function formatDoc(cmd, val = null) {
-      document.execCommand(cmd, false, val);
-      document.getElementById('formContent').focus();
-      updateContentStats();
+    // ==========================================
+    // QUILL 2.0 RICH TEXT EDITOR INTEGRATION
+    // ==========================================
+    let quillEditor = null;
+
+    function initQuillEditor() {
+      if (quillEditor) return;
+      const editorContainer = document.getElementById('quillArticleEditor');
+      if (!editorContainer) return;
+      if (typeof Quill === 'undefined') {
+        console.warn('Quill.js library is not loaded yet.');
+        return;
+      }
+
+      const toolbarOptions = [
+        [{ 'header': [2, 3, 4, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'align': [] }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video'],
+        ['clean']
+      ];
+
+      quillEditor = new Quill('#quillArticleEditor', {
+        theme: 'snow',
+        placeholder: 'Soạn thảo nội dung bài viết chuyên nghiệp tại đây...',
+        modules: {
+          toolbar: toolbarOptions
+        }
+      });
+
+      // Custom Image Upload to Cloudinary CDN
+      const toolbar = quillEditor.getModule('toolbar');
+      if (toolbar) {
+        toolbar.addHandler('image', handleQuillImageUpload);
+      }
+
+      // Realtime Word Count & Read Time Calculation
+      quillEditor.on('text-change', () => {
+        updateContentStats();
+      });
     }
 
-    function insertLinkPrompt() {
-      const url = prompt('Nhập đường dẫn liên kết (URL):', 'https://');
-      if (url && url !== 'https://') {
-        formatDoc('createLink', url);
-      }
+    function handleQuillImageUpload() {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.click();
+
+      input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        showToast('Đang tải ảnh chèn vào bài viết lên Cloudinary CDN...', 'info');
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const base64 = e.target.result;
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ image: base64, filename: 'inline-article-img' })
+            });
+            const data = await res.json();
+            const imageUrl = (data.success && data.url) ? data.url : base64;
+
+            const range = quillEditor.getSelection(true) || { index: quillEditor.getLength() };
+            quillEditor.insertEmbed(range.index, 'image', imageUrl);
+            quillEditor.setSelection(range.index + 1);
+            showToast('Chèn hình ảnh thành công vào thân bài viết!', 'success');
+          } catch (err) {
+            console.error('Lỗi upload ảnh Quill:', err);
+            const range = quillEditor.getSelection(true) || { index: quillEditor.getLength() };
+            quillEditor.insertEmbed(range.index, 'image', base64);
+            quillEditor.setSelection(range.index + 1);
+          }
+        };
+        reader.readAsDataURL(file);
+      };
     }
 
     function updateContentStats() {
-      const contentEl = document.getElementById('formContent');
-      const text = contentEl.innerText || '';
-      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      if (!quillEditor) return;
+      const text = quillEditor.getText().trim();
+      const words = text ? text.split(/\s+/).length : 0;
       const readTime = Math.max(1, Math.ceil(words / 200));
 
-      document.getElementById('contentWordCount').textContent = `${words} từ`;
-      document.getElementById('contentReadTime').textContent = `Khoảng ${readTime} phút đọc`;
+      const countEl = document.getElementById('contentWordCount');
+      const timeEl = document.getElementById('contentReadTime');
+      if (countEl) countEl.innerHTML = `<i class="fas fa-file-lines"></i> ${words} từ`;
+      if (timeEl) timeEl.innerHTML = `<i class="far fa-clock"></i> Khoảng ${readTime} phút đọc`;
     }
 
     // Open Form for New Post
     function openNewPostEditor() {
+      initQuillEditor();
       state.editingId = null;
       document.getElementById('editorTitle').innerHTML = '<i class="fas fa-plus-circle" style="color:var(--primary);"></i> Đăng Bài Viết Mới';
       document.getElementById('editingArticleId').value = '';
@@ -3326,7 +4294,9 @@
       document.getElementById('formSlug').value = '';
       document.getElementById('formSlugPreview').textContent = '/tin-tuc/...';
       document.getElementById('formExcerpt').value = '';
-      document.getElementById('formContent').innerHTML = '<p>Nhập nội dung bài viết chi tiết tại đây...</p>';
+      if (quillEditor) {
+        quillEditor.root.innerHTML = '';
+      }
       document.getElementById('formCategory').value = 'su-kien';
       syncCategoryName();
       document.getElementById('formAuthor').value = 'Ban Truyền Thông Thành Phú';
@@ -3341,6 +4311,7 @@
 
     // Open Form for Editing Existing Post
     async function openEditPostEditor(id) {
+      initQuillEditor();
       try {
         const res = await fetch(`/api/articles/${id}`);
         const data = await res.json();
@@ -3358,7 +4329,9 @@
         document.getElementById('formSlug').value = article.slug;
         document.getElementById('formSlugPreview').textContent = `/tin-tuc/${article.slug}`;
         document.getElementById('formExcerpt').value = article.excerpt || '';
-        document.getElementById('formContent').innerHTML = article.content || '<p></p>';
+        if (quillEditor) {
+          quillEditor.root.innerHTML = article.content || '';
+        }
         
         const catSelect = document.getElementById('formCategory');
         catSelect.value = article.category || 'su-kien';
@@ -3385,7 +4358,8 @@
     async function saveArticleForm(forceDraft = false) {
       const title = document.getElementById('formTitle').value.trim();
       const excerpt = document.getElementById('formExcerpt').value.trim();
-      const content = document.getElementById('formContent').innerHTML.trim();
+      const content = quillEditor ? quillEditor.root.innerHTML.trim() : '';
+      const textOnly = quillEditor ? quillEditor.getText().trim() : '';
 
       if (!title) {
         showToast('Vui lòng nhập tiêu đề bài viết!', 'error');
@@ -3399,9 +4373,9 @@
         return;
       }
 
-      if (!content || content === '<p></p>') {
+      if (!textOnly && !content.includes('<img')) {
         showToast('Vui lòng nhập nội dung chi tiết bài viết!', 'error');
-        document.getElementById('formContent').focus();
+        if (quillEditor) quillEditor.focus();
         return;
       }
 
@@ -3561,7 +4535,7 @@
     function openLivePreviewModal() {
       const title = document.getElementById('formTitle').value || 'Tiêu đề bài viết';
       const excerpt = document.getElementById('formExcerpt').value || 'Đoạn tóm tắt bài viết...';
-      const content = document.getElementById('formContent').innerHTML || '<p>Nội dung...</p>';
+      const content = quillEditor ? quillEditor.root.innerHTML : '<p>Nội dung bài viết...</p>';
       const categoryName = document.getElementById('formCategoryName').value || 'Sự Kiện';
       const author = document.getElementById('formAuthor').value || 'Ban Truyền Thông';
       const date = document.getElementById('formDate').value || 'Hôm nay';
@@ -4659,6 +5633,356 @@
         }
       } catch (err) {
         showToast('Lỗi máy chủ khi lưu cài đặt tốc độ slide!', 'error');
+      }
+    }
+
+    // ==========================================
+    // 6. PARTNERS MANAGEMENT (QUẢN LÝ ĐỐI TÁC & CHỦ ĐẦU TƯ)
+    // ==========================================
+    let partnerSearchTimeout = null;
+
+    function debouncePartnerSearch() {
+      clearTimeout(partnerSearchTimeout);
+      partnerSearchTimeout = setTimeout(() => {
+        loadPartners();
+      }, 300);
+    }
+
+    async function loadPartnersSummary() {
+      try {
+        const res = await fetch('/api/partners?all=true');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data)) {
+          state.partners = data.data;
+          const countBadge = document.getElementById('sidebarPartnerCount');
+          if (countBadge) countBadge.textContent = data.data.length;
+        }
+      } catch (e) {}
+    }
+
+    async function loadPartners() {
+      const tbody = document.getElementById('partnersTableBody');
+      const emptyState = document.getElementById('partnersEmptyState');
+      const searchInput = document.getElementById('partnerSearchInput');
+      const search = searchInput ? searchInput.value.trim() : '';
+
+      if (tbody) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; padding:30px;">
+              <i class="fas fa-spinner fa-spin"></i> Đang tải danh sách đối tác từ MongoDB Atlas...
+            </td>
+          </tr>
+        `;
+      }
+
+      try {
+        const url = `/api/partners?all=true${search ? `&search=${encodeURIComponent(search)}` : ''}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.success && Array.isArray(data.data)) {
+          state.partners = data.data;
+          const countBadge = document.getElementById('sidebarPartnerCount');
+          if (countBadge) countBadge.textContent = data.data.length;
+          renderPartners(data.data);
+        } else {
+          if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--danger); padding:20px;">Lỗi tải dữ liệu đối tác!</td></tr>`;
+        }
+      } catch (err) {
+        console.error('Error loading partners:', err);
+        if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--danger); padding:20px;">Lỗi kết nối máy chủ khi tải đối tác!</td></tr>`;
+      }
+    }
+
+    function renderPartners(partners) {
+      const tbody = document.getElementById('partnersTableBody');
+      const emptyState = document.getElementById('partnersEmptyState');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      if (!partners || partners.length === 0) {
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+
+      partners.forEach((partner, idx) => {
+        const partnerId = partner._id || partner.id;
+        const tr = document.createElement('tr');
+
+        const isCloudinary = (partner.logo && partner.logo.includes('cloudinary.com')) || Boolean(partner.cloudinaryId);
+        const providerBadge = isCloudinary
+          ? `<span class="pill-badge" style="background:#E0F2FE; color:#0369A1; border:1px solid #BAE6FD;"><i class="fas fa-cloud" style="margin-right:4px;"></i>Cloudinary CDN</span>`
+          : `<span class="pill-badge" style="background:#F1F5F9; color:#475569; border:1px solid #CBD5E1;"><i class="fas fa-server" style="margin-right:4px;"></i>Local Asset</span>`;
+
+        const statusClass = partner.isActive ? 'active' : 'inactive';
+        const statusIcon = partner.isActive ? 'fa-check' : 'fa-eye-slash';
+        const statusText = partner.isActive ? 'Đang hiển thị' : 'Đang tạm ẩn';
+
+        const websiteLink = partner.website
+          ? `<a href="${partner.website}" target="_blank" class="service-link" style="font-size:0.82rem; word-break:break-all;" title="Mở trang web đối tác"><i class="fas fa-arrow-up-right-from-square" style="font-size:0.75rem; margin-right:4px;"></i>${escapeHtml(partner.website)}</a>`
+          : `<span style="color:#94A3B8; font-size:0.82rem; font-style:italic;">Chưa gắn link</span>`;
+
+        tr.innerHTML = `
+          <td style="text-align:center;">
+            <div class="order-stepper-group" style="margin: 0 auto;">
+              <button type="button" class="btn-step" onclick="movePartnerOrder('${partnerId}', -1)" title="Lên trước (Giảm số thứ tự)">
+                <i class="fas fa-arrow-up"></i>
+              </button>
+              <input type="number" class="order-input partner-order-input" data-id="${partnerId}" value="${partner.order ?? idx}" min="0" onchange="savePartnerOrderBatch()">
+              <button type="button" class="btn-step" onclick="movePartnerOrder('${partnerId}', 1)" title="Xuống sau (Tăng số thứ tự)">
+                <i class="fas fa-arrow-down"></i>
+              </button>
+            </div>
+          </td>
+          <td style="text-align:center;">
+            <div style="width:110px; height:50px; background:#FFFFFF; border:1px solid var(--border-color); border-radius:3px; padding:6px; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+              <img src="${partner.logo}" alt="${escapeHtml(partner.name)}" style="max-width:100%; max-height:100%; object-fit:contain;" onerror="this.src='assets/images/partner-1.svg'">
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:700; font-size:0.95rem; color:var(--text-heading); letter-spacing:0.3px;">
+              ${escapeHtml(partner.name)}
+            </div>
+          </td>
+          <td>
+            ${websiteLink}
+          </td>
+          <td>
+            ${providerBadge}
+          </td>
+          <td style="text-align:center;">
+            <span class="status-badge ${statusClass}" onclick="togglePartnerStatus('${partnerId}', ${partner.isActive})" title="Click để ${partner.isActive ? 'tạm ẩn' : 'bật hiển thị'}">
+              <i class="fas ${statusIcon}"></i> ${statusText}
+            </span>
+          </td>
+          <td style="text-align:right;">
+            <div class="table-actions" style="justify-content:flex-end;">
+              <button class="action-btn edit-btn" onclick="openEditPartnerModal('${partnerId}')" title="Chỉnh sửa đối tác">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="action-btn delete-btn" onclick="openDeletePartnerModal('${partnerId}')" title="Xóa đối tác">
+                <i class="fas fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openNewPartnerModal() {
+      document.getElementById('partnerModalTitle').innerHTML = '<i class="fas fa-handshake" style="color:var(--primary);"></i> Thêm Đối Tác Mới';
+      document.getElementById('partnerEditId').value = '';
+      document.getElementById('partnerImageData').value = '';
+      document.getElementById('partnerFormName').value = '';
+      document.getElementById('partnerFormWebsite').value = '';
+      document.getElementById('partnerFormOrder').value = state.partners.length;
+      document.getElementById('partnerFormIsActive').checked = true;
+
+      removePartnerImage();
+      openModal('partnerModal');
+    }
+
+    function openEditPartnerModal(partnerId) {
+      const partner = state.partners.find(p => (p._id || p.id) === partnerId);
+      if (!partner) {
+        showToast('Không tìm thấy dữ liệu đối tác!', 'error');
+        return;
+      }
+
+      document.getElementById('partnerModalTitle').innerHTML = '<i class="fas fa-pen-to-square" style="color:var(--primary);"></i> Chỉnh Sửa Đối Tác';
+      document.getElementById('partnerEditId').value = partner._id || partner.id;
+      document.getElementById('partnerImageData').value = partner.logo || '';
+      document.getElementById('partnerFormName').value = partner.name || '';
+      document.getElementById('partnerFormWebsite').value = partner.website || '';
+      document.getElementById('partnerFormOrder').value = partner.order ?? 0;
+      document.getElementById('partnerFormIsActive').checked = Boolean(partner.isActive);
+
+      setPartnerPreviewImage(partner.logo || '');
+      openModal('partnerModal');
+    }
+
+    function handlePartnerFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('Vui lòng chọn file hình ảnh hợp lệ (SVG, PNG, JPG, WEBP)!', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64 = e.target.result;
+        document.getElementById('partnerImageData').value = base64;
+        setPartnerPreviewImage(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setPartnerPreviewImage(src) {
+      if (!src) {
+        removePartnerImage();
+        return;
+      }
+      document.getElementById('partnerPreviewImg').src = src;
+      document.getElementById('partnerPreviewWrapper').style.display = 'block';
+      document.getElementById('partnerUploadPrompt').style.display = 'none';
+    }
+
+    function removePartnerImage() {
+      document.getElementById('partnerImageData').value = '';
+      document.getElementById('partnerPreviewImg').src = '';
+      document.getElementById('partnerPreviewWrapper').style.display = 'none';
+      document.getElementById('partnerUploadPrompt').style.display = 'block';
+      document.getElementById('partnerFileInput').value = '';
+    }
+
+    async function submitPartnerForm() {
+      const name = document.getElementById('partnerFormName').value.trim();
+      const logo = document.getElementById('partnerImageData').value.trim();
+      const website = document.getElementById('partnerFormWebsite').value.trim();
+      const order = parseInt(document.getElementById('partnerFormOrder').value, 10) || 0;
+      const isActive = document.getElementById('partnerFormIsActive').checked;
+      const editId = document.getElementById('partnerEditId').value;
+
+      if (!name) {
+        showToast('Vui lòng nhập tên đối tác / chủ đầu tư!', 'error');
+        return;
+      }
+      if (!logo) {
+        showToast('Vui lòng tải lên logo đối tác!', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('btnSavePartner');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu lên Cloudinary...';
+      btn.disabled = true;
+
+      try {
+        const payload = { name, logo, website, order, isActive };
+        let res;
+
+        if (editId) {
+          res = await fetch(`/api/partners/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/partners', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Lưu thông tin đối tác thành công!', 'success');
+          closeModal('partnerModal');
+          loadPartners();
+          loadPartnersSummary();
+        } else {
+          showToast(data.message || 'Lỗi khi lưu đối tác!', 'error');
+        }
+      } catch (err) {
+        console.error('Error saving partner:', err);
+        showToast('Lỗi máy chủ khi lưu đối tác!', 'error');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    function movePartnerOrder(partnerId, delta) {
+      const input = document.querySelector(`.partner-order-input[data-id="${partnerId}"]`);
+      if (input) {
+        let val = parseInt(input.value, 10) || 0;
+        val = Math.max(0, val + delta);
+        input.value = val;
+        savePartnerOrderBatch();
+      }
+    }
+
+    async function savePartnerOrderBatch() {
+      const inputs = document.querySelectorAll('.partner-order-input');
+      const orders = [];
+      inputs.forEach(input => {
+        orders.push({
+          id: input.dataset.id,
+          order: parseInt(input.value, 10) || 0
+        });
+      });
+
+      if (orders.length === 0) return;
+
+      try {
+        const res = await fetch('/api/partners/reorder', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orders })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Đã cập nhật thứ tự hiển thị đối tác!', 'success');
+          loadPartners();
+        } else {
+          showToast(data.message || 'Lỗi khi lưu thứ tự đối tác!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối khi cập nhật thứ tự đối tác!', 'error');
+      }
+    }
+
+    async function togglePartnerStatus(partnerId, currentStatus) {
+      try {
+        const res = await fetch(`/api/partners/${partnerId}/toggle`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Đã cập nhật trạng thái hiển thị đối tác!', 'success');
+          loadPartners();
+        } else {
+          showToast(data.message || 'Lỗi khi đổi trạng thái đối tác!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ khi đổi trạng thái đối tác!', 'error');
+      }
+    }
+
+    function openDeletePartnerModal(partnerId) {
+      const partner = state.partners.find(p => (p._id || p.id) === partnerId);
+      document.getElementById('deletePartnerTargetId').value = partnerId;
+      document.getElementById('deletePartnerName').textContent = partner ? partner.name : 'đối tác này';
+      openModal('deletePartnerModal');
+    }
+
+    async function executeDeletePartner() {
+      const id = document.getElementById('deletePartnerTargetId').value;
+      if (!id) return;
+
+      try {
+        const res = await fetch(`/api/partners/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Đã xóa đối tác thành công khỏi MongoDB & Cloudinary!', 'success');
+          closeModal('deletePartnerModal');
+          loadPartners();
+          loadPartnersSummary();
+        } else {
+          showToast(data.message || 'Lỗi khi xóa đối tác!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ khi xóa đối tác!', 'error');
       }
     }
 

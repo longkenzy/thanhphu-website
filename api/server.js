@@ -7,6 +7,7 @@ const cloudinary = require('cloudinary').v2;
 const Article = require('../models/Article');
 const { Slide, SlideSetting } = require('../models/Slide');
 const Project = require('../models/Project');
+const Partner = require('../models/Partner');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -109,10 +110,57 @@ const DEFAULT_SLIDES = [
   }
 ];
 
+// Default Partners & Investors
+const DEFAULT_PARTNERS = [
+  {
+    name: 'VINHOMES',
+    logo: 'assets/images/partner-1.svg',
+    website: 'https://vinhomes.vn',
+    order: 0,
+    isActive: true
+  },
+  {
+    name: 'NOVALAND',
+    logo: 'assets/images/partner-2.svg',
+    website: 'https://novaland.com.vn',
+    order: 1,
+    isActive: true
+  },
+  {
+    name: 'VSIP GROUP',
+    logo: 'assets/images/partner-3.svg',
+    website: 'https://vsip.com.vn',
+    order: 2,
+    isActive: true
+  },
+  {
+    name: 'HÒA PHÁT',
+    logo: 'assets/images/partner-4.svg',
+    website: 'https://hoaphat.com.vn',
+    order: 3,
+    isActive: true
+  },
+  {
+    name: 'NAM LONG',
+    logo: 'assets/images/partner-5.svg',
+    website: 'https://namlongvn.com',
+    order: 4,
+    isActive: true
+  },
+  {
+    name: 'KHANG ĐIỀN',
+    logo: 'assets/images/partner-6.svg',
+    website: 'https://khangdien.com.vn',
+    order: 5,
+    isActive: true
+  }
+];
+
 // Path to data files and uploads
 const DATA_DIR = path.join(ROOT_DIR, 'data');
 const ARTICLES_FILE = path.join(DATA_DIR, 'articles.json');
 const PROJECTS_FILE = path.join(DATA_DIR, 'projects.json');
+const PARTNERS_FILE = path.join(DATA_DIR, 'partners.json');
 const UPLOADS_DIR = path.join(ROOT_DIR, 'assets', 'uploads');
 
 // Ensure data and uploads directories exist
@@ -137,6 +185,23 @@ function saveProjects(data) {
     fs.writeFileSync(PROJECTS_FILE, JSON.stringify(data, null, 2), 'utf8');
   } catch (e) {
     console.error('Error saving projects.json:', e);
+  }
+}
+
+function getPartners() {
+  if (!fs.existsSync(PARTNERS_FILE)) return DEFAULT_PARTNERS;
+  try {
+    return JSON.parse(fs.readFileSync(PARTNERS_FILE, 'utf8'));
+  } catch (e) {
+    return DEFAULT_PARTNERS;
+  }
+}
+
+function savePartners(data) {
+  try {
+    fs.writeFileSync(PARTNERS_FILE, JSON.stringify(data, null, 2), 'utf8');
+  } catch (e) {
+    console.error('Error saving partners.json:', e);
   }
 }
 
@@ -194,6 +259,25 @@ async function autoSeedDatabase() {
     if (!setting) {
       await SlideSetting.create({ key: 'hero_slider', autoplaySpeed: 6 });
       console.log('✅ Đã khởi tạo cài đặt tốc độ slide mặc định (6s) vào MongoDB!');
+    }
+
+    // Auto seed Partners
+    const partnerCount = await Partner.countDocuments();
+    if (partnerCount === 0) {
+      console.log('🔄 Đang nạp 6 đối tác chiến lược mặc định vào MongoDB Atlas...');
+      let seedPartners = DEFAULT_PARTNERS;
+      if (fs.existsSync(PARTNERS_FILE)) {
+        try {
+          const fileData = JSON.parse(fs.readFileSync(PARTNERS_FILE, 'utf8'));
+          if (Array.isArray(fileData) && fileData.length > 0) {
+            seedPartners = fileData;
+          }
+        } catch (e) {}
+      }
+      await Partner.insertMany(seedPartners);
+      console.log(`✅ Đã nạp thành công ${seedPartners.length} đối tác vào MongoDB Atlas!`);
+    } else {
+      console.log(`🤝 Đã có sẵn ${partnerCount} đối tác trên MongoDB Atlas.`);
     }
   } catch (err) {
     console.error('Lỗi trong quá trình auto-seed MongoDB:', err);
@@ -364,6 +448,30 @@ function slugifyVietnamese(str) {
   str = str.trim().replace(/\s+/g, '-');
   str = str.replace(/-+/g, '-');
   return str;
+}
+
+// Category Mapping Helper for Articles
+function mapArticleCategory(cat) {
+  if (!cat) return { category: 'su-kien', categoryName: 'Sự Kiện & Tiến Độ' };
+  const c = cat.toString().trim().toLowerCase();
+  if (c.includes('toan') || c === 'an-toan') return { category: 'an-toan', categoryName: 'An Toàn Lao Động' };
+  if (c.includes('nghe') || c.includes('bim') || c === 'cong-nghe') return { category: 'cong-nghe', categoryName: 'Công Nghệ & BIM' };
+  if (c.includes('tien-do') || c.includes('tiến độ')) return { category: 'tien-do', categoryName: 'Tiến Độ Dự Án' };
+  if (c.includes('kien-thuc') || c.includes('kiến thức') || c.includes('ky-thuat')) return { category: 'kien-thuc', categoryName: 'Kiến Thức Xây Dựng' };
+  if (c.includes('thuong') || c.includes('thưởng') || c === 'giai-thuong') return { category: 'giai-thuong', categoryName: 'Giải Thưởng & Sự Kiện' };
+  if (c.includes('luc') || c.includes('lực') || c.includes('nha-may') || c === 'nang-luc') return { category: 'nang-luc', categoryName: 'Năng Lực Sản Xuất' };
+  return { category: 'su-kien', categoryName: 'Sự Kiện & Tiến Độ' };
+}
+
+// Category Mapping Helper for Projects
+function mapProjectCategory(cat) {
+  if (!cat) return { category: 'xay-lap', categoryName: 'Thi công xây lắp', badge: 'Xây Lắp Dân Dụng' };
+  const c = cat.toString().trim().toLowerCase();
+  if (c.includes('that') || c.includes('thất') || c === 'noi-that') return { category: 'noi-that', categoryName: 'Trang trí nội thất', badge: 'Trang Trí Nội Thất' };
+  if (c.includes('kinh') || c.includes('kính') || c.includes('nhom') || c === 'nhom-kinh') return { category: 'nhom-kinh', categoryName: 'Cấu kiện nhôm kính', badge: 'Nhôm Kính Cao Cấp' };
+  if (c.includes('tang') || c.includes('tầng') || c.includes('ha-tang') || c.includes('giao thong')) return { category: 'ha-tang', categoryName: 'Hạ tầng kỹ thuật', badge: 'Hạ Tầng Kỹ Thuật' };
+  if (c.includes('xuong') || c.includes('xưởng') || c.includes('nghiep') || c.includes('nghiệp')) return { category: 'xay-lap', categoryName: 'Thi công xây lắp', badge: 'Công Nghiệp & Nhà Xưởng' };
+  return { category: 'xay-lap', categoryName: 'Thi công xây lắp', badge: 'Xây Lắp Dân Dụng' };
 }
 
 // Parse JSON and urlencoded body with higher limit for image uploads
@@ -727,6 +835,134 @@ app.post('/api/articles', async (req, res) => {
   }
 });
 
+// 3.1 POST /api/articles/bulk - Nhập hàng loạt bài viết từ Excel/CSV/JSON
+app.post('/api/articles/bulk', async (req, res) => {
+  try {
+    const rawItems = Array.isArray(req.body) ? req.body : (req.body.articles || req.body.items);
+    if (!Array.isArray(rawItems) || rawItems.length === 0) {
+      return res.status(400).json({ success: false, message: 'Danh sách bài viết cần nhập không được để trống!' });
+    }
+
+    const results = [];
+    const errors = [];
+    const nowIso = new Date();
+
+    for (let i = 0; i < rawItems.length; i++) {
+      const item = rawItems[i];
+      const title = (item.title || item.tieuDe || item['Tiêu đề'] || item['Tên bài viết'] || '').toString().trim();
+      if (!title) {
+        errors.push({ index: i, message: `Dòng ${i + 1}: Bỏ qua do thiếu tiêu đề bài viết.` });
+        continue;
+      }
+
+      let slug = (item.slug || '').toString().trim();
+      if (!slug) {
+        slug = slugifyVietnamese(title);
+      } else {
+        slug = slugifyVietnamese(slug);
+      }
+      if (!slug) slug = `bai-viet-${Date.now()}-${i}`;
+
+      const catInput = item.category || item.categoryName || item.chuyenMuc || item['Chuyên mục'] || '';
+      const catMapping = mapArticleCategory(catInput);
+
+      const author = (item.author || item.tacGia || item['Tác giả'] || 'Ban Truyền Thông Thành Phú').toString().trim();
+      const date = (item.date || item.ngayDang || item['Ngày đăng'] || nowIso.toLocaleDateString('vi-VN')).toString().trim();
+      const image = (item.image || item.hinhAnh || item['Ảnh đại diện'] || 'assets/images/news-1.svg').toString().trim();
+      
+      const statusInput = (item.status || item.trangThai || item['Trạng thái'] || 'published').toString().trim().toLowerCase();
+      const status = (statusInput === 'draft' || statusInput === 'nháp' || statusInput === 'bản nháp') ? 'draft' : 'published';
+      
+      const isFeaturedInput = item.isFeatured ?? item.tieuDiem ?? item['Tiêu điểm'] ?? false;
+      const isFeatured = isFeaturedInput === true || isFeaturedInput === 'true' || isFeaturedInput === 'Có' || isFeaturedInput === '1';
+
+      const views = Number(item.views || item.luotXem || item['Lượt xem']) || (Math.floor(Math.random() * 300) + 120);
+
+      const rawContent = (item.content || item.noiDung || item['Nội dung'] || '').toString().trim();
+      let excerpt = (item.excerpt || item.tomTat || item['Tóm tắt'] || '').toString().trim();
+      if (!excerpt && rawContent) {
+        excerpt = rawContent.replace(/<[^>]*>?/gm, '').slice(0, 160) + '...';
+      } else if (!excerpt) {
+        excerpt = title;
+      }
+
+      const content = rawContent || `<p>${excerpt}</p>`;
+
+      let finalSlug = slug;
+      let finalId = finalSlug;
+
+      if (mongoose.connection.readyState === 1) {
+        const existing = await Article.findOne({ $or: [{ id: finalId }, { slug: finalSlug }] });
+        if (existing) {
+          finalSlug = `${finalSlug}-${Date.now().toString().slice(-4)}-${i}`;
+          finalId = finalSlug;
+        }
+
+        const newDoc = new Article({
+          id: finalId,
+          slug: finalSlug,
+          title: title,
+          category: item.category || catMapping.category,
+          categoryName: item.categoryName || catMapping.categoryName,
+          author: author,
+          date: date,
+          image: image,
+          isFeatured: isFeatured,
+          status: status,
+          views: views,
+          excerpt: excerpt,
+          content: content,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+
+        await newDoc.save();
+        results.push(newDoc.toObject());
+      } else {
+        const localArticles = getArticles();
+        const existing = localArticles.find(a => a.id === finalId || a.slug === finalSlug);
+        if (existing) {
+          finalSlug = `${finalSlug}-${Date.now().toString().slice(-4)}-${i}`;
+          finalId = finalSlug;
+        }
+
+        const newArt = {
+          id: finalId,
+          slug: finalSlug,
+          title: title,
+          category: item.category || catMapping.category,
+          categoryName: item.categoryName || catMapping.categoryName,
+          author: author,
+          date: date,
+          image: image,
+          isFeatured: isFeatured,
+          status: status,
+          views: views,
+          excerpt: excerpt,
+          content: content,
+          createdAt: nowIso.toISOString(),
+          updatedAt: nowIso.toISOString()
+        };
+        localArticles.unshift(newArt);
+        saveArticles(localArticles);
+        results.push(newArt);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: `Đã nhập thành công ${results.length} bài viết!`,
+      count: results.length,
+      total: rawItems.length,
+      errors: errors,
+      data: results
+    });
+  } catch (err) {
+    console.error('Error bulk importing articles:', err);
+    res.status(500).json({ success: false, message: 'Lỗi máy chủ khi nhập bài viết hàng loạt: ' + err.message });
+  }
+});
+
 // 4. PUT /api/articles/:id - Update existing article
 app.put('/api/articles/:id', async (req, res) => {
   try {
@@ -1032,6 +1268,7 @@ app.get('/api/stats', async (req, res) => {
       const drafts = await Article.countDocuments({ status: 'draft' });
       const featured = await Article.countDocuments({ isFeatured: true });
       const totalProjects = await Project.countDocuments();
+      const totalPartners = await Partner.countDocuments();
 
       const viewsAggr = await Article.aggregate([
         { $group: { _id: null, totalViews: { $sum: '$views' } } }
@@ -1055,7 +1292,8 @@ app.get('/api/stats', async (req, res) => {
           featured,
           totalViews,
           categories,
-          totalProjects
+          totalProjects,
+          totalPartners
         }
       });
     }
@@ -1068,6 +1306,7 @@ app.get('/api/stats', async (req, res) => {
     const featured = articles.filter(a => a.isFeatured).length;
     const totalViews = articles.reduce((sum, a) => sum + (a.views || 0), 0);
     const totalProjects = getProjects().length;
+    const totalPartners = getPartners().length;
 
     const categories = {};
     articles.forEach(a => {
@@ -1084,7 +1323,8 @@ app.get('/api/stats', async (req, res) => {
         featured,
         totalViews,
         categories,
-        totalProjects
+        totalProjects,
+        totalPartners
       }
     });
   } catch (err) {
@@ -1717,6 +1957,192 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
+// 3.1 POST /api/projects/bulk - Nhập hàng loạt dự án từ Excel/CSV/JSON
+app.post('/api/projects/bulk', async (req, res) => {
+  try {
+    const rawItems = Array.isArray(req.body) ? req.body : (req.body.projects || req.body.items);
+    if (!Array.isArray(rawItems) || rawItems.length === 0) {
+      return res.status(400).json({ success: false, message: 'Danh sách dự án cần nhập không được để trống!' });
+    }
+
+    const results = [];
+    const errors = [];
+    const now = new Date();
+
+    for (let i = 0; i < rawItems.length; i++) {
+      const item = rawItems[i];
+      const title = (item.title || item.tenDuAn || item['Tên dự án'] || item['Tiêu đề'] || '').toString().trim();
+      if (!title) {
+        errors.push({ index: i, message: `Dòng ${i + 1}: Bỏ qua do thiếu tên dự án.` });
+        continue;
+      }
+
+      let slug = (item.slug || '').toString().trim();
+      if (!slug) {
+        slug = slugifyVietnamese(title);
+      } else {
+        slug = slugifyVietnamese(slug);
+      }
+      if (!slug) slug = `du-an-${Date.now()}-${i}`;
+
+      const catInput = item.category || item.categoryName || item.chuyenMuc || item['Chuyên mục'] || '';
+      const catMapping = mapProjectCategory(catInput);
+
+      const badge = (item.badge || item.theLoai || item['Huy hiệu'] || catMapping.badge).toString().trim();
+      const statusInput = (item.status || item.tienDo || item['Tiến độ'] || item['Trạng thái'] || 'Đã Bàn Giao').toString().trim();
+      const status = (statusInput.toLowerCase().includes('thi cong') || statusInput.toLowerCase().includes('thi công')) ? 'Đang Thi Công' : 'Đã Bàn Giao';
+
+      const image = (item.image || item.hinhAnh || item['Ảnh đại diện'] || 'assets/images/project-1.svg').toString().trim();
+
+      // Gallery parsing
+      let gallery = [];
+      const galleryInput = item.gallery || item.album || item['Ảnh phụ'] || item['Gallery'];
+      if (Array.isArray(galleryInput)) {
+        gallery = galleryInput.map(g => g.toString().trim()).filter(Boolean);
+      } else if (typeof galleryInput === 'string' && galleryInput.trim()) {
+        gallery = galleryInput.split(/[\n,;]+/).map(g => g.trim()).filter(Boolean);
+      }
+
+      const location = (item.location || item.diaDiem || item['Địa điểm'] || item['Vị trí'] || 'Việt Nam').toString().trim();
+      const client = (item.client || item.chuDauTu || item['Chủ đầu tư'] || item['Khách hàng'] || 'Chủ đầu tư').toString().trim();
+      const scale = (item.scale || item.quyMo || item['Quy mô'] || item['Diện tích'] || 'Đang cập nhật').toString().trim();
+      const contractType = (item.contractType || item.hinhThuc || item['Hình thức hợp đồng'] || item['Gói thầu'] || 'Tổng thầu thi công xây lắp').toString().trim();
+      const timeline = (item.timeline || item.thoiGian || item['Thời gian thi công'] || item['Tiến độ'] || '12 tháng').toString().trim();
+      const year = (item.year || item.nam || item['Năm hoàn thành'] || now.getFullYear().toString()).toString().trim();
+      
+      const overview = (item.overview || item.tongQuan || item['Tổng quan'] || item['Mô tả'] || `Dự án ${title} do Công ty Cổ phần Đầu tư Xây lắp Thành Phú thi công xây lắp.`).toString().trim();
+
+      // Scope parsing
+      let scope = [];
+      const scopeInput = item.scope || item.hangMuc || item['Hạng mục thi công'] || item['Phạm vi'];
+      if (Array.isArray(scopeInput)) {
+        scope = scopeInput.map(s => s.toString().trim()).filter(Boolean);
+      } else if (typeof scopeInput === 'string' && scopeInput.trim()) {
+        scope = scopeInput.split(/[\n;]+/).map(s => s.trim()).filter(Boolean);
+      }
+      if (scope.length === 0) {
+        scope = [
+          'Thi công kết cấu móng và phần thân công trình.',
+          'Hoàn thiện kiến trúc và hệ thống cơ điện tiêu chuẩn.'
+        ];
+      }
+
+      // Highlights parsing
+      let highlights = [];
+      const hlInput = item.highlights || item.diemNhan || item['Điểm nhấn'] || item['Tiêu chuẩn'];
+      if (Array.isArray(hlInput)) {
+        highlights = hlInput.map(h => h.toString().trim()).filter(Boolean);
+      } else if (typeof hlInput === 'string' && hlInput.trim()) {
+        highlights = hlInput.split(/[\n;]+/).map(h => h.trim()).filter(Boolean);
+      }
+      if (highlights.length === 0) {
+        highlights = [
+          'Đảm bảo an toàn lao động và vệ sinh môi trường theo chuẩn ISO 45001.',
+          'Bàn giao đúng tiến độ và chất lượng kỹ mỹ thuật cam kết.'
+        ];
+      }
+
+      const content = (item.content || item.noiDung || item['Nội dung chi tiết'] || '').toString().trim();
+      const order = Number(item.order || item.thuTu || item['Thứ tự']) || 0;
+      const isFeaturedInput = item.isFeatured ?? item.tieuDiem ?? item['Tiêu điểm'] ?? false;
+      const isFeatured = isFeaturedInput === true || isFeaturedInput === 'true' || isFeaturedInput === 'Có' || isFeaturedInput === '1';
+      const views = Number(item.views || item.luotXem || item['Lượt xem']) || (Math.floor(Math.random() * 400) + 150);
+
+      let finalSlug = slug;
+      let finalId = finalSlug;
+
+      if (mongoose.connection.readyState === 1) {
+        const existing = await Project.findOne({ $or: [{ id: finalId }, { slug: finalSlug }] });
+        if (existing) {
+          finalSlug = `${finalSlug}-${Date.now().toString().slice(-4)}-${i}`;
+          finalId = finalSlug;
+        }
+
+        const newDoc = new Project({
+          id: finalId,
+          slug: finalSlug,
+          title: title,
+          category: item.category || catMapping.category,
+          categoryName: item.categoryName || catMapping.categoryName,
+          badge: badge,
+          status: status,
+          image: image,
+          gallery: gallery,
+          location: location,
+          client: client,
+          scale: scale,
+          contractType: contractType,
+          timeline: timeline,
+          year: year,
+          overview: overview,
+          scope: scope,
+          highlights: highlights,
+          content: content,
+          order: order,
+          isFeatured: isFeatured,
+          isActive: item.isActive !== false,
+          views: views,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+
+        await newDoc.save();
+        results.push(newDoc.toObject());
+      } else {
+        const allProjects = getProjects();
+        const existing = allProjects.find(p => p.id === finalId || p.slug === finalSlug);
+        if (existing) {
+          finalSlug = `${finalSlug}-${Date.now().toString().slice(-4)}-${i}`;
+          finalId = finalSlug;
+        }
+
+        const newProj = {
+          id: finalId,
+          slug: finalSlug,
+          title: title,
+          category: item.category || catMapping.category,
+          categoryName: item.categoryName || catMapping.categoryName,
+          badge: badge,
+          status: status,
+          image: image,
+          gallery: gallery,
+          location: location,
+          client: client,
+          scale: scale,
+          contractType: contractType,
+          timeline: timeline,
+          year: year,
+          overview: overview,
+          scope: scope,
+          highlights: highlights,
+          content: content,
+          order: order,
+          isFeatured: isFeatured,
+          isActive: item.isActive !== false,
+          views: views,
+          createdAt: now.toISOString(),
+          updatedAt: now.toISOString()
+        };
+        allProjects.unshift(newProj);
+        saveProjects(allProjects);
+        results.push(newProj);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: `Đã nhập thành công ${results.length} dự án!`,
+      count: results.length,
+      total: rawItems.length,
+      errors: errors,
+      data: results
+    });
+  } catch (err) {
+    console.error('Error bulk importing projects:', err);
+    res.status(500).json({ success: false, message: 'Lỗi máy chủ khi nhập dự án hàng loạt: ' + err.message });
+  }
+});
+
 // 4. PUT /api/projects/:id - Cập nhật dự án / bài viết dự án
 app.put('/api/projects/:id', async (req, res) => {
   try {
@@ -2014,6 +2440,385 @@ app.post('/api/projects/reset-seed', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Lỗi khi khôi phục dự án: ' + err.message });
+  }
+});
+
+// ==========================================
+// REST API FOR PARTNERS (QUẢN LÝ ĐỐI TÁC CHIẾN LƯỢC & CHỦ ĐẦU TƯ)
+// ==========================================
+
+// 1. GET /api/partners - Lấy danh sách đối tác
+app.get('/api/partners', async (req, res) => {
+  try {
+    const { all, search } = req.query;
+    let query = {};
+    if (all !== 'true') {
+      query.isActive = true;
+    }
+    if (search && search.trim()) {
+      query.name = { $regex: search.trim(), $options: 'i' };
+    }
+
+    if (mongoose.connection.readyState === 1) {
+      const partners = await Partner.find(query).sort({ order: 1, createdAt: 1 }).lean();
+      return res.json({
+        success: true,
+        count: partners.length,
+        data: partners
+      });
+    }
+
+    // Fallback JSON
+    let partners = getPartners();
+    if (all !== 'true') {
+      partners = partners.filter(p => p.isActive);
+    }
+    if (search && search.trim()) {
+      const s = search.trim().toLowerCase();
+      partners = partners.filter(p => p.name && p.name.toLowerCase().includes(s));
+    }
+    partners.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+    res.json({
+      success: true,
+      count: partners.length,
+      data: partners
+    });
+  } catch (err) {
+    console.error('Error fetching partners:', err);
+    res.status(500).json({ success: false, message: 'Lỗi máy chủ khi lấy danh sách đối tác: ' + err.message });
+  }
+});
+
+// 2. POST /api/partners - Thêm đối tác mới (hỗ trợ upload ảnh Cloudinary)
+app.post('/api/partners', async (req, res) => {
+  try {
+    const { name, logo, website, order, isActive } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({ success: false, message: 'Vui lòng nhập tên đối tác / chủ đầu tư!' });
+    }
+    if (!logo || !logo.trim()) {
+      return res.status(400).json({ success: false, message: 'Vui lòng cung cấp logo cho đối tác!' });
+    }
+
+    let logoUrl = logo.trim();
+    let cloudinaryId = '';
+
+    // Upload base64 logo lên Cloudinary
+    if (logo.startsWith('data:image')) {
+      if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY) {
+        try {
+          const safeName = slugifyVietnamese(name.trim());
+          const uploadRes = await cloudinary.uploader.upload(logo, {
+            folder: 'thanhphu/partners',
+            public_id: `${safeName}-${Date.now()}`,
+            resource_type: 'auto',
+            transformation: [
+              { quality: 'auto:good' },
+              { fetch_format: 'auto' }
+            ]
+          });
+          logoUrl = uploadRes.secure_url;
+          cloudinaryId = uploadRes.public_id;
+        } catch (cloudErr) {
+          console.warn('Lỗi upload logo đối tác lên Cloudinary:', cloudErr.message);
+          // Fallback to local file
+          const matches = logo.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+          if (matches && matches.length === 3) {
+            const mimeType = matches[1];
+            const buffer = Buffer.from(matches[2], 'base64');
+            let ext = 'png';
+            if (mimeType.includes('svg')) ext = 'svg';
+            else if (mimeType.includes('webp')) ext = 'webp';
+            else if (mimeType.includes('jpeg') || mimeType.includes('jpg')) ext = 'jpg';
+            const filename = `partner-${Date.now()}.${ext}`;
+            fs.writeFileSync(path.join(UPLOADS_DIR, filename), buffer);
+            logoUrl = `assets/uploads/${filename}`;
+          }
+        }
+      }
+    }
+
+    // Auto order if not specified
+    let partnerOrder = typeof order === 'number' ? order : 0;
+    if (partnerOrder === 0 && mongoose.connection.readyState === 1) {
+      const maxOrder = await Partner.findOne().sort({ order: -1 });
+      partnerOrder = maxOrder ? (maxOrder.order || 0) + 1 : 0;
+    }
+
+    const partnerData = {
+      name: name.trim(),
+      logo: logoUrl,
+      cloudinaryId,
+      website: (website && website.trim()) || '',
+      order: partnerOrder,
+      isActive: isActive !== undefined ? Boolean(isActive) : true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    let createdPartner = null;
+    if (mongoose.connection.readyState === 1) {
+      createdPartner = new Partner(partnerData);
+      await createdPartner.save();
+    } else {
+      createdPartner = { id: `partner-${Date.now()}`, ...partnerData };
+    }
+
+    // Sync local JSON
+    let allPartners = getPartners();
+    allPartners.push(createdPartner.toObject ? createdPartner.toObject() : createdPartner);
+    savePartners(allPartners);
+
+    res.status(201).json({
+      success: true,
+      message: 'Thêm đối tác mới thành công!',
+      data: createdPartner
+    });
+  } catch (err) {
+    console.error('Error creating partner:', err);
+    res.status(500).json({ success: false, message: 'Lỗi máy chủ khi tạo đối tác: ' + err.message });
+  }
+});
+
+// 3. PUT /api/partners/:id - Cập nhật đối tác
+app.put('/api/partners/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, logo, website, order, isActive } = req.body;
+
+    if (mongoose.connection.readyState === 1) {
+      let partner = null;
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        partner = await Partner.findById(id);
+      }
+      if (!partner) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy thông tin đối tác!' });
+      }
+
+      // Xử lý ảnh mới dạng base64
+      if (logo && logo.startsWith('data:image')) {
+        if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY) {
+          try {
+            if (partner.cloudinaryId || (partner.logo && partner.logo.includes('cloudinary'))) {
+              await destroyCloudinaryImage(partner.cloudinaryId || partner.logo);
+            }
+
+            const safeName = slugifyVietnamese(name ? name.trim() : partner.name);
+            const uploadRes = await cloudinary.uploader.upload(logo, {
+              folder: 'thanhphu/partners',
+              public_id: `${safeName}-${Date.now()}`,
+              resource_type: 'auto',
+              transformation: [
+                { quality: 'auto:good' },
+                { fetch_format: 'auto' }
+              ]
+            });
+            partner.logo = uploadRes.secure_url;
+            partner.cloudinaryId = uploadRes.public_id;
+          } catch (cloudErr) {
+            console.warn('Lỗi Cloudinary khi cập nhật logo đối tác:', cloudErr.message);
+          }
+        }
+      } else if (logo && logo !== partner.logo) {
+        partner.logo = logo.trim();
+      }
+
+      if (name !== undefined) partner.name = name.trim();
+      if (website !== undefined) partner.website = website.trim();
+      if (order !== undefined) partner.order = Number(order);
+      if (isActive !== undefined) partner.isActive = Boolean(isActive);
+      partner.updatedAt = new Date();
+
+      await partner.save();
+
+      // Sync local JSON
+      try {
+        let allPartners = getPartners();
+        const pIdx = allPartners.findIndex(p => (p._id && p._id.toString() === id) || p.id === id);
+        if (pIdx !== -1) {
+          allPartners[pIdx] = partner.toObject();
+          savePartners(allPartners);
+        }
+      } catch (e) {}
+
+      return res.json({
+        success: true,
+        message: 'Cập nhật đối tác thành công!',
+        data: partner
+      });
+    }
+
+    // Fallback JSON
+    let allPartners = getPartners();
+    const pIdx = allPartners.findIndex(p => p.id === id || (p._id && p._id.toString() === id));
+    if (pIdx === -1) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy thông tin đối tác!' });
+    }
+
+    const current = allPartners[pIdx];
+    allPartners[pIdx] = {
+      ...current,
+      name: name !== undefined ? name.trim() : current.name,
+      logo: logo !== undefined ? logo.trim() : current.logo,
+      website: website !== undefined ? website.trim() : current.website,
+      order: order !== undefined ? Number(order) : current.order,
+      isActive: isActive !== undefined ? Boolean(isActive) : current.isActive,
+      updatedAt: new Date().toISOString()
+    };
+    savePartners(allPartners);
+
+    res.json({
+      success: true,
+      message: 'Cập nhật đối tác thành công!',
+      data: allPartners[pIdx]
+    });
+  } catch (err) {
+    console.error('Error updating partner:', err);
+    res.status(500).json({ success: false, message: 'Lỗi máy chủ khi cập nhật đối tác: ' + err.message });
+  }
+});
+
+// 4. PATCH /api/partners/:id/toggle - Bật/Tắt hiển thị đối tác
+app.patch('/api/partners/:id/toggle', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (mongoose.connection.readyState === 1) {
+      let partner = null;
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        partner = await Partner.findById(id);
+      }
+      if (!partner) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy đối tác!' });
+      }
+
+      partner.isActive = !partner.isActive;
+      partner.updatedAt = new Date();
+      await partner.save();
+
+      return res.json({
+        success: true,
+        isActive: partner.isActive,
+        message: partner.isActive ? 'Đã bật hiển thị logo đối tác!' : 'Đã tạm ẩn logo đối tác!'
+      });
+    }
+
+    let allPartners = getPartners();
+    const p = allPartners.find(item => item.id === id || (item._id && item._id.toString() === id));
+    if (!p) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy đối tác!' });
+    }
+    p.isActive = !p.isActive;
+    savePartners(allPartners);
+
+    res.json({
+      success: true,
+      isActive: p.isActive,
+      message: p.isActive ? 'Đã bật hiển thị logo đối tác!' : 'Đã tạm ẩn logo đối tác!'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Lỗi khi đổi trạng thái đối tác: ' + err.message });
+  }
+});
+
+// 5. PATCH /api/partners/reorder - Cập nhật thứ tự các đối tác hàng loạt
+app.patch('/api/partners/reorder', async (req, res) => {
+  try {
+    const { orders } = req.body; // Array of { id, order }
+    if (!Array.isArray(orders)) {
+      return res.status(400).json({ success: false, message: 'Dữ liệu thứ tự không hợp lệ!' });
+    }
+
+    if (mongoose.connection.readyState === 1) {
+      const updates = orders.map(item => {
+        if (mongoose.Types.ObjectId.isValid(item.id)) {
+          return Partner.findByIdAndUpdate(item.id, { order: Number(item.order), updatedAt: new Date() });
+        }
+        return Promise.resolve();
+      });
+      await Promise.all(updates);
+    } else {
+      let allPartners = getPartners();
+      orders.forEach(item => {
+        const p = allPartners.find(x => x.id === item.id || (x._id && x._id.toString() === item.id));
+        if (p) p.order = Number(item.order);
+      });
+      savePartners(allPartners);
+    }
+
+    res.json({
+      success: true,
+      message: 'Đã cập nhật thứ tự đối tác thành công!'
+    });
+  } catch (err) {
+    console.error('Error reordering partners:', err);
+    res.status(500).json({ success: false, message: 'Lỗi khi cập nhật thứ tự đối tác: ' + err.message });
+  }
+});
+
+// 6. DELETE /api/partners/:id - Xóa đối tác & ảnh trên Cloudinary
+app.delete('/api/partners/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (mongoose.connection.readyState === 1) {
+      let deleted = null;
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        deleted = await Partner.findByIdAndDelete(id);
+      }
+      if (!deleted) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy đối tác cần xóa!' });
+      }
+
+      await destroyCloudinaryImage(deleted.cloudinaryId || deleted.logo);
+
+      return res.json({
+        success: true,
+        message: 'Đã xóa đối tác và hình ảnh trên Cloudinary thành công!'
+      });
+    }
+
+    let allPartners = getPartners();
+    const toDelete = allPartners.find(p => p.id === id || (p._id && p._id.toString() === id));
+    if (!toDelete) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy đối tác cần xóa!' });
+    }
+
+    if (toDelete.logo && toDelete.logo.startsWith('http')) {
+      await destroyCloudinaryImage(toDelete.logo);
+    }
+
+    allPartners = allPartners.filter(p => p.id !== id && (!p._id || p._id.toString() !== id));
+    savePartners(allPartners);
+
+    res.json({
+      success: true,
+      message: 'Đã xóa đối tác thành công!'
+    });
+  } catch (err) {
+    console.error('Error deleting partner:', err);
+    res.status(500).json({ success: false, message: 'Lỗi khi xóa đối tác: ' + err.message });
+  }
+});
+
+// 7. POST /api/partners/reset-seed - Khôi phục 6 đối tác mặc định
+app.post('/api/partners/reset-seed', async (req, res) => {
+  try {
+    if (mongoose.connection.readyState === 1) {
+      await Partner.deleteMany({});
+      await Partner.insertMany(DEFAULT_PARTNERS);
+    }
+    savePartners(DEFAULT_PARTNERS);
+
+    res.json({
+      success: true,
+      message: 'Đã khôi phục 6 đối tác chiến lược ban đầu thành công trên MongoDB Atlas!',
+      count: DEFAULT_PARTNERS.length
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Lỗi khi khôi phục đối tác: ' + err.message });
   }
 });
 

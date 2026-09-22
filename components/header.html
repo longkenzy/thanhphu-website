@@ -56,8 +56,65 @@
       </a>
     </div>
 
-    <button class="mobile-toggle" aria-label="Mở menu">
-      <i class="fas fa-bars"></i>
+    <button class="mobile-toggle" aria-label="Mở menu" id="mobile-toggle-btn">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </button>
   </div>
 </header>
+
+<!-- Mobile Navigation Drawer Overlay & Panel -->
+<div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Menu di động">
+  <div class="mobile-drawer-header">
+    <a href="index.html" class="mobile-drawer-logo" title="Trang chủ Thành Phú">
+      <img src="assets/images/logo.png" alt="Công ty Cổ phần Đầu tư Xây lắp Thành Phú">
+    </a>
+    <button class="mobile-drawer-close" id="mobile-drawer-close" aria-label="Đóng menu">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="mobile-drawer-body">
+    <nav class="mobile-nav">
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item" style="--item-index: 1;">
+          <a href="index.html" class="mobile-nav-link">Trang chủ</a>
+        </li>
+        <li class="mobile-nav-item" style="--item-index: 2;">
+          <a href="gioi-thieu.html" class="mobile-nav-link">Giới thiệu</a>
+        </li>
+        <li class="mobile-nav-item" style="--item-index: 3;">
+          <a href="linh-vuc.html" class="mobile-nav-link">Lĩnh vực hoạt động</a>
+        </li>
+        <li class="mobile-nav-item mobile-nav-dropdown" style="--item-index: 4;">
+          <div class="mobile-dropdown-header">
+            <a href="du-an.html" class="mobile-nav-link">
+              <span>Dự án</span>
+            </a>
+            <button class="mobile-dropdown-toggle" type="button" aria-label="Mở rộng danh mục dự án">
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </button>
+          </div>
+          <div class="mobile-sub-wrapper">
+            <ul class="mobile-sub-menu">
+              <li><a href="du-an.html?cat=xay-lap" class="mobile-sub-link dropdown-item">Thi công xây lắp</a></li>
+              <li><a href="du-an.html?cat=noi-that" class="mobile-sub-link dropdown-item">Trang trí nội thất</a></li>
+              <li><a href="du-an.html?cat=nhom-kinh" class="mobile-sub-link dropdown-item">SXLĐ cấu kiện nhôm kính</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mobile-nav-item" style="--item-index: 5;">
+          <a href="tin-tuc.html" class="mobile-nav-link">Tin tức & Hoạt động</a>
+        </li>
+        <li class="mobile-nav-item" style="--item-index: 6;">
+          <a href="tuyen-dung.html" class="mobile-nav-link">Tuyển dụng</a>
+        </li>
+        <li class="mobile-nav-item" style="--item-index: 7;">
+          <a href="lien-he.html" class="mobile-nav-link">Liên hệ</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>

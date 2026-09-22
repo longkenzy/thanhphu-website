@@ -105,37 +105,21 @@
       border-radius: var(--radius-sm);
       margin: 25px 0;
     }
-    .article-social-share {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 22px 0;
-      border-top: 1px solid var(--gray-border);
-      border-bottom: 1px solid var(--gray-border);
-      margin: 40px 0 30px;
-      flex-wrap: wrap;
-    }
-    .share-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
+    .article-body-content img {
+      max-width: 100%;
+      height: auto;
       border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #ffffff;
-      cursor: pointer;
-      text-decoration: none;
-      transition: var(--transition);
-      border: none;
+      margin: 24px auto;
+      display: block;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
     }
-    .share-fb { background: #1877f2; }
-    .share-fb:hover { background: #1464c9; }
-    .share-zalo { background: #0068ff; }
-    .share-zalo:hover { background: #0052cc; }
-    .share-copy { background: #475569; }
-    .share-copy:hover { background: #334155; }
-    
+    .article-body-content iframe {
+      max-width: 100%;
+      border-radius: var(--radius-sm);
+      margin: 24px auto;
+      display: block;
+    }
+
     .sidebar-widget {
       background: #ffffff;
       border: 1px solid var(--gray-border);
@@ -239,19 +223,6 @@
               </div>
             </div>
 
-            <!-- Social Share Bar -->
-            <div class="article-social-share">
-              <span style="font-weight: 700; font-size: 0.9rem; color: var(--dark);">Chia sẻ bài viết:</span>
-              <button class="share-btn share-fb" onclick="shareFacebook()">
-                <i class="fab fa-facebook-f"></i> Facebook
-              </button>
-              <button class="share-btn share-zalo" onclick="shareZalo()">
-                <i class="fas fa-comment-dots"></i> Zalo
-              </button>
-              <button class="share-btn share-copy" onclick="copyArticleLink()">
-                <i class="fas fa-link"></i> Sao chép liên kết
-              </button>
-            </div>
 
             <!-- Back to News Button -->
             <div style="margin-top: 25px;">
@@ -263,44 +234,12 @@
 
           <!-- Right Column: Sidebar -->
           <div>
-            <!-- Quick Contact Card -->
-            <div class="sidebar-widget" style="border-top: 4px solid var(--primary); background: #ffffff;">
-              <h4 class="widget-title">LIÊN HỆ TRUYỀN THÔNG</h4>
-              <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;">
-                Mọi thông tin báo chí, tư vấn kỹ thuật hoặc hợp tác thầu xây lắp, vui lòng liên hệ:
-              </p>
-              <div style="font-size: 0.88rem; line-height: 2;">
-                <div><i class="fas fa-phone-alt" style="color:var(--primary); margin-right:8px;"></i> <strong>Hotline:</strong> 0903 123 456</div>
-                <div><i class="fas fa-envelope" style="color:var(--primary); margin-right:8px;"></i> <strong>Email:</strong> thanhphuhcns@gmail.com</div>
-                <div><i class="fas fa-map-marker-alt" style="color:var(--primary); margin-right:8px;"></i> Bình Thạnh, TP.HCM</div>
-              </div>
-              <div style="margin-top: 18px;">
-                <a href="lien-he.html" class="btn btn-primary btn-sm" style="width: 100%;">
-                  Gửi Yêu Cầu Báo Giá <i class="fas fa-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-
             <!-- Related Articles Widget -->
             <div class="sidebar-widget">
               <h4 class="widget-title">BẢN TIN LIÊN QUAN</h4>
               <div id="related-articles-list">
                 <div style="font-size: 0.85rem; color: var(--text-muted);">Đang nạp tin liên quan...</div>
               </div>
-            </div>
-
-            <!-- Profile Brochure Download Widget -->
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #1f242d 0%, #14171d 100%); color: #ffffff; border: none;">
-              <div style="color: var(--accent); font-size: 1.5rem; margin-bottom: 12px;">
-                <i class="fas fa-file-pdf"></i>
-              </div>
-              <h4 style="color: #ffffff; font-size: 1.1rem; margin-bottom: 10px;">HỒ SƠ NĂNG LỰC THÀNH PHÚ</h4>
-              <p style="font-size: 0.82rem; color: #a0a6b5; line-height: 1.6; margin-bottom: 16px;">
-                Tải xuống bản tóm lược năng lực thi công, danh mục thiết bị cơ giới và các dự án tiêu biểu.
-              </p>
-              <a href="gioi-thieu.html" class="btn btn-primary btn-sm" style="width: 100%;">
-                <i class="fas fa-download"></i> Xem Hồ Sơ Năng Lực
-              </a>
             </div>
           </div>
 
@@ -334,7 +273,6 @@
               <li><a href="linh-vuc.html"><i class="fas fa-angle-right"></i> Lĩnh vực hoạt động</a></li>
               <li><a href="du-an.html"><i class="fas fa-angle-right"></i> Dự án tiêu biểu</a></li>
               <li><a href="tin-tuc.html"><i class="fas fa-angle-right"></i> Tin tức & Sự kiện</a></li>
-              <li><a href="admin.html" style="color:var(--accent); font-weight:600;"><i class="fas fa-lock"></i> Quản trị CMS</a></li>
             </ul>
           </div>
 
@@ -367,9 +305,6 @@
         <div class="footer-bottom">
           <div class="footer-bottom-inner">
             <div>© 2026 CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. Tất cả quyền được bảo lưu.</div>
-            <div>
-              <a href="admin.html" style="color:rgba(255,255,255,0.7);"><i class="fas fa-cog"></i> Trang Quản Trị /admin</a>
-            </div>
           </div>
         </div>
       </div>
@@ -454,18 +389,6 @@
       `;
     }
 
-    function shareFacebook() {
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
-    }
-
-    function shareZalo() {
-      window.open(`https://zalo.me/share?url=${encodeURIComponent(window.location.href)}`, '_blank');
-    }
-
-    function copyArticleLink() {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Đã sao chép liên kết bài viết vào clipboard!');
-    }
 
     document.addEventListener('DOMContentLoaded', loadArticleDetail);
   </script>

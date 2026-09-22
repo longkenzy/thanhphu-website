@@ -636,7 +636,7 @@ async function initHomeProjects() {
   if (!homeGrid) return;
 
   try {
-    const res = await fetch('/api/projects?limit=6');
+    const res = await fetch('/api/projects?limit=8');
     if (!res.ok) throw new Error('API response not ok');
     const data = await res.json();
 
@@ -653,7 +653,7 @@ async function initHomeProjects() {
         return;
       }
 
-      homeGrid.innerHTML = projects.slice(0, 6).map(p => {
+      homeGrid.innerHTML = projects.slice(0, 8).map(p => {
         const isOngoing = p.status && (p.status.toLowerCase().includes('đang') || p.status.toLowerCase().includes('thi công'));
         const statusStyle = isOngoing ? 'background: var(--accent); color: var(--dark);' : 'background: var(--primary); color: #ffffff;';
         

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "vinhomes",
+    "name": "VINHOMES",
+    "logo": "assets/images/partner-1.svg",
+    "website": "https://vinhomes.vn",
+    "order": 0,
+    "isActive": true
+  },
+  {
+    "id": "novaland",
+    "name": "NOVALAND",
+    "logo": "assets/images/partner-2.svg",
+    "website": "https://novaland.com.vn",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "id": "vsip-group",
+    "name": "VSIP GROUP",
+    "logo": "assets/images/partner-3.svg",
+    "website": "https://vsip.com.vn",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "id": "hoa-phat",
+    "name": "HÒA PHÁT",
+    "logo": "assets/images/partner-4.svg",
+    "website": "https://hoaphat.com.vn",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "id": "nam-long",
+    "name": "NAM LONG",
+    "logo": "assets/images/partner-5.svg",
+    "website": "https://namlongvn.com",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "id": "khang-dien",
+    "name": "KHANG ĐIỀN",
+    "logo": "assets/images/partner-6.svg",
+    "website": "https://khangdien.com.vn",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "_id": "6aacac434073403f745c53a2",
+    "name": "TEST PARTNER CORP (UPDATED)",
+    "logo": "assets/images/partner-1.svg",
+    "cloudinaryId": "",
+    "website": "https://updated.com",
+    "order": 10,
+    "isActive": false,
+    "createdAt": "2026-09-18T03:13:07.958Z",
+    "updatedAt": "2026-09-18T03:13:08.210Z",
+    "__v": 0
+  },
+  {
+    "name": "phú minh",
+    "logo": "https://res.cloudinary.com/bzwvyqou/image/upload/v1789717244/thanhphu/partners/phu-minh-1789717236044.png",
+    "cloudinaryId": "thanhphu/partners/phu-minh-1789717236044",
+    "website": "",
+    "order": 6,
+    "isActive": true,
+    "createdAt": "2026-09-18T07:40:40.510Z",
+    "updatedAt": "2026-09-18T07:40:40.510Z",
+    "_id": "6aaceaf84073403f745c53a3",
+    "__v": 0
+  }
+]
