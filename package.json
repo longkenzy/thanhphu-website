@@ -2,10 +2,10 @@
   "name": "thanhphu-construction-web",
   "version": "1.0.0",
   "description": "Website Công ty Cổ phần Đầu tư Xây lắp Thành Phú - Flat Design",
-  "main": "api/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node api/server.js",
-    "dev": "node api/server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "keywords": [
     "construction",

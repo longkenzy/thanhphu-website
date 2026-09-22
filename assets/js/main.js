@@ -1009,9 +1009,11 @@ async function initNewsPage() {
 
   try {
     const res = await fetch('/api/articles?status=published');
-    const data = await res.json();
-    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-      articles = data.data;
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        articles = data.data;
+      }
     }
   } catch (err) {
     console.warn('Could not fetch dynamic news, checking local database:', err.message || err);
@@ -1138,9 +1140,11 @@ async function initHomeNews() {
 
   try {
     const res = await fetch('/api/articles?status=published');
-    const data = await res.json();
-    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-      articles = data.data;
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        articles = data.data;
+      }
     }
   } catch (err) {
     console.warn('Could not fetch home news from API:', err.message || err);
@@ -1182,26 +1186,28 @@ async function initHomePartners() {
 
   try {
     const res = await fetch('/api/partners');
-    const data = await res.json();
-    if (!data.success || !Array.isArray(data.data) || data.data.length === 0) return;
+    if (res.ok) {
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.data) || data.data.length === 0) return;
 
-    const partners = data.data;
-    container.innerHTML = partners.map(partner => {
-      const isExternalLink = partner.website && partner.website.trim().length > 0;
-      const tag = isExternalLink ? 'a' : 'div';
-      const linkAttrs = isExternalLink 
-        ? `href="${partner.website}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(partner.name)}"` 
-        : `title="${escapeHtml(partner.name)}"`;
+      const partners = data.data;
+      container.innerHTML = partners.map(partner => {
+        const isExternalLink = partner.website && partner.website.trim().length > 0;
+        const tag = isExternalLink ? 'a' : 'div';
+        const linkAttrs = isExternalLink 
+          ? `href="${partner.website}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(partner.name)}"` 
+          : `title="${escapeHtml(partner.name)}"`;
 
-      return `
-        <${tag} ${linkAttrs} class="partner-item">
-          <img src="${partner.logo}" alt="${escapeHtml(partner.name)}" class="partner-logo-img" onerror="this.onerror=null; this.src='assets/images/partner-1.svg';">
-        </${tag}>
-      `;
-    }).join('');
+        return `
+          <${tag} ${linkAttrs} class="partner-item">
+            <img src="${partner.logo}" alt="${escapeHtml(partner.name)}" class="partner-logo-img" onerror="this.onerror=null; this.src='assets/images/partner-1.svg';">
+          </${tag}>
+        `;
+      }).join('');
 
-    if (typeof ScrollTrigger !== 'undefined') {
-      ScrollTrigger.refresh();
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
     }
   } catch (err) {
     console.warn('Could not fetch dynamic partners, keeping fallback markup:', err);
