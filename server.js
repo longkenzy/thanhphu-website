@@ -61,27 +61,40 @@ async function destroyCloudinaryImage(urlOrId) {
 }
 
 // MongoDB Atlas Configuration
-const MONGODB_URI = process.env.MONGODB_URI;
-const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME || 'thanhphu';
+let cachedMongoPromise = null;
 
 async function connectDB() {
-  if (mongoose.connection.readyState >= 1) {
-    return;
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
-  if (!MONGODB_URI) {
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
     console.warn('⚠️  MONGODB_URI chưa được cấu hình. Hệ thống sẽ hoạt động ở chế độ fallback file JSON.');
-    return;
+    return null;
+  }
+  if (cachedMongoPromise) {
+    try {
+      await cachedMongoPromise;
+      if (mongoose.connection.readyState === 1) return mongoose.connection;
+    } catch (e) {
+      cachedMongoPromise = null;
+    }
   }
   try {
-    await mongoose.connect(MONGODB_URI, {
-      dbName: MONGODB_DB_NAME,
-      serverSelectionTimeoutMS: 5000
+    cachedMongoPromise = mongoose.connect(mongoUri, {
+      dbName: process.env.MONGODB_DB_NAME || 'thanhphu',
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000
     });
+    await cachedMongoPromise;
     console.log(`✅ Kết nối MongoDB Atlas thành công! [Database: ${mongoose.connection.name}]`);
     await autoSeedDatabase();
+    return mongoose.connection;
   } catch (err) {
+    cachedMongoPromise = null;
     console.error('❌ Lỗi kết nối MongoDB Atlas:', err.message);
     console.log('⚠️  Đang sử dụng chế độ fallback file JSON.');
+    return null;
   }
 }
 
@@ -163,12 +176,16 @@ const PROJECTS_FILE = path.join(DATA_DIR, 'projects.json');
 const PARTNERS_FILE = path.join(DATA_DIR, 'partners.json');
 const UPLOADS_DIR = path.join(ROOT_DIR, 'assets', 'uploads');
 
-// Ensure data and uploads directories exist
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+// Ensure data and uploads directories exist safely
+try {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  }
+} catch (e) {
+  // Silent fallback for read-only environments (Vercel)
 }
 
 function getProjects() {
@@ -183,8 +200,10 @@ function getProjects() {
 function saveProjects(data) {
   try {
     fs.writeFileSync(PROJECTS_FILE, JSON.stringify(data, null, 2), 'utf8');
+    return true;
   } catch (e) {
-    console.error('Error saving projects.json:', e);
+    console.warn('⚠️ Cannot save projects to local file (read-only environment):', e.message);
+    return false;
   }
 }
 
@@ -200,8 +219,10 @@ function getPartners() {
 function savePartners(data) {
   try {
     fs.writeFileSync(PARTNERS_FILE, JSON.stringify(data, null, 2), 'utf8');
+    return true;
   } catch (e) {
-    console.error('Error saving partners.json:', e);
+    console.warn('⚠️ Cannot save partners to local file (read-only environment):', e.message);
+    return false;
   }
 }
 
@@ -412,18 +433,16 @@ const DEFAULT_ARTICLES = [
 function getArticles() {
   try {
     if (!fs.existsSync(ARTICLES_FILE)) {
-      fs.writeFileSync(ARTICLES_FILE, JSON.stringify(DEFAULT_ARTICLES, null, 2), 'utf8');
       return DEFAULT_ARTICLES;
     }
     const content = fs.readFileSync(ARTICLES_FILE, 'utf8');
     const parsed = JSON.parse(content);
     if (!Array.isArray(parsed) || parsed.length === 0) {
-      fs.writeFileSync(ARTICLES_FILE, JSON.stringify(DEFAULT_ARTICLES, null, 2), 'utf8');
       return DEFAULT_ARTICLES;
     }
     return parsed;
   } catch (err) {
-    console.error('Error reading articles file:', err);
+    console.warn('Warning reading articles file, using default:', err.message);
     return DEFAULT_ARTICLES;
   }
 }
@@ -433,7 +452,7 @@ function saveArticles(articles) {
     fs.writeFileSync(ARTICLES_FILE, JSON.stringify(articles, null, 2), 'utf8');
     return true;
   } catch (err) {
-    console.error('Error saving articles file:', err);
+    console.warn('⚠️ Cannot save articles to local file (read-only environment):', err.message);
     return false;
   }
 }
@@ -474,16 +493,70 @@ function mapProjectCategory(cat) {
   return { category: 'xay-lap', categoryName: 'Thi công xây lắp', badge: 'Xây Lắp Dân Dụng' };
 }
 
-// Parse JSON and urlencoded body with higher limit for image uploads
+// 1. CORS Headers Middleware (For Vercel preview domains & custom domains)
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
+// 2. Parse JSON and urlencoded body with higher limit for image uploads
 app.use(express.json({ limit: '30mb' }));
 app.use(express.urlencoded({ extended: true, limit: '30mb' }));
 
-// Serve static assets and uploads (Active on all environments)
+// 3. URL Normalizer: If a request comes directly to Serverless Function without /api prefix, normalize it so that app.get('/api/...') matches
+app.use((req, res, next) => {
+  if (req.url && !req.url.startsWith('/api') && (
+    req.url.startsWith('/articles') ||
+    req.url.startsWith('/projects') ||
+    req.url.startsWith('/slides') ||
+    req.url.startsWith('/partners') ||
+    req.url.startsWith('/stats') ||
+    req.url.startsWith('/upload') ||
+    req.url.startsWith('/auth') ||
+    req.url.startsWith('/contact') ||
+    req.url.startsWith('/apply') ||
+    req.url.startsWith('/health')
+  )) {
+    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+  }
+  next();
+});
+
+// 4. Ensure MongoDB connection is active for all API calls
+app.use(async (req, res, next) => {
+  if (req.url && (req.url.startsWith('/api') || req.path.startsWith('/api'))) {
+    if (mongoose.connection.readyState !== 1) {
+      try {
+        await connectDB();
+      } catch (err) {
+        console.warn('[MongoDB Middleware] Connect failed:', err.message);
+      }
+    }
+  }
+  next();
+});
+
+// 5. Health Check API Endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'fallback_or_connecting',
+    cloudinary: !!process.env.CLOUDINARY_CLOUD_NAME
+  });
+});
+
+// 6. Serve static assets and uploads (Active on all environments)
 app.use('/assets/uploads', express.static(UPLOADS_DIR));
 app.use('/assets', express.static(path.join(ROOT_DIR, 'assets')));
 app.use(express.static(ROOT_DIR));
 
-// Friendly route mappings for HTML pages (Always active on both local & Vercel)
+// 7. Friendly route mappings for HTML pages (Always active on both local & Vercel)
 const pageRoutes = [
   { path: '/', file: 'index.html' },
   { path: '/trang-chu', file: 'index.html' },
@@ -511,40 +584,6 @@ pageRoutes.forEach(route => {
       res.sendFile(path.join(ROOT_DIR, 'index.html'));
     }
   });
-});
-
-// URL Normalizer: If a request comes directly to Serverless Function without /api prefix, normalize it so that app.get('/api/...') matches
-app.use((req, res, next) => {
-  if (req.url && !req.url.startsWith('/api') && (
-    req.url.startsWith('/articles') ||
-    req.url.startsWith('/projects') ||
-    req.url.startsWith('/slides') ||
-    req.url.startsWith('/partners') ||
-    req.url.startsWith('/stats') ||
-    req.url.startsWith('/upload') ||
-    req.url.startsWith('/auth') ||
-    req.url.startsWith('/contact') ||
-    req.url.startsWith('/apply')
-  )) {
-    req.url = '/api' + req.url;
-  }
-  next();
-});
-
-// Ensure MongoDB connection is active for all API calls
-let isDbConnected = false;
-app.use(async (req, res, next) => {
-  if (req.url && (req.url.startsWith('/api') || req.path.startsWith('/api'))) {
-    if (!isDbConnected || mongoose.connection.readyState !== 1) {
-      try {
-        await connectDB();
-        isDbConnected = mongoose.connection.readyState === 1;
-      } catch (err) {
-        console.warn('[MongoDB Middleware] Connect failed:', err.message);
-      }
-    }
-  }
-  next();
 });
 
 // ==========================================
@@ -1420,14 +1459,22 @@ app.post('/api/upload', async (req, res) => {
     const uniqueFilename = `${safeBaseName}-${Date.now()}.${ext}`;
     const filePath = path.join(UPLOADS_DIR, uniqueFilename);
 
-    fs.writeFileSync(filePath, buffer);
-
-    res.json({
-      success: true,
-      url: `assets/uploads/${uniqueFilename}`,
-      provider: 'local',
-      message: 'Tải ảnh lên thư mục máy chủ thành công!'
-    });
+    try {
+      fs.writeFileSync(filePath, buffer);
+      return res.json({
+        success: true,
+        url: `assets/uploads/${uniqueFilename}`,
+        provider: 'local',
+        message: 'Tải ảnh lên thư mục máy chủ thành công!'
+      });
+    } catch (writeErr) {
+      return res.json({
+        success: true,
+        url: image,
+        provider: 'base64',
+        message: 'Lưu trữ ảnh trực tiếp thành công!'
+      });
+    }
   } catch (err) {
     console.error('Error in upload API:', err);
     res.status(500).json({ success: false, message: 'Lỗi máy chủ khi tải ảnh lên!' });
@@ -1519,7 +1566,7 @@ app.post('/api/slides', async (req, res) => {
           cloudinaryId = uploadRes.public_id;
         } catch (cloudErr) {
           console.warn('Lỗi upload ảnh slide lên Cloudinary:', cloudErr.message);
-          // Fallback to local
+          // Fallback to local file or raw base64
           const matches = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
           if (matches && matches.length === 3) {
             const mimeType = matches[1];
@@ -1527,9 +1574,13 @@ app.post('/api/slides', async (req, res) => {
             let ext = 'jpg';
             if (mimeType.includes('png')) ext = 'png';
             else if (mimeType.includes('webp')) ext = 'webp';
-            const filename = `slide-${Date.now()}.${ext}`;
-            fs.writeFileSync(path.join(UPLOADS_DIR, filename), buffer);
-            imageUrl = `assets/uploads/${filename}`;
+            try {
+              const filename = `slide-${Date.now()}.${ext}`;
+              fs.writeFileSync(path.join(UPLOADS_DIR, filename), buffer);
+              imageUrl = `assets/uploads/${filename}`;
+            } catch (writeErr) {
+              imageUrl = image;
+            }
           }
         }
       }
@@ -2562,9 +2613,13 @@ app.post('/api/partners', async (req, res) => {
             if (mimeType.includes('svg')) ext = 'svg';
             else if (mimeType.includes('webp')) ext = 'webp';
             else if (mimeType.includes('jpeg') || mimeType.includes('jpg')) ext = 'jpg';
-            const filename = `partner-${Date.now()}.${ext}`;
-            fs.writeFileSync(path.join(UPLOADS_DIR, filename), buffer);
-            logoUrl = `assets/uploads/${filename}`;
+            try {
+              const filename = `partner-${Date.now()}.${ext}`;
+              fs.writeFileSync(path.join(UPLOADS_DIR, filename), buffer);
+              logoUrl = `assets/uploads/${filename}`;
+            } catch (writeErr) {
+              logoUrl = logo;
+            }
           }
         }
       }
