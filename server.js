@@ -559,16 +559,25 @@ app.use(express.static(ROOT_DIR));
 // 7. Friendly route mappings for HTML pages (Always active on both local & Vercel)
 const pageRoutes = [
   { path: '/', file: 'index.html' },
+  { path: '/index.html', file: 'index.html' },
   { path: '/trang-chu', file: 'index.html' },
   { path: '/gioi-thieu', file: 'gioi-thieu.html' },
+  { path: '/gioi-thieu.html', file: 'gioi-thieu.html' },
   { path: '/linh-vuc', file: 'linh-vuc.html' },
+  { path: '/linh-vuc.html', file: 'linh-vuc.html' },
   { path: '/linh-vuc-hoat-dong', file: 'linh-vuc.html' },
   { path: '/du-an', file: 'du-an.html' },
+  { path: '/du-an.html', file: 'du-an.html' },
   { path: '/chi-tiet-du-an', file: 'chi-tiet-du-an.html' },
+  { path: '/chi-tiet-du-an.html', file: 'chi-tiet-du-an.html' },
   { path: '/tin-tuc', file: 'tin-tuc.html' },
+  { path: '/tin-tuc.html', file: 'tin-tuc.html' },
   { path: '/chi-tiet-tin-tuc', file: 'chi-tiet-tin-tuc.html' },
+  { path: '/chi-tiet-tin-tuc.html', file: 'chi-tiet-tin-tuc.html' },
   { path: '/tuyen-dung', file: 'tuyen-dung.html' },
+  { path: '/tuyen-dung.html', file: 'tuyen-dung.html' },
   { path: '/lien-he', file: 'lien-he.html' },
+  { path: '/lien-he.html', file: 'lien-he.html' },
   { path: '/admin', file: 'admin.html' },
   { path: '/admin.html', file: 'admin.html' },
   { path: '/login', file: 'admin.html' },
@@ -584,6 +593,15 @@ pageRoutes.forEach(route => {
       res.sendFile(path.join(ROOT_DIR, 'index.html'));
     }
   });
+});
+
+// Dynamic fallback for any existing .html file in root directory
+app.get('/:pageName.html', (req, res, next) => {
+  const filePath = path.join(ROOT_DIR, `${req.params.pageName}.html`);
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  next();
 });
 
 // ==========================================

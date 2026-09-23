@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/api",
@@ -61,10 +60,6 @@
     {
       "source": "/dang-nhap",
       "destination": "/admin.html"
-    },
-    {
-      "source": "/",
-      "destination": "/index.html"
     }
   ]
 }
