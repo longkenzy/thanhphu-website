@@ -24,24 +24,29 @@
 
   <!-- Hero Image Slider Section -->
   <section class="hero-slider" id="hero-slider">
-    <div class="hero-slides">
-      <!-- Slide 1: Dân Dụng & Cao Tầng -->
-      <div class="hero-slide active" data-slide="0">
-        <div class="hero-slide-bg" style="background-image: url('assets/images/hero-slide-1.svg');"></div>
-        <div class="hero-slide-overlay"></div>
-      </div>
-
-      <!-- Slide 2: Công Nghiệp & Nhà Xưởng -->
-      <div class="hero-slide" data-slide="1">
-        <div class="hero-slide-bg" style="background-image: url('assets/images/hero-slide-2.svg');"></div>
-        <div class="hero-slide-overlay"></div>
-      </div>
-
-      <!-- Slide 3: Hạ Tầng Kỹ Thuật -->
-      <div class="hero-slide" data-slide="2">
-        <div class="hero-slide-bg" style="background-image: url('assets/images/hero-slide-3.svg');"></div>
-        <div class="hero-slide-overlay"></div>
-      </div>
+    <div class="hero-slides" id="hero-slides-container">
+      <script>
+        (function() {
+          try {
+            var raw = localStorage.getItem('tp_cached_slides_data');
+            if (raw) {
+              var list = JSON.parse(raw);
+              if (Array.isArray(list) && list.length > 0) {
+                var html = '';
+                list.forEach(function(item, idx) {
+                  html += '<div class="hero-slide ' + (idx === 0 ? 'active' : '') + '" data-slide="' + idx + '">';
+                  html += '  <div class="hero-slide-bg" style="background-image: url(\'' + item.image + '\');"></div>';
+                  html += '  <div class="hero-slide-overlay"></div>';
+                  html += '</div>';
+                });
+                document.write(html);
+                return;
+              }
+            }
+          } catch(e) {}
+          document.write('<div class="hero-slide active" data-slide="0"><div class="hero-slide-bg" style="background: linear-gradient(135deg, #11141a, #1a1e26);"></div><div class="hero-slide-overlay"></div></div>');
+        })();
+      </script>
     </div>
 
     <!-- Navigation Arrows -->

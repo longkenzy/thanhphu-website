@@ -513,212 +513,241 @@ async function initHeroSlider() {
     return;
   }
 
-  // Clear any existing interval
   if (heroSliderInterval) {
     clearInterval(heroSliderInterval);
     heroSliderInterval = null;
   }
 
-  // Load dynamic slides from MongoDB Atlas & Cloudinary
+  const slidesContainer = slider.querySelector('.hero-slides') || document.getElementById('hero-slides-container');
+
+  // Helper: Render slides into DOM
+  function renderSlides(slidesList) {
+    if (!slidesContainer || !Array.isArray(slidesList) || slidesList.length === 0) return;
+    slidesContainer.innerHTML = '';
+    slidesList.forEach((item, idx) => {
+      const slideDiv = document.createElement('div');
+      slideDiv.className = `hero-slide ${idx === 0 ? 'active' : ''}`;
+      slideDiv.dataset.slide = idx;
+      slideDiv.innerHTML = `
+        <div class="hero-slide-bg" style="background-image: url('${item.image}');"></div>
+        <div class="hero-slide-overlay"></div>
+      `;
+      slidesContainer.appendChild(slideDiv);
+    });
+  }
+
+  // 1. Instant Cache Render
+  try {
+    const rawCache = localStorage.getItem('tp_cached_slides_data');
+    if (rawCache) {
+      const cachedList = JSON.parse(rawCache);
+      if (Array.isArray(cachedList) && cachedList.length > 0) {
+        const currentSlides = slider.querySelectorAll('.hero-slide');
+        if (currentSlides.length === 0 || !slider.querySelector('.hero-slide-bg[style*="url("]')) {
+          renderSlides(cachedList);
+        }
+      }
+    }
+  } catch (e) {}
+
   let dynamicDuration = 5.0;
+  try {
+    const cachedSpeed = localStorage.getItem('tp_cached_slides_speed');
+    if (cachedSpeed) {
+      const p = parseFloat(cachedSpeed);
+      if (!isNaN(p) && p > 0) dynamicDuration = p;
+    }
+  } catch (e) {}
+
+  // Function to bind slider navigation, controls, and autoplay
+  function bindSlider(duration) {
+    if (heroSliderInterval) {
+      clearInterval(heroSliderInterval);
+      heroSliderInterval = null;
+    }
+
+    const slides = slider.querySelectorAll('.hero-slide');
+    const prevBtn = document.getElementById('hero-prev');
+    const nextBtn = document.getElementById('hero-next');
+
+    if (!slides || slides.length === 0) return;
+
+    // Clean inline styles
+    slides.forEach(s => { s.style.opacity = ''; });
+
+    let currentIndex = 0;
+    slides.forEach((slide, idx) => {
+      if (slide.classList.contains('active')) {
+        currentIndex = idx;
+      }
+    });
+
+    slides.forEach((s, idx) => {
+      if (idx === currentIndex) s.classList.add('active');
+      else s.classList.remove('active');
+    });
+
+    if (slides.length <= 1) return;
+
+    const intervalMs = Math.max(1500, duration * 1000);
+    let isTransitioning = false;
+    let isHovered = false;
+
+    function goToSlide(targetIndex) {
+      if (targetIndex === currentIndex || isTransitioning) return;
+      isTransitioning = true;
+
+      const currentSlide = slides[currentIndex];
+      const nextSlide = slides[targetIndex];
+
+      if (currentSlide) {
+        currentSlide.classList.remove('active');
+        currentSlide.style.opacity = '';
+      }
+      if (nextSlide) {
+        nextSlide.classList.add('active');
+        nextSlide.style.opacity = '';
+      }
+
+      currentIndex = targetIndex;
+      setTimeout(() => { isTransitioning = false; }, 650);
+    }
+
+    function nextSlide() {
+      goToSlide((currentIndex + 1) % slides.length);
+    }
+
+    function prevSlide() {
+      goToSlide((currentIndex - 1 + slides.length) % slides.length);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      heroSliderInterval = setInterval(() => {
+        if (isHovered || document.hidden || isTransitioning) return;
+        nextSlide();
+      }, intervalMs);
+    }
+
+    function stopAutoplay() {
+      if (heroSliderInterval) {
+        clearInterval(heroSliderInterval);
+        heroSliderInterval = null;
+      }
+    }
+
+    function restartAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    if (nextBtn) {
+      nextBtn.onclick = (e) => {
+        e.preventDefault();
+        nextSlide();
+        restartAutoplay();
+      };
+    }
+
+    if (prevBtn) {
+      prevBtn.onclick = (e) => {
+        e.preventDefault();
+        prevSlide();
+        restartAutoplay();
+      };
+    }
+
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) {
+      slider.onmouseenter = () => { isHovered = true; };
+      slider.onmouseleave = () => { isHovered = false; };
+    }
+
+    // Touch Swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    slider.ontouchstart = (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    };
+    slider.ontouchend = (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeThreshold = 45;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        nextSlide();
+        restartAutoplay();
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        prevSlide();
+        restartAutoplay();
+      }
+    };
+
+    // Visibility change handler
+    if (heroSliderVisHandler) {
+      document.removeEventListener('visibilitychange', heroSliderVisHandler);
+    }
+    heroSliderVisHandler = () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        restartAutoplay();
+      }
+    };
+    document.addEventListener('visibilitychange', heroSliderVisHandler);
+
+    // Keyboard Navigation
+    if (heroSliderKeyHandler) {
+      document.removeEventListener('keydown', heroSliderKeyHandler);
+    }
+    heroSliderKeyHandler = (e) => {
+      if (!document.getElementById('hero-slider')) {
+        document.removeEventListener('keydown', heroSliderKeyHandler);
+        heroSliderKeyHandler = null;
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+        restartAutoplay();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+        restartAutoplay();
+      }
+    };
+    document.addEventListener('keydown', heroSliderKeyHandler);
+
+    startAutoplay();
+  }
+
+  // Bind controls immediately with currently rendered (or cached) slides
+  bindSlider(dynamicDuration);
+
+  // 2. Fetch fresh dynamic slides from server in background
   try {
     const res = await fetch('/api/slides');
     if (res.ok) {
       const data = await res.json();
       if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-        const slidesContainer = slider.querySelector('.hero-slides');
-        if (slidesContainer) {
-          slidesContainer.innerHTML = '';
-          data.data.forEach((item, idx) => {
-            const slideDiv = document.createElement('div');
-            slideDiv.className = `hero-slide ${idx === 0 ? 'active' : ''}`;
-            slideDiv.dataset.slide = idx;
-            slideDiv.innerHTML = `
-              <div class="hero-slide-bg" style="background-image: url('${item.image}');"></div>
-              <div class="hero-slide-overlay"></div>
-            `;
-            slidesContainer.appendChild(slideDiv);
-          });
-        }
+        const rawNew = JSON.stringify(data.data);
+        const rawOld = localStorage.getItem('tp_cached_slides_data');
+        let shouldReRender = (rawNew !== rawOld);
+
         if (data.settings && data.settings.autoplaySpeed) {
           const parsed = parseFloat(data.settings.autoplaySpeed);
           if (!isNaN(parsed) && parsed > 0) {
             dynamicDuration = parsed;
+            localStorage.setItem('tp_cached_slides_speed', parsed.toString());
           }
+        }
+
+        if (shouldReRender) {
+          localStorage.setItem('tp_cached_slides_data', rawNew);
+          renderSlides(data.data);
+          bindSlider(dynamicDuration);
         }
       }
     }
   } catch (err) {
-    console.warn('Dùng slide mặc định do không kết nối được API:', err.message);
+    console.warn('Dùng slide từ cache/mặc định:', err.message);
   }
-
-  const slides = slider.querySelectorAll('.hero-slide');
-  const prevBtn = document.getElementById('hero-prev');
-  const nextBtn = document.getElementById('hero-next');
-
-  if (!slides || slides.length <= 1) return;
-
-  // Clean inline styles from all slides
-  slides.forEach(s => {
-    s.style.opacity = '';
-  });
-
-  let currentIndex = 0;
-  slides.forEach((slide, idx) => {
-    if (slide.classList.contains('active')) {
-      currentIndex = idx;
-    }
-  });
-
-  // Ensure only one slide is active initially
-  slides.forEach((s, idx) => {
-    if (idx === currentIndex) {
-      s.classList.add('active');
-    } else {
-      s.classList.remove('active');
-    }
-  });
-
-  const intervalMs = Math.max(1500, dynamicDuration * 1000);
-  let isTransitioning = false;
-  let isHovered = false;
-
-  function goToSlide(targetIndex) {
-    if (targetIndex === currentIndex) return;
-
-    isTransitioning = true;
-
-    const currentSlide = slides[currentIndex];
-    const nextSlide = slides[targetIndex];
-
-    if (currentSlide) {
-      currentSlide.classList.remove('active');
-      currentSlide.style.opacity = '';
-    }
-    if (nextSlide) {
-      nextSlide.classList.add('active');
-      nextSlide.style.opacity = '';
-    }
-
-    currentIndex = targetIndex;
-
-    // Reset transitioning flag after CSS transition finishes
-    setTimeout(() => {
-      isTransitioning = false;
-    }, 750);
-  }
-
-  function nextSlide() {
-    goToSlide((currentIndex + 1) % slides.length);
-  }
-
-  function prevSlide() {
-    goToSlide((currentIndex - 1 + slides.length) % slides.length);
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    heroSliderInterval = setInterval(() => {
-      if (isHovered || document.hidden || isTransitioning) return;
-      nextSlide();
-    }, intervalMs);
-  }
-
-  function stopAutoplay() {
-    if (heroSliderInterval) {
-      clearInterval(heroSliderInterval);
-      heroSliderInterval = null;
-    }
-  }
-
-  function restartAutoplay() {
-    stopAutoplay();
-    startAutoplay();
-  }
-
-  // Next / Prev button event handlers with instant reset of interval
-  if (nextBtn) {
-    nextBtn.onclick = (e) => {
-      e.preventDefault();
-      nextSlide();
-      restartAutoplay();
-    };
-  }
-
-  if (prevBtn) {
-    prevBtn.onclick = (e) => {
-      e.preventDefault();
-      prevSlide();
-      restartAutoplay();
-    };
-  }
-
-  // Mouse hover events (Desktop only)
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (!isTouchDevice) {
-    slider.onmouseenter = () => {
-      isHovered = true;
-    };
-    slider.onmouseleave = () => {
-      isHovered = false;
-    };
-  }
-
-  // Touch Swipe Support for Mobile & Tablet
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  slider.ontouchstart = (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  };
-
-  slider.ontouchend = (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const swipeThreshold = 45;
-    if (touchEndX < touchStartX - swipeThreshold) {
-      nextSlide();
-      restartAutoplay();
-    } else if (touchEndX > touchStartX + swipeThreshold) {
-      prevSlide();
-      restartAutoplay();
-    }
-  };
-
-  // Visibility change handler (tab switch or browser minimize)
-  if (heroSliderVisHandler) {
-    document.removeEventListener('visibilitychange', heroSliderVisHandler);
-  }
-  heroSliderVisHandler = () => {
-    if (document.hidden) {
-      stopAutoplay();
-    } else {
-      restartAutoplay();
-    }
-  };
-  document.addEventListener('visibilitychange', heroSliderVisHandler);
-
-  // Keyboard Navigation (Left / Right Arrows)
-  if (heroSliderKeyHandler) {
-    document.removeEventListener('keydown', heroSliderKeyHandler);
-  }
-  heroSliderKeyHandler = (e) => {
-    if (!document.getElementById('hero-slider')) {
-      document.removeEventListener('keydown', heroSliderKeyHandler);
-      heroSliderKeyHandler = null;
-      return;
-    }
-    if (e.key === 'ArrowRight') {
-      nextSlide();
-      restartAutoplay();
-    } else if (e.key === 'ArrowLeft') {
-      prevSlide();
-      restartAutoplay();
-    }
-  };
-  document.addEventListener('keydown', heroSliderKeyHandler);
-
-  // Start Autoplay loop
-  startAutoplay();
 }
 
 // ==========================================
