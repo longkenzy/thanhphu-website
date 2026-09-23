@@ -25,8 +25,7 @@ thanhphu/
 │   │   ├── header.js            # Script nạp Shared Header dùng chung tức thì cho tất cả các trang
 │   │   └── main.js              # Cơ chế Seamless SPA (chuyển trang mượt mà, HEADER GIỮ NGUYÊN không bị reload)
 │   └── images/
-│       ├── logo.png             # Logo công ty
-│       └── THÀNH PHÚ.png        # Logo gốc
+│       └── logo.png             # Logo công ty chính thức
 ├── index.html                   # 1. Trang chủ (Hero banner, số liệu, năng lực, dự án nổi bật, đối tác)
 ├── gioi-thieu.html              # 2. Giới thiệu (Lịch sử hình thành, tầm nhìn - sứ mệnh, ban lãnh đạo, năng lực thiết bị)
 ├── linh-vuc.html                # 3. Lĩnh vực hoạt động (Dân dụng & cao tầng, công nghiệp & nhà xưởng, hạ tầng, kết cấu thép & MEP)
