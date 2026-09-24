@@ -252,12 +252,13 @@ async function initPageFeatures() {
   }
 
   // 5. Đối tác & Chủ đầu tư chiến lược trang chủ (index.html)
-  if (document.getElementById('home-partners-grid') || document.querySelector('.partner-logo-grid')) {
+  if (document.getElementById('home-partners-marquee') || document.getElementById('home-partners-grid') || document.querySelector('.partner-marquee-track') || document.querySelector('.partner-logo-grid')) {
     initHomePartners();
   }
 
   initProjectFilter();
   initContactForms();
+  initJobAccordion();
   initBackToTop();
 
   // 6. Motion Design & Micro-interactions
@@ -1006,6 +1007,72 @@ function initContactForms() {
 }
 
 // ==========================================
+// 8B. EXPANDABLE CAREER POSITIONS (ACCORDION)
+// ==========================================
+function initJobAccordion() {
+  const accordionContainer = document.getElementById('vacancies-accordion') || document.querySelector('.job-list');
+  if (!accordionContainer) return;
+
+  const jobCards = accordionContainer.querySelectorAll('.job-card');
+  if (!jobCards.length) return;
+
+  jobCards.forEach(card => {
+    const header = card.querySelector('.job-card-header');
+    const body = card.querySelector('.job-card-body');
+    const toggleBtn = card.querySelector('.job-toggle-btn');
+    const toggleText = card.querySelector('.toggle-text');
+    const applyBtn = card.querySelector('.job-apply-btn');
+
+    if (!header || !body) return;
+
+    // Isolate apply button click from toggling accordion
+    if (applyBtn) {
+      applyBtn.onclick = (e) => {
+        e.stopPropagation();
+      };
+    }
+
+    const toggleCard = (e) => {
+      if (e && e.target && e.target.closest('a') && !e.target.closest('.job-toggle-btn')) {
+        return;
+      }
+
+      const isExpanded = card.classList.contains('is-expanded');
+
+      if (isExpanded) {
+        card.classList.remove('is-expanded');
+        body.style.maxHeight = '0px';
+        if (toggleText) toggleText.textContent = 'Chi tiết';
+      } else {
+        card.classList.add('is-expanded');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        if (toggleText) toggleText.textContent = 'Thu gọn';
+      }
+    };
+
+    header.onclick = toggleCard;
+
+    if (toggleBtn) {
+      toggleBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleCard(e);
+      };
+    }
+  });
+
+  // Re-adjust max-height on window resize for any open cards
+  if (!window._jobAccordionResizeBound) {
+    window._jobAccordionResizeBound = true;
+    window.addEventListener('resize', () => {
+      const openBodies = document.querySelectorAll('.job-card.is-expanded .job-card-body');
+      openBodies.forEach(b => {
+        b.style.maxHeight = b.scrollHeight + 'px';
+      });
+    });
+  }
+}
+
+// ==========================================
 // 9. TOAST NOTIFICATION UTILITY
 // ==========================================
 function showToast(message) {
@@ -1207,11 +1274,12 @@ async function initHomeNews() {
 }
 
 // ==========================================
-// 12. DYNAMIC STRATEGIC PARTNERS LOADER
+// 12. DYNAMIC STRATEGIC PARTNERS LOADER (INFINITE MARQUEE)
 // ==========================================
 async function initHomePartners() {
-  const container = document.getElementById('home-partners-grid') || document.querySelector('.partner-logo-grid');
-  if (!container) return;
+  const marqueeTrack = document.getElementById('home-partners-track') || document.querySelector('.partner-marquee-track');
+  const gridContainer = document.getElementById('home-partners-grid') || document.querySelector('.partner-logo-grid');
+  if (!marqueeTrack && !gridContainer) return;
 
   try {
     const res = await fetch('/api/partners');
@@ -1220,7 +1288,7 @@ async function initHomePartners() {
       if (!data.success || !Array.isArray(data.data) || data.data.length === 0) return;
 
       const partners = data.data;
-      container.innerHTML = partners.map(partner => {
+      const itemsHtml = partners.map(partner => {
         const isExternalLink = partner.website && partner.website.trim().length > 0;
         const tag = isExternalLink ? 'a' : 'div';
         const linkAttrs = isExternalLink 
@@ -1233,6 +1301,20 @@ async function initHomePartners() {
           </${tag}>
         `;
       }).join('');
+
+      if (marqueeTrack) {
+        // If there are few partners (< 6), duplicate them to guarantee continuous loop width
+        let repeatContent = itemsHtml;
+        if (partners.length < 6) {
+          repeatContent = itemsHtml + itemsHtml;
+        }
+        marqueeTrack.innerHTML = `
+          <div class="partner-marquee-content">${repeatContent}</div>
+          <div class="partner-marquee-content" aria-hidden="true">${repeatContent}</div>
+        `;
+      } else if (gridContainer) {
+        gridContainer.innerHTML = itemsHtml;
+      }
 
       if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.refresh();

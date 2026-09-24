@@ -67,71 +67,369 @@
         <p class="section-desc">Hãy chọn vị trí phù hợp với năng lực và nộp hồ sơ trực tuyến ngay hôm nay.</p>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 18px; max-width: 960px; margin: 0 auto 50px;">
+      <div class="job-list" id="vacancies-accordion">
         
         <!-- Job 1 -->
-        <div style="background: #ffffff; border: 1px solid var(--gray-border); border-left: 5px solid var(--primary); padding: 25px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-          <div>
-            <span style="background: var(--primary-soft); color: var(--primary); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; text-transform: uppercase;">Ban Chỉ Huy Công Trường</span>
-            <h3 style="font-size: 1.28rem; margin: 8px 0 6px;">Chỉ Huy Trưởng Công Trình Dân Dụng Cao Tầng</h3>
-            <div style="display: flex; gap: 20px; font-size: 0.86rem; color: var(--text-muted); flex-wrap: wrap;">
-              <span><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> TP. Hồ Chí Minh</span>
-              <span><i class="fas fa-money-bill-wave" style="color:var(--accent-dark);"></i> 35,000,000 - 50,000,000 VNĐ</span>
-              <span><i class="fas fa-briefcase"></i> Kinh nghiệm: 5 năm trở lên</span>
+        <div class="job-card" data-job-id="job-cht">
+          <div class="job-card-header">
+            <div class="job-card-info">
+              <div class="job-header-line">
+                <span class="job-badge">Ban Chỉ Huy Công Trường</span>
+                <span class="job-status-dot"><i class="fas fa-circle"></i> Tuyển gấp</span>
+              </div>
+              <h3 class="job-title">Chỉ Huy Trưởng Công Trình Dân Dụng Cao Tầng</h3>
+              <div class="job-meta-row">
+                <span class="job-meta-item"><i class="fas fa-location-dot"></i> TP. Hồ Chí Minh & lân cận</span>
+                <span class="job-meta-item"><i class="fas fa-briefcase"></i> Kinh nghiệm: ≥ 5 năm</span>
+                <span class="job-salary-pill"><i class="fas fa-coins" style="font-size: 0.72rem;"></i> 35 - 50 Triệu</span>
+              </div>
+            </div>
+            <div class="job-card-action">
+              <button type="button" class="job-toggle-btn" aria-label="Xem chi tiết tuyển dụng">
+                <span class="toggle-text">Chi tiết</span>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+              </button>
+              <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Chỉ Huy Trưởng Công Trình" class="btn btn-primary btn-sm job-apply-btn">Ứng Tuyển</a>
             </div>
           </div>
-          <a href="mailto:tuyendung@thanhphuxd.com" class="btn btn-primary btn-sm">Ứng Tuyển</a>
+          
+          <div class="job-card-body">
+            <div class="job-body-inner">
+              <div class="job-detail-grid">
+                <!-- Block 1: Mô tả công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-clipboard-list"></i> MÔ TẢ CÔNG VIỆC</h4>
+                  <ul class="job-detail-list">
+                    <li>Quản lý toàn diện tiến độ thi công, an toàn lao động, vệ sinh môi trường và chất lượng công trình theo hợp đồng.</li>
+                    <li>Lập kế hoạch tổ chức thi công tổng thể & chi tiết từng giai đoạn (phần ngầm, kết cấu thân, hoàn thiện).</li>
+                    <li>Điều phối máy móc thiết bị, vật tư và nhân sự các tổ đội, nhà thầu phụ tại công trường.</li>
+                    <li>Chủ trì làm việc với Chủ đầu tư, Tư vấn giám sát và các cơ quan chức năng địa phương.</li>
+                    <li>Kiểm soát chi phí thi công, duyệt thanh quyết toán và hoàn thiện hồ sơ hoàn công dự án.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 2: Yêu cầu công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-user-check"></i> YÊU CẦU ỨNG VIÊN</h4>
+                  <ul class="job-detail-list">
+                    <li>Tốt nghiệp Đại học chính quy chuyên ngành Xây dựng Dân dụng & Công nghiệp.</li>
+                    <li>Tối thiểu 05 năm kinh nghiệm làm Chỉ huy trưởng hoặc Chỉ huy phó dự án cao tầng ≥ 15 tầng.</li>
+                    <li>Có Chứng chỉ hành nghề Giám sát thi công / Chỉ huy trưởng Hạng I hoặc Hạng II còn hiệu lực.</li>
+                    <li>Nắm vững quy chuẩn xây dựng, đọc hiểu bản vẽ kết cấu, kiến trúc & MEP thành thạo.</li>
+                    <li>Kỹ năng lãnh đạo, giải quyết vấn đề, chịu được áp lực cao và sẵn sàng đi công tác nếu cần.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 3: Quyền lợi đãi ngộ -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-gift"></i> QUYỀN LỢI & ĐÃI NGỘ</h4>
+                  <ul class="job-detail-list">
+                    <li>Thu nhập: <strong>35.000.000 - 50.000.000 VNĐ/tháng</strong> (thỏa thuận theo năng lực thực tế).</li>
+                    <li>Thưởng dự án theo từng giai đoạn và thưởng hoàn thành vượt tiến độ công trình.</li>
+                    <li>Phụ cấp chức vụ, phụ cấp điện thoại, xe đưa đón công tác hoặc công tác phí đầy đủ.</li>
+                    <li>Bảo hiểm sức khỏe cao cấp PVI Care 24/7, BHXH - BHYT - BHTN theo luật định.</li>
+                    <li>Khám sức khỏe tổng quát định kỳ, du lịch nghỉ dưỡng hàng năm cùng công ty.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 4: Thông tin chung & Hạn nộp -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-info-circle"></i> THÔNG TIN LÀM VIỆC</h4>
+                  <div class="job-meta-list">
+                    <div class="meta-line"><strong>Địa điểm:</strong> Các dự án tại TP.HCM, Long An, Bình Dương</div>
+                    <div class="meta-line"><strong>Thời gian:</strong> Thứ 2 - Thứ 7 (Theo đặc thù tiến độ công trình)</div>
+                    <div class="meta-line"><strong>Hình thức:</strong> Toàn thời gian cố định</div>
+                    <div class="meta-line"><strong>Hạn nộp:</strong> 31/10/2026 (Ưu tiên hồ sơ nộp sớm)</div>
+                    <div class="meta-line"><strong>Số lượng:</strong> 02 vị trí</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div class="job-expand-footer">
+                <div class="job-footer-note">
+                  <i class="fas fa-file-invoice"></i> Ứng viên gửi CV về: <strong>tuyendung@thanhphuxd.com</strong> (Tiêu đề: [CHT] - [Họ và tên])
+                </div>
+                <div class="job-footer-actions">
+                  <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Chỉ Huy Trưởng Công Trình" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Nộp Hồ Sơ Ngay</a>
+                  <a href="tel:0903123456" class="btn btn-outline btn-sm"><i class="fas fa-phone-alt"></i> Hotline HR: 0903 123 456</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Job 2 -->
-        <div style="background: #ffffff; border: 1px solid var(--gray-border); border-left: 5px solid var(--accent); padding: 25px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-          <div>
-            <span style="background: var(--accent-soft); color: var(--dark); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; text-transform: uppercase;">Phòng Kỹ Thuật - QS</span>
-            <h3 style="font-size: 1.28rem; margin: 8px 0 6px;">Kỹ Sư Quản Lý Khối Lượng & Dự Toán (QS Engineer)</h3>
-            <div style="display: flex; gap: 20px; font-size: 0.86rem; color: var(--text-muted); flex-wrap: wrap;">
-              <span><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> Văn phòng Bình Thạnh, TP.HCM</span>
-              <span><i class="fas fa-money-bill-wave" style="color:var(--accent-dark);"></i> 18,000,000 - 28,000,000 VNĐ</span>
-              <span><i class="fas fa-briefcase"></i> Kinh nghiệm: 3 năm trở lên</span>
+        <div class="job-card accent-amber" data-job-id="job-qs">
+          <div class="job-card-header">
+            <div class="job-card-info">
+              <div class="job-header-line">
+                <span class="job-badge">Phòng Kỹ Thuật - QS</span>
+                <span class="job-status-dot"><i class="fas fa-circle"></i> Đang tuyển</span>
+              </div>
+              <h3 class="job-title">Kỹ Sư Quản Lý Khối Lượng & Dự Toán (QS Engineer)</h3>
+              <div class="job-meta-row">
+                <span class="job-meta-item"><i class="fas fa-location-dot"></i> VP Bình Thạnh, TP.HCM</span>
+                <span class="job-meta-item"><i class="fas fa-briefcase"></i> Kinh nghiệm: ≥ 3 năm</span>
+                <span class="job-salary-pill"><i class="fas fa-coins" style="font-size: 0.72rem;"></i> 18 - 28 Triệu</span>
+              </div>
+            </div>
+            <div class="job-card-action">
+              <button type="button" class="job-toggle-btn" aria-label="Xem chi tiết tuyển dụng">
+                <span class="toggle-text">Chi tiết</span>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+              </button>
+              <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Kỹ Sư QS" class="btn btn-primary btn-sm job-apply-btn">Ứng Tuyển</a>
             </div>
           </div>
-          <a href="mailto:tuyendung@thanhphuxd.com" class="btn btn-primary btn-sm">Ứng Tuyển</a>
+
+          <div class="job-card-body">
+            <div class="job-body-inner">
+              <div class="job-detail-grid">
+                <!-- Block 1: Mô tả công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-clipboard-list"></i> MÔ TẢ CÔNG VIỆC</h4>
+                  <ul class="job-detail-list">
+                    <li>Bóc tách khối lượng chi tiết từ bản vẽ thiết kế kỹ thuật (kiến trúc, kết cấu, hạ tầng).</li>
+                    <li>Lập bảng dự toán chi phí, bảng khối lượng mời thầu (BOQ) và hồ sơ chào giá dự thầu.</li>
+                    <li>Kiểm tra, rà soát và xác nhận khối lượng nghiệm thu hoàn thành của các thầu phụ định kỳ.</li>
+                    <li>Theo dõi phát sinh công việc ngoài hợp đồng, phối hợp BCH làm việc với TVGS / CĐT.</li>
+                    <li>Lập hồ sơ thanh quyết toán giai đoạn và quyết toán hoàn công công trình.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 2: Yêu cầu công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-user-check"></i> YÊU CẦU ỨNG VIÊN</h4>
+                  <ul class="job-detail-list">
+                    <li>Tốt nghiệp Đại học chuyên ngành Kinh tế Xây dựng, Kỹ thuật Công trình hoặc liên quan.</li>
+                    <li>Kinh nghiệm từ 03 năm trở lên làm QS cho Tổng thầu xây dựng công trình dân dụng/công nghiệp.</li>
+                    <li>Thành thạo các phần mềm chuyên ngành: Dự toán G8/F1, AutoCAD, MS Excel nâng cao (VBA là lợi thế).</li>
+                    <li>Cẩn thận, tỉ mỉ, có tư duy logic và kỹ năng phân tích đơn giá định mức chuẩn xác.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 3: Quyền lợi đãi ngộ -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-gift"></i> QUYỀN LỢI & ĐÃI NGỘ</h4>
+                  <ul class="job-detail-list">
+                    <li>Thu nhập: <strong>18.000.000 - 28.000.000 VNĐ/tháng</strong> + Thưởng hiệu quả dự án.</li>
+                    <li>Làm việc tại Văn phòng Tổng công ty với trang thiết bị làm việc hiện đại.</li>
+                    <li>Chế độ BHXH, BHYT, BHTN đầy đủ; Thưởng lễ tết, lương tháng 13++, thưởng chuyên cần.</li>
+                    <li>Môi trường làm việc năng động, lộ trình phát triển rõ ràng lên Trưởng nhóm/Phó phòng QS.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 4: Thông tin chung & Hạn nộp -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-info-circle"></i> THÔNG TIN LÀM VIỆC</h4>
+                  <div class="job-meta-list">
+                    <div class="meta-line"><strong>Địa điểm:</strong> Trụ sở TP: 22A Vũ Ngọc Phan, P.13, Q. Bình Thạnh, TP.HCM</div>
+                    <div class="meta-line"><strong>Thời gian:</strong> Thứ 2 - Thứ 6 (8h00 - 17h00) & Sáng Thứ 7</div>
+                    <div class="meta-line"><strong>Hình thức:</strong> Toàn thời gian cố định (Văn phòng)</div>
+                    <div class="meta-line"><strong>Hạn nộp:</strong> 31/10/2026</div>
+                    <div class="meta-line"><strong>Số lượng:</strong> 03 vị trí</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div class="job-expand-footer">
+                <div class="job-footer-note">
+                  <i class="fas fa-file-invoice"></i> Ứng viên gửi CV về: <strong>tuyendung@thanhphuxd.com</strong> (Tiêu đề: [QS] - [Họ và tên])
+                </div>
+                <div class="job-footer-actions">
+                  <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Kỹ Sư QS" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Nộp Hồ Sơ Ngay</a>
+                  <a href="tel:0903123456" class="btn btn-outline btn-sm"><i class="fas fa-phone-alt"></i> Hotline HR: 0903 123 456</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Job 3 -->
-        <div style="background: #ffffff; border: 1px solid var(--gray-border); border-left: 5px solid var(--dark); padding: 25px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-          <div>
-            <span style="background: rgba(22, 25, 30, 0.08); color: var(--dark); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; text-transform: uppercase;">Ban Cơ Điện (MEP)</span>
-            <h3 style="font-size: 1.28rem; margin: 8px 0 6px;">Kỹ Sư Giám Sát Cơ Điện (MEP Engineer)</h3>
-            <div style="display: flex; gap: 20px; font-size: 0.86rem; color: var(--text-muted); flex-wrap: wrap;">
-              <span><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> Bình Dương / Long An</span>
-              <span><i class="fas fa-money-bill-wave" style="color:var(--accent-dark);"></i> 18,000,000 - 25,000,000 VNĐ</span>
-              <span><i class="fas fa-briefcase"></i> Kinh nghiệm: 2 - 4 năm</span>
+        <div class="job-card accent-slate" data-job-id="job-mep">
+          <div class="job-card-header">
+            <div class="job-card-info">
+              <div class="job-header-line">
+                <span class="job-badge">Ban Cơ Điện (MEP)</span>
+                <span class="job-status-dot"><i class="fas fa-circle"></i> Đang tuyển</span>
+              </div>
+              <h3 class="job-title">Kỹ Sư Giám Sát Cơ Điện (MEP Engineer)</h3>
+              <div class="job-meta-row">
+                <span class="job-meta-item"><i class="fas fa-location-dot"></i> Bình Dương / Long An / TP.HCM</span>
+                <span class="job-meta-item"><i class="fas fa-briefcase"></i> Kinh nghiệm: 2 - 4 năm</span>
+                <span class="job-salary-pill"><i class="fas fa-coins" style="font-size: 0.72rem;"></i> 18 - 25 Triệu</span>
+              </div>
+            </div>
+            <div class="job-card-action">
+              <button type="button" class="job-toggle-btn" aria-label="Xem chi tiết tuyển dụng">
+                <span class="toggle-text">Chi tiết</span>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+              </button>
+              <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Kỹ Sư MEP" class="btn btn-primary btn-sm job-apply-btn">Ứng Tuyển</a>
             </div>
           </div>
-          <a href="mailto:tuyendung@thanhphuxd.com" class="btn btn-primary btn-sm">Ứng Tuyển</a>
+
+          <div class="job-card-body">
+            <div class="job-body-inner">
+              <div class="job-detail-grid">
+                <!-- Block 1: Mô tả công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-clipboard-list"></i> MÔ TẢ CÔNG VIỆC</h4>
+                  <ul class="job-detail-list">
+                    <li>Giám sát thi công và lắp đặt các hệ thống MEP: Cấp thoát nước, Điện - Chiếu sáng, HVAC, Hệ thống PCCC.</li>
+                    <li>Rà soát bản vẽ Shop Drawing MEP, phát hiện và xử lý kịp thời các vị trí xung đột kết cấu & kiến trúc.</li>
+                    <li>Kiểm tra chất lượng vật tư cơ điện đầu vào tại công trình theo đúng hồ sơ phê duyệt mẫu.</li>
+                    <li>Tổ chức nghiệm thu nội bộ và nghiệm thu với TVGS / CĐT theo quy trình kỹ thuật.</li>
+                    <li>Tham gia công tác chạy thử liên động (T&C) và bàn giao hệ thống kỹ thuật đưa vào sử dụng.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 2: Yêu cầu công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-user-check"></i> YÊU CẦU ỨNG VIÊN</h4>
+                  <ul class="job-detail-list">
+                    <li>Tốt nghiệp Đại học chuyên ngành Điện, Kỹ thuật Cơ điện, Cấp thoát nước hoặc Nhiệt - Điện lạnh.</li>
+                    <li>Có từ 02 - 04 năm kinh nghiệm thi công/giám sát cơ điện các công trình cao tầng hoặc nhà xưởng.</li>
+                    <li>Sử dụng thành thạo AutoCAD, MS Project; biết sử dụng Revit MEP là một điểm cộng.</li>
+                    <li>Có Chứng chỉ hành nghề Giám sát MEP là một lợi thế ưu tiên.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 3: Quyền lợi đãi ngộ -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-gift"></i> QUYỀN LỢI & ĐÃI NGỘ</h4>
+                  <ul class="job-detail-list">
+                    <li>Thu nhập: <strong>18.000.000 - 25.000.000 VNĐ/tháng</strong> + Phụ cấp công trình.</li>
+                    <li>Thưởng các mốc tiến độ thi công cơ điện và thưởng dự án khi bàn giao.</li>
+                    <li>Đầy đủ chế độ bảo hiểm: BHXH, BHYT, Bảo hiểm tai nạn 24/24.</li>
+                    <li>Được công ty hỗ trợ kinh phí thi sát hạch các chứng chỉ nghề nghiệp cao cấp.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 4: Thông tin chung & Hạn nộp -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-info-circle"></i> THÔNG TIN LÀM VIỆC</h4>
+                  <div class="job-meta-list">
+                    <div class="meta-line"><strong>Địa điểm:</strong> Công trường tại TP.HCM, Bình Dương hoặc Long An</div>
+                    <div class="meta-line"><strong>Thời gian:</strong> Thứ 2 - Thứ 7 theo giờ làm việc công trường</div>
+                    <div class="meta-line"><strong>Hình thức:</strong> Toàn thời gian cố định</div>
+                    <div class="meta-line"><strong>Hạn nộp:</strong> 31/10/2026</div>
+                    <div class="meta-line"><strong>Số lượng:</strong> 02 vị trí</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div class="job-expand-footer">
+                <div class="job-footer-note">
+                  <i class="fas fa-file-invoice"></i> Ứng viên gửi CV về: <strong>tuyendung@thanhphuxd.com</strong> (Tiêu đề: [MEP] - [Họ và tên])
+                </div>
+                <div class="job-footer-actions">
+                  <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Kỹ Sư MEP" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Nộp Hồ Sơ Ngay</a>
+                  <a href="tel:0903123456" class="btn btn-outline btn-sm"><i class="fas fa-phone-alt"></i> Hotline HR: 0903 123 456</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Job 4 -->
-        <div style="background: #ffffff; border: 1px solid var(--gray-border); border-left: 5px solid var(--primary); padding: 25px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-          <div>
-            <span style="background: var(--primary-soft); color: var(--primary); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; text-transform: uppercase;">Ban An Toàn Lao Động</span>
-            <h3 style="font-size: 1.28rem; margin: 8px 0 6px;">Cán Bộ An Toàn Lao Động & Vệ Sinh Môi Trường (HSE Officer)</h3>
-            <div style="display: flex; gap: 20px; font-size: 0.86rem; color: var(--text-muted); flex-wrap: wrap;">
-              <span><i class="fas fa-map-marker-alt" style="color:var(--primary);"></i> Dự án TP.HCM & Đồng Nai</span>
-              <span><i class="fas fa-money-bill-wave" style="color:var(--accent-dark);"></i> 15,000,000 - 22,000,000 VNĐ</span>
-              <span><i class="fas fa-briefcase"></i> Có chứng chỉ an toàn nhóm 2</span>
+        <div class="job-card" data-job-id="job-hse">
+          <div class="job-card-header">
+            <div class="job-card-info">
+              <div class="job-header-line">
+                <span class="job-badge">Ban An Toàn HSE</span>
+                <span class="job-status-dot"><i class="fas fa-circle"></i> Tuyển gấp</span>
+              </div>
+              <h3 class="job-title">Cán Bộ An Toàn Lao Động & Vệ Sinh Môi Trường (HSE)</h3>
+              <div class="job-meta-row">
+                <span class="job-meta-item"><i class="fas fa-location-dot"></i> TP.HCM & Đồng Nai</span>
+                <span class="job-meta-item"><i class="fas fa-briefcase"></i> Chứng chỉ nhóm 2 / ĐH An toàn</span>
+                <span class="job-salary-pill"><i class="fas fa-coins" style="font-size: 0.72rem;"></i> 15 - 22 Triệu</span>
+              </div>
+            </div>
+            <div class="job-card-action">
+              <button type="button" class="job-toggle-btn" aria-label="Xem chi tiết tuyển dụng">
+                <span class="toggle-text">Chi tiết</span>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+              </button>
+              <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Cán Bộ HSE" class="btn btn-primary btn-sm job-apply-btn">Ứng Tuyển</a>
             </div>
           </div>
-          <a href="mailto:tuyendung@thanhphuxd.com" class="btn btn-primary btn-sm">Ứng Tuyển</a>
+
+          <div class="job-card-body">
+            <div class="job-body-inner">
+              <div class="job-detail-grid">
+                <!-- Block 1: Mô tả công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-clipboard-list"></i> MÔ TẢ CÔNG VIỆC</h4>
+                  <ul class="job-detail-list">
+                    <li>Triển khai, hướng dẫn và giám sát việc thực hiện các nội quy ATLĐ, VSMT và PCCC tại dự án.</li>
+                    <li>Tổ chức các buổi huấn luyện an toàn đầu vào (Safety Induction / Toolbox meeting) cho công nhân mới.</li>
+                    <li>Kiểm tra, cấp phép các công việc có tính chất nguy hiểm cao (làm việc trên cao, không gian kín, hàn cắt...).</li>
+                    <li>Quản lý, cấp phát trang thiết bị bảo hộ cá nhân (PPE) và kiểm định máy móc, thiết bị nâng hạ.</li>
+                    <li>Xử lý sự cố, lập biên bản vi phạm ATLĐ và đề xuất phương án cải thiện an toàn công trường.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 2: Yêu cầu công việc -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-user-check"></i> YÊU CẦU ỨNG VIÊN</h4>
+                  <ul class="job-detail-list">
+                    <li>Tốt nghiệp Đại học/Cao đẳng chuyên ngành Bảo hộ lao động, Môi trường, Kỹ thuật xây dựng.</li>
+                    <li>Có Chứng chỉ huấn luyện An toàn lao động Nhóm 2 theo Nghị định 44/2016/NĐ-CP.</li>
+                    <li>Tối thiểu 02 năm kinh nghiệm làm cán bộ HSE tại các công trình xây dựng nhà xưởng hoặc cao tầng.</li>
+                    <li>Tính kỷ luật cao, quyết đoán, trung thực và có kỹ năng xử lý tình huống linh hoạt.</li>
+                  </ul>
+                </div>
+
+                <!-- Block 3: Quyền lợi đãi ngộ -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-gift"></i> QUYỀN LỢI & ĐÃI NGỘ</h4>
+                  <ul class="job-detail-list">
+                    <li>Thu nhập: <strong>15.000.000 - 22.000.000 VNĐ/tháng</strong> + Phụ cấp độc hại/công trường.</li>
+                    <li>Trang bị đầy đủ đồ bảo hộ lao động tiêu chuẩn cao cấp chuyên dụng.</li>
+                    <li>Chế độ BHXH, BHYT, Bảo hiểm tai nạn 24/24 và chính sách phúc lợi đầy đủ theo quy chế công ty.</li>
+                    <li>Thưởng hoàn thành an toàn dự án (Zero Accident Bonus).</li>
+                  </ul>
+                </div>
+
+                <!-- Block 4: Thông tin chung & Hạn nộp -->
+                <div class="job-detail-block">
+                  <h4 class="job-block-title"><i class="fas fa-info-circle"></i> THÔNG TIN LÀM VIỆC</h4>
+                  <div class="job-meta-list">
+                    <div class="meta-line"><strong>Địa điểm:</strong> Các công trường tại TP.HCM & Đồng Nai</div>
+                    <div class="meta-line"><strong>Thời gian:</strong> Thứ 2 - Thứ 7 theo ca công trình</div>
+                    <div class="meta-line"><strong>Hình thức:</strong> Toàn thời gian cố định</div>
+                    <div class="meta-line"><strong>Hạn nộp:</strong> 31/10/2026</div>
+                    <div class="meta-line"><strong>Số lượng:</strong> 02 vị trí</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div class="job-expand-footer">
+                <div class="job-footer-note">
+                  <i class="fas fa-file-invoice"></i> Ứng viên gửi CV về: <strong>tuyendung@thanhphuxd.com</strong> (Tiêu đề: [HSE] - [Họ và tên])
+                </div>
+                <div class="job-footer-actions">
+                  <a href="mailto:tuyendung@thanhphuxd.com?subject=Ứng tuyển Cán Bộ HSE" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Nộp Hồ Sơ Ngay</a>
+                  <a href="tel:0903123456" class="btn btn-outline btn-sm"><i class="fas fa-phone-alt"></i> Hotline HR: 0903 123 456</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Direct Application Info Box -->
-      <div style="background: #ffffff; border: 1px solid var(--gray-border); border-top: 4px solid var(--primary); border-radius: var(--radius-sm); padding: 35px 25px; text-align: center; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+      <div style="background: #ffffff; border: 1px solid var(--gray-border); border-top: 4px solid var(--primary); border-radius: var(--radius-sm); padding: 24px 20px; text-align: center; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
         <div class="section-subtitle" style="margin-bottom: 6px;">HỒ SƠ ỨNG TUYỂN</div>
-        <h3 style="font-size: 1.4rem; margin-bottom: 12px; color: var(--dark); text-transform: uppercase;">GỬI HỒ SƠ TRỰC TIẾP ĐẾN PHÒNG NHÂN SỰ</h3>
-        <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 600px; margin: 0 auto 20px;">Ứng viên vui lòng gửi CV và bản sao văn bằng/chứng chỉ liên quan về hòm thư tuyển dụng hoặc liên hệ hotline phòng nhân sự để được sắp xếp lịch phỏng vấn sớm nhất:</p>
-        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: var(--dark); text-transform: uppercase;">GỬI HỒ SƠ ĐẾN PHÒNG NHÂN SỰ</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; max-width: 600px; margin: 0 auto 16px;">Ứng viên vui lòng gửi CV về hòm thư tuyển dụng hoặc liên hệ hotline HR để được sắp xếp lịch phỏng vấn:</p>
+        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
           <a href="mailto:tuyendung@thanhphuxd.com" class="btn btn-primary btn-sm"><i class="fas fa-envelope"></i> tuyendung@thanhphuxd.com</a>
           <a href="tel:0903123456" class="btn btn-outline btn-sm"><i class="fas fa-phone-alt"></i> Hotline HR: 0903 123 456</a>
         </div>
