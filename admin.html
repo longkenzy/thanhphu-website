@@ -941,6 +941,46 @@
       gap: 20px;
     }
 
+    .form-section-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+    .form-section-card:last-child {
+      margin-bottom: 0;
+    }
+    .form-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .form-section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-section-title i {
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+    .sidebar-sticky-panel {
+      position: sticky;
+      top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
     /* Quill Snow Flat Theme */
     .ql-toolbar.ql-snow {
       border: 1px solid var(--border-color) !important;
@@ -1763,18 +1803,20 @@
       <section class="admin-tab" id="tab-project-editor">
         <div class="content-card">
           <div class="card-header">
-            <h2 class="card-title" id="projectEditorTitle">
-              <i class="fas fa-building" style="color:var(--primary);"></i> Soạn Thảo Dự Án
-            </h2>
+            <div>
+              <h2 class="card-title" id="projectEditorTitle">
+                <i class="fas fa-building" style="color:var(--primary);"></i> Soạn Thảo Dự Án
+              </h2>
+            </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline btn-sm" onclick="switchTab('projects')">
-                <i class="fas fa-xmark"></i> Hủy
+                <i class="fas fa-arrow-left"></i> Quay lại
               </button>
               <button type="button" class="btn btn-outline btn-sm" onclick="openProjectPreviewModal()">
                 <i class="fas fa-eye"></i> Xem trước
               </button>
               <button type="button" class="btn btn-primary btn-sm" onclick="saveProjectForm()">
-                <i class="fas fa-floppy-disk"></i> Lưu & Xuất bản
+                <i class="fas fa-floppy-disk"></i> Lưu dự án
               </button>
             </div>
           </div>
@@ -1784,174 +1826,213 @@
             <input type="hidden" id="formProjectImageUrl" value="assets/images/project-1.svg">
 
             <div class="editor-grid">
-              <!-- Left Column: Title, Slug, Overview, Scope, Highlights, Content -->
-              <div>
-                <div class="form-group">
-                  <label class="form-label" for="formProjectTitle">Tên công trình / dự án <span class="required">*</span></label>
-                  <input type="text" id="formProjectTitle" class="form-control" placeholder="VD: Tòa Nhà Văn Phòng SaiGon Horizon" required style="font-size:0.95rem; font-weight:600;" oninput="handleProjectTitleInput(this.value)">
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="formProjectSlug">Đường dẫn SEO (Slug)</label>
-                  <div style="display:flex; align-items:center; gap:6px;">
-                    <span style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">/du-an/</span>
-                    <input type="text" id="formProjectSlug" class="form-control" placeholder="slug-tu-dong" style="font-family:monospace; font-size:0.82rem;">
+              <!-- Left Column: 3 Structured Section Cards -->
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                
+                <!-- Section 1: Thông tin cơ bản & Hồ sơ kỹ thuật -->
+                <div class="form-section-card">
+                  <div class="form-section-header">
+                    <span class="form-section-title"><i class="fas fa-id-card-clip"></i> Thông tin cơ bản & Hồ sơ kỹ thuật</span>
                   </div>
-                  <div id="formProjectSlugPreview" style="font-size:0.72rem; color:var(--text-muted); margin-top:3px;">
-                    URL: /du-an/...
+
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectTitle">Tên công trình / Dự án <span class="required">*</span></label>
+                    <input type="text" id="formProjectTitle" class="form-control" required style="font-size:1rem; font-weight:700; color:var(--text-heading);" oninput="handleProjectTitleInput(this.value)">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectSlug">Đường dẫn SEO (Slug)</label>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">/du-an/</span>
+                      <input type="text" id="formProjectSlug" class="form-control" style="font-family:monospace; font-size:0.82rem;">
+                    </div>
+                    <div id="formProjectSlugPreview" style="font-size:0.72rem; color:var(--text-muted); margin-top:3px; font-family:monospace;">
+                      /du-an/...
+                    </div>
+                  </div>
+
+                  <!-- 2-Column Technical Specifications Grid -->
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectCategory">Lĩnh vực thi công <span class="required">*</span></label>
+                      <select id="formProjectCategory" class="form-control" onchange="syncProjectCategoryName()">
+                        <option value="xay-lap" data-name="Thi công xây lắp">Thi công xây lắp</option>
+                        <option value="noi-that" data-name="Trang trí nội thất">Trang trí nội thất</option>
+                        <option value="nhom-kinh" data-name="SXLĐ cấu kiện nhôm kính">SXLĐ cấu kiện nhôm kính</option>
+                        <option value="ha-tang" data-name="Hạ tầng kỹ thuật">Hạ tầng kỹ thuật</option>
+                      </select>
+                      <input type="hidden" id="formProjectCategoryName" value="Thi công xây lắp">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectBadge">Nhãn phân loại (Badge)</label>
+                      <input type="text" id="formProjectBadge" class="form-control" value="Xây Lắp Dân Dụng">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectStatus">Tiến độ thi công</label>
+                      <select id="formProjectStatus" class="form-control">
+                        <option value="Đã Bàn Giao">Đã Bàn Giao</option>
+                        <option value="Đang Thi Công">Đang Thi Công</option>
+                        <option value="Hoàn Thành 95%">Hoàn Thành 95%</option>
+                        <option value="Chuẩn Bị Khởi Công">Chuẩn Bị Khởi Công</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectYear">Năm thực hiện</label>
+                      <input type="text" id="formProjectYear" class="form-control" value="2026">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectLocation">Địa điểm công trình <span class="required">*</span></label>
+                      <input type="text" id="formProjectLocation" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectClient">Chủ đầu tư / Khách hàng</label>
+                      <input type="text" id="formProjectClient" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectScale">Quy mô xây dựng</label>
+                      <input type="text" id="formProjectScale" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="formProjectContractType">Hình thức gói thầu / Hợp đồng</label>
+                      <input type="text" id="formProjectContractType" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" for="formProjectTimeline">Thời gian & Tiến độ thực hiện</label>
+                    <input type="text" id="formProjectTimeline" class="form-control">
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="form-label" for="formProjectOverview">Tổng quan dự án <span class="required">*</span></label>
-                  <textarea id="formProjectOverview" class="form-control" rows="3" placeholder="Giới thiệu quy mô, vị trí và vai trò thi công của Thành Phú..."></textarea>
-                </div>
+                <!-- Section 2: Tóm tắt & Điểm nhấn công trình -->
+                <div class="form-section-card">
+                  <div class="form-section-header">
+                    <span class="form-section-title"><i class="fas fa-list-check"></i> Tóm tắt & Điểm nhấn kỹ thuật</span>
+                  </div>
 
-                <div class="form-group">
-                  <label class="form-label" for="formProjectScope">Hạng mục thi công</label>
-                  <textarea id="formProjectScope" class="form-control" rows="3" placeholder="Thi công cọc khoan nhồi sâu 58m.&#10;Xây dựng 2 tầng hầm biện pháp Semi-Topdown.&#10;Thi công kết cấu bê tông 21 tầng."></textarea>
-                </div>
+                  <div class="form-group">
+                    <label class="form-label" for="formProjectOverview">Tổng quan dự án <span class="required">*</span></label>
+                    <textarea id="formProjectOverview" class="form-control" rows="3"></textarea>
+                  </div>
 
-                <div class="form-group">
-                  <label class="form-label" for="formProjectHighlights">Điểm nhấn kỹ thuật & Tiêu chuẩn</label>
-                  <textarea id="formProjectHighlights" class="form-control" rows="3" placeholder="Đạt 1,200,000 giờ làm việc an toàn.&#10;Bàn giao vượt tiến độ 25 ngày.&#10;Ứng dụng mô hình BIM 3D."></textarea>
-                </div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:0;">
+                    <div class="form-group" style="margin-bottom:0;">
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <label class="form-label" for="formProjectScope" style="margin-bottom:0;">Hạng mục thi công chính</label>
+                        <span style="font-size:0.7rem; color:var(--text-muted);">(Mỗi mục 1 dòng)</span>
+                      </div>
+                      <textarea id="formProjectScope" class="form-control" rows="4"></textarea>
+                    </div>
 
-                <!-- Quill Project Editor -->
-                <div class="form-group">
-                  <label class="form-label">Nội dung bài viết chi tiết</label>
-                  <div id="quillProjectEditor"></div>
-                  <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.75rem; color:var(--text-muted);">
-                    <span id="projectContentWordCount"><i class="fas fa-file-lines"></i> 0 từ</span>
-                    <span id="projectContentReadTime"><i class="far fa-clock"></i> 1 phút đọc</span>
+                    <div class="form-group" style="margin-bottom:0;">
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <label class="form-label" for="formProjectHighlights" style="margin-bottom:0;">Điểm nhấn kỹ thuật & Tiêu chuẩn</label>
+                        <span style="font-size:0.7rem; color:var(--text-muted);">(Mỗi mục 1 dòng)</span>
+                      </div>
+                      <textarea id="formProjectHighlights" class="form-control" rows="4"></textarea>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Section 3: Bài viết giới thiệu chi tiết -->
+                <div class="form-section-card">
+                  <div class="form-section-header">
+                    <span class="form-section-title"><i class="fas fa-file-pen"></i> Nội dung bài viết chi tiết</span>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom:0;">
+                    <div id="quillProjectEditor"></div>
+                    <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.75rem; color:var(--text-muted);">
+                      <span id="projectContentWordCount"><i class="fas fa-file-lines"></i> 0 từ</span>
+                      <span id="projectContentReadTime"><i class="far fa-clock"></i> 1 phút đọc</span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
-              <!-- Right Column: Specs, Settings, Images -->
-              <div>
-                <div class="form-group">
-                  <label class="form-label" for="formProjectCategory">Lĩnh vực thi công <span class="required">*</span></label>
-                  <select id="formProjectCategory" class="form-control" onchange="syncProjectCategoryName()">
-                    <option value="xay-lap" data-name="Thi công xây lắp">Thi công xây lắp</option>
-                    <option value="noi-that" data-name="Trang trí nội thất">Trang trí nội thất</option>
-                    <option value="nhom-kinh" data-name="SXLĐ cấu kiện nhôm kính">SXLĐ cấu kiện nhôm kính</option>
-                    <option value="ha-tang" data-name="Hạ tầng kỹ thuật">Hạ tầng kỹ thuật</option>
-                  </select>
-                  <input type="hidden" id="formProjectCategoryName" value="Thi công xây lắp">
-                </div>
-
-                <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap:10px;">
-                  <div class="form-group">
-                    <label class="form-label" for="formProjectBadge">Nhãn</label>
-                    <input type="text" id="formProjectBadge" class="form-control" placeholder="VD: Xây Lắp Dân Dụng" value="Xây Lắp Dân Dụng">
+              <!-- Right Column (Sidebar Sticky: Publishing Panel & Media Uploads) -->
+              <div class="sidebar-sticky-panel">
+                
+                <!-- Sidebar Card 1: Trạng thái & Xuất bản -->
+                <div class="form-section-card">
+                  <div class="form-section-header">
+                    <span class="form-section-title"><i class="fas fa-sliders"></i> Trạng thái xuất bản</span>
                   </div>
-                  <div class="form-group">
-                    <label class="form-label" for="formProjectStatus">Tiến độ</label>
-                    <select id="formProjectStatus" class="form-control">
-                      <option value="Đã Bàn Giao">Đã Bàn Giao</option>
-                      <option value="Đang Thi Công">Đang Thi Công</option>
-                      <option value="Hoàn Thành 95%">Hoàn Thành 95%</option>
-                      <option value="Chuẩn Bị Khởi Công">Chuẩn Bị Khởi Công</option>
-                    </select>
+
+                  <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+                    <label style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:#F8FAFC; border:1px solid var(--border-color); border-radius:var(--radius-xs); cursor:pointer; font-size:0.8rem; font-weight:600;">
+                      <span>Hiển thị trên website</span>
+                      <input type="checkbox" id="formProjectIsActive" checked style="width:16px; height:16px; accent-color:var(--primary);">
+                    </label>
+
+                    <label style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:var(--radius-xs); cursor:pointer; font-size:0.8rem; font-weight:600; color:#B45309;">
+                      <span><i class="fas fa-star" style="color:#D97706; margin-right:4px;"></i> Dự án Tiêu Điểm</span>
+                      <input type="checkbox" id="formProjectIsFeatured" style="width:16px; height:16px; accent-color:#D97706;">
+                    </label>
                   </div>
-                </div>
 
-                <div class="form-group">
-                  <label class="form-label" for="formProjectLocation">Địa điểm <span class="required">*</span></label>
-                  <input type="text" id="formProjectLocation" class="form-control" placeholder="VD: Quận 7, TP.HCM">
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="formProjectClient">Chủ đầu tư / Đối tác</label>
-                  <input type="text" id="formProjectClient" class="form-control" placeholder="VD: Horizon Corporation">
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="formProjectScale">Quy mô công trình</label>
-                  <input type="text" id="formProjectScale" class="form-control" placeholder="VD: 2 tầng hầm, 21 tầng nổi, 32,500 m²">
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="formProjectContractType">Gói thầu / Hợp đồng</label>
-                  <input type="text" id="formProjectContractType" class="form-control" placeholder="VD: Tổng thầu thiết kế & thi công (D&B)">
-                </div>
-
-                <div style="display:grid; grid-template-columns: 1.3fr 1fr; gap:10px;">
-                  <div class="form-group">
-                    <label class="form-label" for="formProjectTimeline">Thời gian thực hiện</label>
-                    <input type="text" id="formProjectTimeline" class="form-control" placeholder="VD: 2024 - 2026">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="formProjectYear">Năm</label>
-                    <input type="text" id="formProjectYear" class="form-control" placeholder="2026" value="2026">
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnSaveProject" style="width:100%; padding:10px; font-weight:700;" onclick="saveProjectForm()">
+                      <i class="fas fa-check"></i> Lưu & Xuất Bản
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" style="width:100%;" onclick="openProjectPreviewModal()">
+                      <i class="fas fa-eye"></i> Xem Trước
+                    </button>
                   </div>
                 </div>
 
-                <!-- Switches -->
-                <div class="form-group" style="background:#F8FAFC; padding:10px 12px; border-radius:var(--radius-xs); border:1px solid var(--border-color);">
-                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer; font-size:0.82rem; font-weight:600;">
-                    <span>Hiển thị trên website</span>
-                    <input type="checkbox" id="formProjectIsActive" checked style="width:16px; height:16px; accent-color:var(--primary);">
-                  </label>
-                </div>
+                <!-- Sidebar Card 2: Ảnh đại diện chính -->
+                <div class="form-section-card">
+                  <div class="form-section-header">
+                    <span class="form-section-title"><i class="fas fa-image"></i> Ảnh đại diện <span class="required">*</span></span>
+                  </div>
 
-                <div class="form-group" style="background:#F8FAFC; padding:10px 12px; border-radius:var(--radius-xs); border:1px solid var(--border-color);">
-                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer; font-size:0.82rem; font-weight:600;">
-                    <span>Dự án nổi bật (Featured)</span>
-                    <input type="checkbox" id="formProjectIsFeatured" style="width:16px; height:16px; accent-color:var(--primary);">
-                  </label>
-                </div>
-
-                <!-- Main Avatar Image -->
-                <div class="form-group">
-                  <label class="form-label">Ảnh đại diện chính <span class="required">*</span></label>
-                  <div id="projectImageDropzone" class="image-dropzone" onclick="document.getElementById('projectImageFileInput').click()">
+                  <div id="projectImageDropzone" class="image-dropzone" style="padding:14px 10px;" onclick="document.getElementById('projectImageFileInput').click()">
                     <input type="file" id="projectImageFileInput" accept="image/*" style="display:none;" onchange="handleProjectImageFileSelect(event)">
-                    <i class="fas fa-cloud-arrow-up" style="font-size:1.4rem; color:var(--primary); margin-bottom:4px;"></i>
-                    <div style="font-weight:600; font-size:0.82rem;">Kéo thả hoặc chọn ảnh</div>
+                    <i class="fas fa-cloud-arrow-up" style="font-size:1.3rem; color:var(--primary); margin-bottom:3px;"></i>
+                    <div style="font-weight:600; font-size:0.8rem;">Tải ảnh mới</div>
                   </div>
-                  <div id="projectImagePreviewBox" style="margin-top:8px; border-radius:var(--radius-xs); overflow:hidden; border:1px solid var(--border-color);">
-                    <img id="formProjectImagePreview" src="assets/images/project-1.svg" alt="Preview" style="width:100%; height:130px; object-fit:cover; display:block;">
+                  
+                  <div id="projectImagePreviewBox" style="margin-top:10px; border-radius:var(--radius-xs); overflow:hidden; border:1px solid var(--border-color);">
+                    <img id="formProjectImagePreview" src="assets/images/project-1.svg" alt="Preview" style="width:100%; height:135px; object-fit:cover; display:block;">
                   </div>
                 </div>
 
-                <!-- Gallery Album Sub-Images -->
-                <div class="form-group" style="background: #F8FAFC; padding: 12px; border-radius: var(--radius-xs); border: 1px solid var(--border-color);">
-                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                    <label class="form-label" style="margin-bottom:0; font-size:0.82rem;">Thư viện ảnh phụ</label>
-                    <button type="button" class="btn btn-outline btn-xs" onclick="promptAddProjectGalleryUrl()" title="Thêm từ URL">
-                      <i class="fas fa-link"></i> Link URL
+                <!-- Sidebar Card 3: Thư viện ảnh phụ (Gallery) -->
+                <div class="form-section-card">
+                  <div class="form-section-header">
+                    <span class="form-section-title"><i class="fas fa-images"></i> Thư viện ảnh phụ</span>
+                    <button type="button" class="btn btn-outline btn-xs" onclick="promptAddProjectGalleryUrl()" title="Thêm từ Link URL">
+                      <i class="fas fa-link"></i> URL
                     </button>
                   </div>
 
-                  <div id="projectGalleryDropzone" class="image-dropzone" style="padding:12px; background:#FFFFFF;" onclick="document.getElementById('projectGalleryFileInput').click()">
+                  <div id="projectGalleryDropzone" class="image-dropzone" style="padding:10px; background:#FFFFFF;" onclick="document.getElementById('projectGalleryFileInput').click()">
                     <input type="file" id="projectGalleryFileInput" accept="image/*" multiple style="display:none;" onchange="handleProjectGalleryFilesSelect(event)">
-                    <i class="fas fa-photo-film" style="font-size:1.3rem; color:var(--primary); margin-bottom:3px;"></i>
-                    <div style="font-weight:600; font-size:0.8rem;">Chọn nhiều ảnh phụ</div>
+                    <i class="fas fa-photo-film" style="font-size:1.2rem; color:var(--primary); margin-bottom:2px;"></i>
+                    <div style="font-weight:600; font-size:0.78rem;">Chọn nhiều ảnh phụ</div>
                   </div>
 
                   <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:0.75rem;">
-                    <span id="projectGalleryCountBadge" style="font-weight:600; color:var(--text-heading);">0 ảnh</span>
+                    <span id="projectGalleryCountBadge" style="font-weight:700; color:var(--text-heading);">0 ảnh</span>
                     <button type="button" class="btn btn-outline btn-xs" style="color:var(--danger); border-color:#FECACA;" onclick="clearAllProjectGalleryImages()">
                       Xóa tất cả
                     </button>
                   </div>
 
-                  <div id="projectGalleryGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(70px, 1fr)); gap:6px; margin-top:6px; max-height:200px; overflow-y:auto; padding:4px; border:1px solid var(--border-color); border-radius:var(--radius-xs); background:#FFFFFF;">
+                  <div id="projectGalleryGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(64px, 1fr)); gap:6px; margin-top:6px; max-height:180px; overflow-y:auto; padding:4px; border:1px solid var(--border-color); border-radius:var(--radius-xs); background:#FFFFFF;">
                     <!-- Injected via JS -->
                   </div>
                 </div>
 
-                <!-- Bottom Save Button -->
-                <div style="margin-top:16px; display:flex; flex-direction:column; gap:6px;">
-                  <button type="button" class="btn btn-primary" id="btnSaveProject" style="width:100%; padding:10px;" onclick="saveProjectForm()">
-                    <i class="fas fa-check"></i> Lưu & Xuất bản dự án
-                  </button>
-                  <button type="button" class="btn btn-outline" style="width:100%;" onclick="switchTab('projects')">
-                    Hủy bỏ
-                  </button>
-                </div>
               </div>
             </div>
           </form>

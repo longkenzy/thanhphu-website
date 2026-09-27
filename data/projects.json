@@ -1,5 +1,41 @@
 [
   {
+    "id": "fdsadsfgdfgh-fadsf",
+    "slug": "fdsadsfgdfgh-fadsf",
+    "title": "fdsầdsfgdfgh fadsf",
+    "category": "xay-lap",
+    "categoryName": "Thi công xây lắp",
+    "badge": "Xây Lắp Dân Dụng",
+    "status": "Đã Bàn Giao",
+    "image": "https://res.cloudinary.com/bzwvyqou/image/upload/v1790234910/thanhphu/news/fdsadsfgdfgh-fadsf-main-1790234902791.jpg",
+    "cloudinaryId": "",
+    "gallery": [
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1790234912/thanhphu/news/fdsadsfgdfgh-fadsf-gallery-1-1790234908478.jpg",
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1790234915/thanhphu/news/fdsadsfgdfgh-fadsf-gallery-2-1790234911050.jpg",
+      "https://res.cloudinary.com/bzwvyqou/image/upload/v1790234917/thanhphu/news/fdsadsfgdfgh-fadsf-gallery-3-1790234913169.jpg"
+    ],
+    "location": "tsess",
+    "client": "teádfádf",
+    "scale": "fádfa",
+    "contractType": "fdầ",
+    "timeline": "fadffdà",
+    "year": "2026",
+    "overview": "fsđầ",
+    "scope": [
+      "ad"
+    ],
+    "highlights": [
+      "agffsdg"
+    ],
+    "content": "<p>gsfdgsfdg<img src=\"https://res.cloudinary.com/bzwvyqou/image/upload/v1790234895/thanhphu/news/inline-proj-img-1790234889512.png\"></p>",
+    "order": 1,
+    "isFeatured": false,
+    "isActive": true,
+    "views": 0,
+    "createdAt": "2026-09-24T07:28:35.489Z",
+    "updatedAt": "2026-09-24T07:28:35.489Z"
+  },
+  {
     "id": "saigon-horizon",
     "slug": "saigon-horizon",
     "title": "Tòa Nhà Văn Phòng & Thương Mại SaiGon Horizon",

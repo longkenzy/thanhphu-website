@@ -602,91 +602,77 @@ function renderProjectsToGrid(container, projects) {
 }
 
 /**
- * Hàm khởi tạo và hiển thị danh sách dự án tức thì trên trang du-an.html (Instant 0ms + Revalidate)
+ * Hàm khởi tạo và hiển thị danh sách dự án tức thì trên trang du-an.html
  */
 async function initProjectsPage() {
   const gridContainer = document.getElementById('projects-grid-container') || document.querySelector('.project-grid');
   if (!gridContainer) return;
 
-  // 1. TỨC THÌ: Render 9 dự án tiêu biểu từ bộ nhớ (0ms latency, không chờ mạng)
-  window.allLoadedProjects = PROJECTS_LIST;
-  updateProjectsFilterNavCounts(PROJECTS_LIST);
-  renderProjectsToGrid(gridContainer, PROJECTS_LIST);
-
-  // 2. Chạy ngầm: Lấy dữ liệu mới nhất từ REST API / MongoDB CMS nếu có thay đổi
+  // 1. Tải dữ liệu thật từ REST API / MongoDB CMS
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
     const res = await fetch('/api/projects', { signal: controller.signal });
     clearTimeout(timeoutId);
 
     if (res.ok) {
       const data = await res.json();
-      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+      if (data.success && Array.isArray(data.data)) {
         window.allLoadedProjects = data.data;
         updateProjectsFilterNavCounts(data.data);
         renderProjectsToGrid(gridContainer, data.data);
+        return;
       }
     }
   } catch (err) {
-    // Không gián đoạn trải nghiệm người dùng: Đã có sẵn dữ liệu PROJECTS_LIST chất lượng cao
+    console.warn('Could not fetch live projects, checking fallback:', err);
+  }
+
+  // 2. Dự phòng khi offline / lỗi mạng
+  if (window.allLoadedProjects && Array.isArray(window.allLoadedProjects)) {
+    updateProjectsFilterNavCounts(window.allLoadedProjects);
+    renderProjectsToGrid(gridContainer, window.allLoadedProjects);
+  } else {
+    window.allLoadedProjects = PROJECTS_LIST;
+    updateProjectsFilterNavCounts(PROJECTS_LIST);
+    renderProjectsToGrid(gridContainer, PROJECTS_LIST);
   }
 }
 
 /**
- * Hàm khởi tạo và hiển thị dự án tiêu biểu trên trang chủ index.html (Instant 0ms + Revalidate)
+ * Hàm khởi tạo và hiển thị dự án tiêu biểu trên trang chủ index.html
  */
 async function initHomeProjects() {
   const homeGrid = document.getElementById('home-projects-grid');
   if (!homeGrid) return;
 
-  // 1. TỨC THÌ: Render ngay các dự án tiêu biểu
-  const topProjects = PROJECTS_LIST.slice(0, 8);
-  homeGrid.innerHTML = topProjects.map(p => {
-    const isOngoing = p.status && (p.status.toLowerCase().includes('đang') || p.status.toLowerCase().includes('thi công'));
-    const statusStyle = isOngoing ? 'background: var(--accent); color: var(--dark);' : 'background: var(--primary); color: #ffffff;';
-    
-    return `
-      <div class="project-card" data-category="${p.category || 'caotang'}">
-        <a href="chi-tiet-du-an.html?id=${p.slug || p.id}" class="project-img-box">
-          <span class="project-badge">${p.badge || 'Dự Án'}</span>
-          <span class="project-status" style="${statusStyle}">${p.status || 'Đã Bàn Giao'}</span>
-          <img src="${p.image || 'assets/images/project-1.svg'}" alt="${p.title}" loading="lazy" onerror="this.src='assets/images/project-1.svg'">
-        </a>
-        <div class="project-body">
-          <h3 class="project-title"><a href="chi-tiet-du-an.html?id=${p.slug || p.id}">${p.title}</a></h3>
-          <div class="project-meta">
-            ${p.location ? `<div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>` : ''}
-            ${p.scale ? `<div class="project-meta-item"><i class="fas fa-ruler-combined"></i> Quy mô: ${p.scale}</div>` : ''}
-            ${p.timeline || p.year ? `<div class="project-meta-item"><i class="fas fa-calendar-check"></i> ${p.timeline || ('Hoàn thành: ' + p.year)}</div>` : ''}
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  if (typeof initProjectFilter === 'function') {
-    initProjectFilter();
-  }
-  if (typeof init3DTiltEffects === 'function') {
-    init3DTiltEffects();
-  }
-
-  // 2. Chạy ngầm: Đồng bộ với CMS API
+  // 1. Tải dữ liệu thật từ REST API / MongoDB CMS
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
     const res = await fetch('/api/projects?limit=8', { signal: controller.signal });
     clearTimeout(timeoutId);
 
     if (res.ok) {
       const data = await res.json();
-      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-        // Cập nhật lại nếu dữ liệu từ server khác biệt
+      if (data.success && Array.isArray(data.data)) {
+        window.allLoadedProjects = data.data;
+        updateProjectsFilterNavCounts(data.data);
+        renderProjectsToGrid(homeGrid, data.data.slice(0, 8));
+        return;
       }
     }
   } catch (err) {
-    // Bỏ qua lỗi ngầm
+    console.warn('Could not fetch live projects for home, checking fallback:', err);
+  }
+
+  // 2. Dự phòng khi offline / lỗi mạng
+  if (window.allLoadedProjects && Array.isArray(window.allLoadedProjects)) {
+    updateProjectsFilterNavCounts(window.allLoadedProjects);
+    renderProjectsToGrid(homeGrid, window.allLoadedProjects.slice(0, 8));
+  } else {
+    updateProjectsFilterNavCounts(PROJECTS_LIST);
+    renderProjectsToGrid(homeGrid, PROJECTS_LIST.slice(0, 8));
   }
 }
 
