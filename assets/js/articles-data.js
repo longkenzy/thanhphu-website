@@ -3,7 +3,7 @@
  * Cơ sở dữ liệu và bộ xử lý hiển thị chi tiết tin tức Thành Phú
  */
 
-const ARTICLES_DATA = {
+var ARTICLES_DATA = window.ARTICLES_DATA || {
   "le-cat-noc-saigon-horizon": {
     _id: "art_saigon_horizon_001",
     id: "le-cat-noc-saigon-horizon",
@@ -243,7 +243,7 @@ const ARTICLES_DATA = {
   }
 };
 
-const ARTICLES_LIST = Object.values(ARTICLES_DATA);
+var ARTICLES_LIST = Object.values(ARTICLES_DATA);
 
 /**
  * Tìm kiếm bài viết theo ID, slug hoặc alias

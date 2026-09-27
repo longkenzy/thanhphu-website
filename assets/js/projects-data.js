@@ -3,7 +3,7 @@
  * Cơ sở dữ liệu chi tiết danh mục 9 dự án tiêu biểu của Thành Phú
  */
 
-const PROJECTS_DATA = {
+var PROJECTS_DATA = window.PROJECTS_DATA || {
   "saigon-horizon": {
     id: "saigon-horizon",
     title: "Tòa Nhà Văn Phòng & Thương Mại SaiGon Horizon",
@@ -522,7 +522,7 @@ async function renderProjectDetail() {
   }
 }
 
-const PROJECTS_LIST = Object.values(PROJECTS_DATA);
+var PROJECTS_LIST = Object.values(PROJECTS_DATA);
 
 /**
  * Render HTML card cho 1 dự án
